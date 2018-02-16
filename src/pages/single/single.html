@@ -1,0 +1,22 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>View media</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-card>
+        <ion-card-title>{{title}}</ion-card-title>
+        <img [src]="url" (click)="showImage()">
+        <div id="map_canvas" #map_canvas *ngIf="message === ''">
+        </div>
+        <ion-card-content>
+            <p *ngIf="message !== ''">{{ message }}</p>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

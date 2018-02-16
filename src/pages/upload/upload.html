@@ -1,0 +1,33 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Upload</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <button ion-button (click)="captureImage()">Take photo</button>
+    <button ion-button (click)="upload()">Upload</button>
+    <canvas #myCanvas></canvas>
+    <ion-list>
+        <ion-item>
+            <ion-label>Brightness {{ editorProvider.brightness}}</ion-label>
+            <ion-range [debounce]="500" min="-255" max="255" step="1" [(ngModel)]="editorProvider.brightness"
+                       (ionChange)="editorProvider.applyFilters()">
+                <ion-icon small range-left name="sunny"></ion-icon>
+                <ion-icon range-right name="sunny"></ion-icon>
+            </ion-range>
+        </ion-item>
+        <ion-item>
+            <ion-label>Contrast {{ editorProvider.contrast}}</ion-label>
+            <ion-range [debounce]="500" min="0" max="100" step="1" [(ngModel)]="editorProvider.contrast"
+                       (ionChange)="editorProvider.applyFilters()">
+                <ion-icon small range-left name="sunny"></ion-icon>
+                <ion-icon range-right name="sunny"></ion-icon>
+            </ion-range>
+        </ion-item>
+    </ion-list>
+</ion-content>

@@ -1,0 +1,25 @@
+page-front {
+
+}
+
+video {
+  width: 100%;
+}
+
+audio {
+  display: block;
+}
+
+ion-content {
+  ion-card {
+    position: relative;
+
+    ion-icon {
+      color: white;
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      text-shadow: 2px 2px 3px #111;
+    }
+  }
+}
