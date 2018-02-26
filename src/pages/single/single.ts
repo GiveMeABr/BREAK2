@@ -4,6 +4,7 @@ import {MediaProvider} from '../../providers/media/media';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {MapProvider} from '../../providers/map/map';
+import {User} from "../../app/interfaces/user";
 
 /**
  * Generated class for the SinglePage page.
@@ -21,6 +22,15 @@ export class SinglePage {
   title: string;
   latLon: any;
 
+  description: string;
+
+
+  userid: any;
+
+  user: User;
+
+  username: string;
+
   message = '';
 
   constructor(
@@ -37,6 +47,14 @@ export class SinglePage {
     console.log('ionViewDidLoad SinglePage');
     console.log(this.navParams.get('mediaID'));
     this.mediaProvider.getSingleMedia(this.navParams.get('mediaID')).
+    subscribe(response => {
+      console.log(response);
+      this.url = this.mediaProvider.mediaUrl + response['filename'];
+      this.title = response['title'];
+
+      this.userid = response['user_id'];
+      console.log(typeof this.userid);
+    /* this.mediaProvider.getSingleMedia(this.navParams.get('mediaID')).
         subscribe(response => {
           console.log(response);
           this.url = this.mediaProvider.mediaUrl + response['filename'];
@@ -64,7 +82,13 @@ export class SinglePage {
               });
         }, (error: HttpErrorResponse) => {
           console.log(error);
-        });
+        });*/
+
+      this.description = response['description'];
+
+    }, (error: HttpErrorResponse) => {
+      console.log(error);
+    });
   }
 
 }
