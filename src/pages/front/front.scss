@@ -1,16 +1,27 @@
 video {
-    width: 100%;
+  width: 100%;
 }
 
 audio {
-    display: block;
+  display: block;
 }
 
 ion-content {
-    display: flex;
-    flex-direction: column;
-    ion-card {
-        width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  ion-card {
+    width: 100%;
+
+    .buttons-row {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
     }
+
+  }
+
 }
 

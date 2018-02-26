@@ -1,53 +1,61 @@
 <ion-header>
-    <ion-navbar>
-        <button ion-button menuToggle>
+  <ion-navbar>
+    <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-        <ion-title>Front</ion-title>
-    </ion-navbar>
+    <ion-title>Front</ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <ion-grid>
-        <ion-row *ngFor="let row of grid">
-            <ion-col col-12 col-sm-6 *ngFor="let media of row">
-                <ion-card>
+  <ion-grid>
+    <ion-row *ngFor="let row of grid">
+      <ion-col col-12 col-sm-6 *ngFor="let media of row">
+        <ion-card>
 
-                    <ion-item>
-                        <ion-avatar item-start>
-                            <img src="img/marty-avatar.png">
-                        </ion-avatar>
-                        <ion-card-title>{{ media.title }}</ion-card-title>
-                        <p>{{media.time_added | timeAgo}}</p>
-                    </ion-item>
-
-
-                    <img *ngIf="media.media_type == 'image'" class="card-img-top" [src]="mediaProvider.mediaUrl + (media.filename | thumbnail:'medium')" [alt]="media.title" (click)="openSingle(media.file_id)">
-                    <video *ngIf="media.media_type == 'video'" class="card-img-top" [src]="mediaProvider.mediaUrl + media.filename" controls [poster]="mediaProvider.mediaUrl + (media.filename | thumbnail:'medium')"></video>
-                    <audio *ngIf="media.media_type == 'audio'" class="card-img-top" [src]="mediaProvider.mediaUrl + media.filename" controls></audio>
-
-                    <ion-card-content>
-                        <p class="card-text">{{ media.description }}</p>
-                    </ion-card-content>
-
-                    <ion-row>
-                        <ion-col>
-                            <button ion-button icon-left clear small>
-                    <ion-icon name="thumbs-up"></ion-icon>
-                    <div>12 Likes</div>
-                  </button>
-                        </ion-col>
-                        <ion-col>
-                            <button ion-button icon-left clear small>
-                    <ion-icon name="text"></ion-icon>
-                    <div>4 Comments</div>
-                  </button>
-                        </ion-col>
-                    </ion-row>
+          <ion-item>
+            <ion-avatar item-start>
+              <img src="img/marty-avatar.png">
+            </ion-avatar>
+            <ion-card-title>{{ media.title }}</ion-card-title>
+            <p>{{media.time_added | timeAgo}}</p>
+            <p>3.5</p>
+          </ion-item>
 
 
-                </ion-card>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+          <img *ngIf="media.media_type == 'image'" class="card-img-top"
+               [src]="mediaProvider.mediaUrl + (media.filename | thumbnail:'medium')" [alt]="media.title"
+               (click)="openSingle(media.file_id)">
+          <video *ngIf="media.media_type == 'video'" class="card-img-top"
+                 [src]="mediaProvider.mediaUrl + media.filename" controls
+                 [poster]="mediaProvider.mediaUrl + (media.filename | thumbnail:'medium')"></video>
+          <audio *ngIf="media.media_type == 'audio'" class="card-img-top"
+                 [src]="mediaProvider.mediaUrl + media.filename" controls></audio>
+
+          <ion-card-content>
+            <p class="card-text">{{ media.description }}</p>
+          </ion-card-content>
+
+          <ion-row class="buttons-row">
+            
+              <button ion-button icon-left clear small>
+                <ion-icon name="arrow-up"></ion-icon>
+              </button>
+              <button ion-button icon-left clear small>
+                <ion-icon name="arrow-down"></ion-icon>
+              </button>
+
+
+            <button ion-button icon-left clear small>
+              <ion-icon name="heart"></ion-icon>
+            </button>
+
+            <button ion-button icon-left clear small>
+              <ion-icon name="text"></ion-icon>
+            </button>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
