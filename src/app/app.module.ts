@@ -22,6 +22,7 @@ import {Geolocation} from '@ionic-native/geolocation';
 import {File} from '@ionic-native/file';
 import {MapProvider} from '../providers/map/map';
 import {EditorProvider} from '../providers/editor/editor';
+import {TimeAgoPipe} from "time-ago-pipe";
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {EditorProvider} from '../providers/editor/editor';
     LogoutPage,
     ProfilePage,
     SinglePage,
+    TimeAgoPipe,
   ],
   imports: [
     BrowserModule,
