@@ -1,5 +1,6 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable, ViewChild} from '@angular/core';
+import {User} from "../../app/interfaces/user";
 
 /*
   Generated class for the MediaProvider provider.
@@ -12,6 +13,8 @@ export class MediaProvider {
   @ViewChild('myNav') nav;
 
   logged = false;
+
+  userInfo: User;
 
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
@@ -36,6 +39,14 @@ export class MediaProvider {
       headers: new HttpHeaders().set('x-access-token', token),
     };
     return this.http.get(this.apiUrl + '/users/user', settings);
+  }
+
+  getUserDataViaId(token, userId) {
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', token),
+
+    };
+    return this.http.get(this.apiUrl + '/users/' + userId, settings);
   }
 
   upload(formData, token) {
@@ -63,5 +74,10 @@ export class MediaProvider {
   getTagByFile(id) {
     return this.http.get<Array<object>>(this.apiUrl + '/tags/file/' + id);
   }
+
+  userHasToken() {
+    return localStorage.getItem('token');
+  }
+
 
 }

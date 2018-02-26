@@ -29,7 +29,7 @@ export class SinglePage {
 
   user: User;
 
-  username: string;
+  username: any;
 
   message = '';
 
@@ -53,6 +53,18 @@ export class SinglePage {
       this.title = response['title'];
 
       this.userid = response['user_id'];
+
+      const userToken = this.mediaProvider.userHasToken();
+
+      console.log(userToken);
+
+      this.mediaProvider.getUserDataViaId(userToken, this.userid.toString()).subscribe((result: User) => {
+        console.log(result);
+        this.username = result['username'];
+
+      });
+
+
       console.log(typeof this.userid);
     /* this.mediaProvider.getSingleMedia(this.navParams.get('mediaID')).
         subscribe(response => {

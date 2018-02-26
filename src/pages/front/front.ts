@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {MediaProvider} from '../../providers/media/media';
 import {SinglePage} from '../single/single';
+import {User} from "../../app/interfaces/user";
 import {HttpErrorResponse} from '@angular/common/http';
 
 /**
@@ -20,9 +21,12 @@ export class FrontPage {
   mediaArray: Array<string>;
   grid: Array<Array<string>>; //array of arrays
 
+  userInfo: User;
+
   constructor(
       public navCtrl: NavController, public navParams: NavParams,
       public mediaProvider: MediaProvider) {
+
   }
 
   openSingle(id) {
@@ -33,14 +37,14 @@ export class FrontPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FrontPage');
-    if (localStorage.getItem('token') !== null) {
-      this.mediaProvider.getUserData(localStorage.getItem('token')).
-          subscribe(response => {
-            this.mediaProvider.logged = true;
-            localStorage.setItem('user', JSON.stringify(response));
-          }, (error: HttpErrorResponse) => {
-            console.log(error);
-          });
+    const userToken = this.mediaProvider.userHasToken();
+    if(userToken) {
+      console.log('token: ' + userToken);
+      this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
+        console.log(result);
+        this.mediaProvider.userInfo = result;
+        this.userInfo = result;
+      });
     }
 
     this.mediaProvider.getAllMedia().subscribe(data => {
