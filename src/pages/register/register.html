@@ -7,12 +7,41 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>register</ion-title>
+    <ion-title>Create account</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-sm-6 offset-sm-3>
 
+        <form>
+          <ion-list>
+            <ion-item>
+              <ion-label fixed>Username</ion-label>
+              <ion-input type="text"name="username"
+                         placeholder="username"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label fixed>Password</ion-label>
+              <ion-input type="password"name="password"
+                         placeholder="password"></ion-input>
+            </ion-item>
+
+          </ion-list>
+
+
+          <div padding>
+            <button type="submit" ion-button color="primary" block>Create account</button>
+          </div>
+
+        </form>
+        <a (click)="moveToLogin()">Log in</a>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

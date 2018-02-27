@@ -5,6 +5,7 @@ import {MediaProvider} from '../../providers/media/media';
 import {FrontPage} from '../front/front';
 import {HttpErrorResponse} from '@angular/common/http';
 import {TabsPage} from "../tabs/tabs";
+import {RegisterPage} from '../register/register';
 
 /**
  * Generated class for the LoginPage page.
@@ -40,6 +41,10 @@ export class LoginPage {
           console.log(error.error.message);
           this.status = error.error.message;
         });
+  }
+
+  moveToRegister(){
+    this.navCtrl.setRoot(RegisterPage);
   }
 
   ionViewDidLoad() {

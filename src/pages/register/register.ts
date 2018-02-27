@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import {LoginPage} from '../login/login';
 
 /**
  * Generated class for the RegisterPage page.
@@ -15,6 +16,10 @@ import { NavController, NavParams } from 'ionic-angular';
 export class RegisterPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+  }
+
+  moveToLogin(){
+    this.navCtrl.setRoot(LoginPage);
   }
 
   ionViewDidLoad() {
