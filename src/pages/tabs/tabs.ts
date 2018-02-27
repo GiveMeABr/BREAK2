@@ -10,8 +10,8 @@ import {UploadPage} from "../upload/upload";
 export class TabsPage {
 
   tab1Root = FrontPage;
-  tab2Root = ProfilePage;
-  tab3Root = UploadPage;
+  tab2Root = UploadPage;
+  tab3Root = ProfilePage;
 
   constructor() {
 
