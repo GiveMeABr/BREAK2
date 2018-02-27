@@ -1,3 +1,36 @@
-page-profile {
+
+.profile-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin: -16px;
+  width: 100vw;
+  padding: 50px 0;
+
+  ion-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    img {
+      height: 100%;
+      width: auto;
+    }
+    .half {
+      width: 50%;
+    }
+
+    .label {
+      width: 100%;
+    }
+
+  }
+  .item-inner {
+    width: 100vw;
+    border: 0;
+    padding: 0;
+  }
 
 }

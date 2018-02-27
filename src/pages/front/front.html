@@ -7,15 +7,15 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="front" color="background-color" padding>
   <ion-grid>
     <ion-row *ngFor="let row of grid">
       <ion-col col-12 col-sm-6 *ngFor="let media of row">
-        <ion-card>
+        <ion-card class="post" color="dark">
 
-          <ion-item>
+          <ion-item class="post" color="dark">
             <ion-avatar item-start>
-              <img src="img/marty-avatar.png">
+              <img src="../../assets/imgs/nobody_m.original.jpg"/>
             </ion-avatar>
             <ion-card-title>{{ media.title }}</ion-card-title>
             <p>{{media.time_added | timeAgo}}</p>
@@ -37,7 +37,7 @@
           </ion-card-content>
 
           <ion-row class="buttons-row">
-            
+
               <button ion-button icon-left clear small>
                 <ion-icon name="arrow-up"></ion-icon>
               </button>

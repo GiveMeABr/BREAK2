@@ -1,3 +1,4 @@
+
 video {
   width: 100%;
 }
@@ -6,12 +7,14 @@ audio {
   display: block;
 }
 
-ion-content {
+ion-content.front {
   display: flex;
   flex-direction: column;
+  background-color: $background-color;
 
-  ion-card {
-    width: 100%;
+  ion-card.post {
+    border-radius: 10px;
+
 
     .buttons-row {
       width: 100%;
@@ -19,9 +22,16 @@ ion-content {
       flex-direction: row;
       justify-content: space-around;
       align-items: center;
+
+      button {
+        font-size: 2rem;
+        
+      }
     }
 
   }
+
+
 
 }
 
