@@ -7,23 +7,8 @@
 
     <ion-content class="menu">
         <ion-list>
-            <button menuClose ion-item (click)="openPage(pages[0])">
-                {{pages[0].title}}
-            </button>
-            <button menuClose ion-item (click)="openPage(pages[1])" *ngIf="mediaProvider.logged">
-                {{pages[1].title}}
-            </button>
-            <button menuClose ion-item (click)="openPage(pages[2])" *ngIf="!mediaProvider.logged">
-                {{pages[2].title}}
-            </button>
-            <button menuClose ion-item (click)="openPage(pages[3])" *ngIf="!mediaProvider.logged">
-                {{pages[3].title}}
-            </button>
-            <button menuClose ion-item (click)="openPage(pages[4])" *ngIf="mediaProvider.logged">
+            <button menuClose ion-item (click)="openPage(pages[4])">
                 {{pages[4].title}}
-            </button>
-            <button menuClose ion-item (click)="openPage(pages[5])" *ngIf="mediaProvider.logged">
-                {{pages[5].title}}
             </button>
         </ion-list>
     </ion-content>
