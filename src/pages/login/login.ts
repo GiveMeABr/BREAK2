@@ -4,6 +4,7 @@ import {User} from '../../app/models/user';
 import {MediaProvider} from '../../providers/media/media';
 import {FrontPage} from '../front/front';
 import {HttpErrorResponse} from '@angular/common/http';
+import {TabsPage} from "../tabs/tabs";
 
 /**
  * Generated class for the LoginPage page.
@@ -33,7 +34,7 @@ export class LoginPage {
         subscribe(response => {
           console.log(response['token']);
           localStorage.setItem('token', response['token']);
-          this.navCtrl.setRoot(FrontPage);
+          this.navCtrl.setRoot(TabsPage);
           this.mediaProvider.logged = true;
         }, (error: HttpErrorResponse) => {
           console.log(error.error.message);
@@ -45,7 +46,7 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
     if (localStorage.getItem('token') !== null) {
       this.mediaProvider.getUserData(localStorage.getItem('token')).subscribe(response => {
-        this.navCtrl.setRoot(FrontPage);
+        this.navCtrl.setRoot(TabsPage);
         this.mediaProvider.logged = true;
       }, (error: HttpErrorResponse) => {
         console.log(error);

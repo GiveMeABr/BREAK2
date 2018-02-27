@@ -23,6 +23,7 @@ import {File} from '@ionic-native/file';
 import {MapProvider} from '../providers/map/map';
 import {EditorProvider} from '../providers/editor/editor';
 import {TimeAgoPipe} from "time-ago-pipe";
+import {TabsPage} from "../pages/tabs/tabs";
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import {TimeAgoPipe} from "time-ago-pipe";
     ProfilePage,
     SinglePage,
     TimeAgoPipe,
+    TabsPage
   ],
   imports: [
     BrowserModule,
@@ -53,6 +55,7 @@ import {TimeAgoPipe} from "time-ago-pipe";
     LogoutPage,
     ProfilePage,
     SinglePage,
+    TabsPage
   ],
   providers: [
     StatusBar,
