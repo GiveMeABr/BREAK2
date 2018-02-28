@@ -16,6 +16,11 @@ export class MediaProvider {
 
   userInfo: User;
 
+  username: string;
+  password: string;
+  email: string;
+  full_name?: string;
+
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
