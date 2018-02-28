@@ -8,13 +8,21 @@
   width: 100vw;
   padding: 50px 0;
 
+  .profile-border {
+    width: 150px;
+    height: 150px;
+    padding: 4px;
+    margin: 0 0 25px 0;
+  }
+
   ion-avatar.p-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 150px;
-    height: 150px;
+    width: 90%;
+    height: 90%;
     margin: 0;
+
     img {
       height: 100%;
       width: auto;
@@ -30,7 +38,17 @@
   }
 
   ion-label {
-    margin: 30px 0 0 0;
+    margin: 0;
+
+    h1 {
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   .item-inner,
