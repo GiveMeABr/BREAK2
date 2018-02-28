@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import {FrontPage} from '../front/front';
+import {LoginPage} from '../login/login';
 
 /**
  * Generated class for the LogoutPage page.
@@ -13,6 +15,15 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'logout.html',
 })
 export class LogoutPage {
+
+  moveToFront(){
+    this.navCtrl.setRoot(FrontPage);
+  }
+
+  logout(){
+    localStorage.removeItem('token');
+    this.navCtrl.setRoot(LoginPage);
+  }
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
