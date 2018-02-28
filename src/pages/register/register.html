@@ -18,31 +18,26 @@
     <ion-row>
       <ion-col col-12 col-sm-6 offset-sm-3>
 
-        <form>
+        <form (submit)="register()">
           <ion-list>
             <ion-item>
               <ion-label fixed>Username</ion-label>
-              <ion-input type="text"name="username"
+              <ion-input type="text" [(ngModel)]="user.username" name="username"
                          placeholder="Your username" required></ion-input>
             </ion-item>
             <ion-item>
               <ion-label fixed>Email</ion-label>
-              <ion-input type="email"name="email"
+              <ion-input type="email" [(ngModel)]="user.email" name="email"
                          placeholder="Your email address" required></ion-input>
             </ion-item>
             <ion-item>
               <ion-label fixed>Password</ion-label>
-              <ion-input type="password"name="password"
+              <ion-input type="password" [(ngModel)]="user.password" name="password"
                          placeholder="Choose password" required></ion-input>
             </ion-item>
             <ion-item>
-              <ion-label fixed>Password again</ion-label>
-              <ion-input type="password"name="password-again"
-                         placeholder="Type password again" required></ion-input>
-            </ion-item>
-            <ion-item>
               <ion-label fixed>Full name</ion-label>
-              <ion-input type="text"name="full_name"
+              <ion-input type="text" [(ngModel)]="user.full_name" name="full_name"
                          placeholder="Your full name"></ion-input>
             </ion-item>
 

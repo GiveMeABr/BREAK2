@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {LoginPage} from '../login/login';
+import {User} from '../../app/interfaces/user';
+import {MediaProvider} from '../../providers/media/media';
+import {HttpErrorResponse} from '@angular/common/http';
 
 /**
  * Generated class for the RegisterPage page.
@@ -15,11 +18,34 @@ import {LoginPage} from '../login/login';
 })
 export class RegisterPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  user: User = {
+    username: "",
+    password: "",
+    email: "",
+    full_name: ""
+  };
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public mediaProvider: MediaProvider) {
   }
 
   moveToLogin(){
     this.navCtrl.setRoot(LoginPage);
+  }
+
+  register(){
+    console.log(this.user);
+
+    this.mediaProvider.register(this.user).
+      subscribe(response => {
+        console.log(response);
+        this.mediaProvider.username = this.user.username;
+        this.mediaProvider.password = this.user.password;
+        this.mediaProvider.email = this.user.email;
+        this.mediaProvider.full_name = this.user.full_name;
+        this.mediaProvider.login(this.user);
+      }, (error: HttpErrorResponse) => {
+        console.log(error.error.message);
+      });
   }
 
   ionViewDidLoad() {
