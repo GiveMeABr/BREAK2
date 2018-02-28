@@ -4,6 +4,7 @@ import {LoginPage} from '../login/login';
 import {User} from '../../app/interfaces/user';
 import {MediaProvider} from '../../providers/media/media';
 import {HttpErrorResponse} from '@angular/common/http';
+import {TabsPage} from '../tabs/tabs';
 
 /**
  * Generated class for the RegisterPage page.
@@ -43,6 +44,7 @@ export class RegisterPage {
         this.mediaProvider.email = this.user.email;
         this.mediaProvider.full_name = this.user.full_name;
         this.mediaProvider.login(this.user);
+        this.navCtrl.setRoot(TabsPage)
       }, (error: HttpErrorResponse) => {
         console.log(error.error.message);
       });
