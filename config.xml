@@ -102,6 +102,6 @@
     <allow-navigation href="http://192.168.3.30:8100" />
     <allow-navigation href="http://localhost:8100" />
     <allow-navigation href="http://10.112.204.239:8100" />
-    <engine name="ios" spec="~4.5.4" />
     <engine name="android" spec="7.0.0" />
+    <engine name="ios" spec="~4.5.4" />
 </widget>
