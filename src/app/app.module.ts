@@ -22,7 +22,6 @@ import {Geolocation} from '@ionic-native/geolocation';
 import {File} from '@ionic-native/file';
 import {MapProvider} from '../providers/map/map';
 import {EditorProvider} from '../providers/editor/editor';
-import {TimeAgoPipe} from "time-ago-pipe";
 import {TabsPage} from "../pages/tabs/tabs";
 
 @NgModule({
@@ -35,7 +34,6 @@ import {TabsPage} from "../pages/tabs/tabs";
     LogoutPage,
     ProfilePage,
     SinglePage,
-    TimeAgoPipe,
     TabsPage
   ],
   imports: [
