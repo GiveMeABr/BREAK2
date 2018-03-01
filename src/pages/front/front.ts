@@ -22,6 +22,12 @@ export class FrontPage {
 
   userInfo: User;
 
+  picIndex = 20;
+  items = [];
+  a = 40;
+  rowNum = 0;
+  newestMedia: Array<string>;
+
   constructor(
       public navCtrl: NavController, public navParams: NavParams,
       public mediaProvider: MediaProvider) {
@@ -70,5 +76,45 @@ export class FrontPage {
       console.log(this.grid);
     });
   }
+
+  doInfinite(infiniteScroll) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      for (this.picIndex; this.picIndex < this.a; this.picIndex++) {
+      }
+      this.mediaProvider.getMoreMedia(this.picIndex).subscribe(data => {
+        console.log(data);
+        this.mediaArray = this.mediaArray.concat(data);
+        console.log(this.mediaArray);
+        this.grid = Array(Math.ceil(this.mediaArray.length /2)); //MATHS!
+        console.log(this.grid);
+
+        for (let i = 0; i < this.mediaArray.length; i += 2) { //iterate images
+
+          this.grid[this.rowNum] = Array(2); //declare two elements per row
+
+          if (this.mediaArray[i]) { //check file URI exists
+            this.grid[this.rowNum][0] = this.mediaArray[i]; //insert image
+          }
+
+          if (this.mediaArray[i + 1]) { //repeat for the second image
+            this.grid[this.rowNum][1] = this.mediaArray[i + 1];
+          }
+
+          this.rowNum++; //go on to the next row
+        }
+        console.log(this.grid);
+
+      });
+      console.log(this.picIndex);
+
+      this.a = this.a + 20;
+
+      console.log('Async operation has ended');
+      infiniteScroll.complete();
+    }, 500);
+  }
+
 
 }

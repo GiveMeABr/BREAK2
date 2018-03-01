@@ -9,7 +9,9 @@
 </ion-header>
 
 <ion-content class="front" color="background-color" padding>
+
   <ion-grid>
+    <ion-list>
     <ion-row *ngFor="let row of grid">
       <ion-col col-12 col-sm-6 *ngFor="let media of row">
         <ion-card class="post" color="dark">
@@ -64,5 +66,10 @@
         </ion-card>
       </ion-col>
     </ion-row>
+    </ion-list>
   </ion-grid>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" immediate-check="true">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

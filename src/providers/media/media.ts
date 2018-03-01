@@ -65,6 +65,16 @@ export class MediaProvider {
     return this.http.get<Array<string>>(this.apiUrl + '/media');
   }
 
+  getMoreMedia(fromIndex: any) {
+    return this.http.get<Array<string>>(this.apiUrl + '/media', {
+      params: {
+        start: fromIndex,
+        limit: '20'
+      }
+    });
+
+  }
+
   getSingleMedia(id) {
     return this.http.get<Array<string>>(this.apiUrl + '/media/' + id);
   }
