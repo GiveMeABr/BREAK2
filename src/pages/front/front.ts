@@ -40,6 +40,9 @@ export class FrontPage {
     console.log('Begin async operation', refresher);
 
     setTimeout(() => {
+      this.picIndex = 0;
+      this.a = 10;
+      this.loadMedia();
       console.log('Async operation has ended');
       refresher.complete();
     }, 2000);
@@ -51,16 +54,7 @@ export class FrontPage {
     });
   }
 
-  ionViewDidLoad() {
-
-    const userToken = this.mediaProvider.userHasToken();
-    if (userToken) {
-      this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
-        this.mediaProvider.userInfo = result;
-        this.userInfo = result;
-      });
-    }
-
+  loadMedia(){
     this.mediaProvider.getAllMedia().subscribe(data => {
       this.mediaArray = data;
       this.mediaArray.reverse();
@@ -93,6 +87,17 @@ export class FrontPage {
       this.a = this.picIndex + 10;
       console.log("pic index " + this.picIndex, "a " + this.a);
     });
+  }
+
+  ionViewDidLoad() {
+    const userToken = this.mediaProvider.userHasToken();
+    if (userToken) {
+      this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
+        this.mediaProvider.userInfo = result;
+        this.userInfo = result;
+      });
+    }
+    this.loadMedia();
   }
 
   doInfinite(infiniteScroll) {
