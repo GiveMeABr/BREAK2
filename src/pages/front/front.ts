@@ -22,6 +22,7 @@ export class FrontPage {
   displayedMedia: Array<string>;
   grid: Array<Array<string>>; //array of arrays
 
+
   userInfo: User;
 
   picIndex = 0;
@@ -30,9 +31,8 @@ export class FrontPage {
   rowNum = 0;
   newestMedia: Array<string>;
 
-  constructor(
-      public navCtrl: NavController, public navParams: NavParams,
-      public mediaProvider: MediaProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public mediaProvider: MediaProvider) {
 
   }
 
@@ -43,8 +43,9 @@ export class FrontPage {
   }
 
   ionViewDidLoad() {
+
     const userToken = this.mediaProvider.userHasToken();
-    if(userToken) {
+    if (userToken) {
       this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
         this.mediaProvider.userInfo = result;
         this.userInfo = result;
@@ -54,7 +55,7 @@ export class FrontPage {
     this.mediaProvider.getAllMedia().subscribe(data => {
       this.mediaArray = data;
       this.mediaArray.reverse();
-      console.log("pic index " + this.picIndex,  "a " + this.a);
+      console.log("pic index " + this.picIndex, "a " + this.a);
       this.slicedMedia = this.mediaArray.slice(this.picIndex, this.a);
       this.displayedMedia = this.slicedMedia;
       console.log(this.displayedMedia);
@@ -81,7 +82,7 @@ export class FrontPage {
       }
       this.picIndex = this.picIndex + 10;
       this.a = this.picIndex + 10;
-      console.log("pic index " + this.picIndex,  "a " + this.a);
+      console.log("pic index " + this.picIndex, "a " + this.a);
     });
   }
 
@@ -89,31 +90,31 @@ export class FrontPage {
     console.log('Begin async operation');
 
     setTimeout(() => {
-        this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.a));
-        console.log(this.displayedMedia);
-        this.grid = Array(Math.ceil(this.displayedMedia.length /2)); //MATHS!
-        console.log(this.grid);
+      this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.a));
+      console.log(this.displayedMedia);
+      this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
+      console.log(this.grid);
 
-        for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
+      for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
 
-          this.grid[this.rowNum] = Array(2); //declare two elements per row
+        this.grid[this.rowNum] = Array(2); //declare two elements per row
 
-          if (this.displayedMedia[i]) { //check file URI exists
-            this.grid[this.rowNum][0] = this.displayedMedia[i]; //insert image
-          }
-
-          if (this.displayedMedia[i + 1]) { //repeat for the second image
-            this.grid[this.rowNum][1] = this.displayedMedia[i + 1];
-          }
-
-          this.rowNum++; //go on to the next row
+        if (this.displayedMedia[i]) { //check file URI exists
+          this.grid[this.rowNum][0] = this.displayedMedia[i]; //insert image
         }
-        console.log(this.grid);
+
+        if (this.displayedMedia[i + 1]) { //repeat for the second image
+          this.grid[this.rowNum][1] = this.displayedMedia[i + 1];
+        }
+
+        this.rowNum++; //go on to the next row
+      }
+      console.log(this.grid);
       console.log(this.picIndex);
 
       this.picIndex = this.picIndex + 10;
       this.a = this.picIndex + 10;
-      console.log("pic index " + this.picIndex,  "a " + this.a);
+      console.log("pic index " + this.picIndex, "a " + this.a);
 
       console.log('Async operation has ended');
       infiniteScroll.complete();
