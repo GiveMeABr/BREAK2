@@ -36,6 +36,15 @@ export class FrontPage {
 
   }
 
+  doRefresh(refresher) {
+    console.log('Begin async operation', refresher);
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      refresher.complete();
+    }, 2000);
+  }
+
   openSingle(id) {
     this.navCtrl.push(SinglePage, {
       mediaID: id,
