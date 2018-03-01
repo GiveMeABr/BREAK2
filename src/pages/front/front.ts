@@ -54,6 +54,17 @@ export class FrontPage {
     });
   }
 
+  ionViewDidLoad() {
+    const userToken = this.mediaProvider.userHasToken();
+    if (userToken) {
+      this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
+        this.mediaProvider.userInfo = result;
+        this.userInfo = result;
+      });
+    }
+    this.loadMedia();
+  }
+
   loadMedia(){
     this.mediaProvider.getAllMedia().subscribe(data => {
       this.mediaArray = data;
@@ -87,17 +98,6 @@ export class FrontPage {
       this.a = this.picIndex + 10;
       console.log("pic index " + this.picIndex, "a " + this.a);
     });
-  }
-
-  ionViewDidLoad() {
-    const userToken = this.mediaProvider.userHasToken();
-    if (userToken) {
-      this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
-        this.mediaProvider.userInfo = result;
-        this.userInfo = result;
-      });
-    }
-    this.loadMedia();
   }
 
   doInfinite(infiniteScroll) {
