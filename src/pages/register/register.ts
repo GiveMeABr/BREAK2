@@ -33,6 +33,8 @@ export class RegisterPage {
     this.navCtrl.setRoot(LoginPage);
   }
 
+
+
   register(){
     console.log(this.user);
 
