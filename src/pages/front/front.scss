@@ -7,6 +7,13 @@ audio {
   display: block;
 }
 
+.profile-border {
+  width: 50px;
+  height: 50px;
+  padding: 3px;
+  margin: 5px 25px 5px 10px;
+}
+
 ion-content.front {
   display: flex;
   flex-direction: column;
@@ -14,7 +21,14 @@ ion-content.front {
 
   ion-card.post {
     border-radius: 10px;
+    margin: 0;
+    width: 100%;
 
+    ion-label {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
 
     .buttons-row {
       width: 100%;
@@ -30,8 +44,6 @@ ion-content.front {
     }
 
   }
-
-
 
 }
 
