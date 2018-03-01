@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import {FrontPage} from '../front/front';
 import {LoginPage} from '../login/login';
 import {TabsPage} from '../tabs/tabs';
 

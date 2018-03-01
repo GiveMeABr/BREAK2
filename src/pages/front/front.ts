@@ -3,7 +3,6 @@ import {NavController, NavParams} from 'ionic-angular';
 import {MediaProvider} from '../../providers/media/media';
 import {SinglePage} from '../single/single';
 import {User} from "../../app/interfaces/user";
-import {HttpErrorResponse} from '@angular/common/http';
 
 /**
  * Generated class for the FrontPage page.

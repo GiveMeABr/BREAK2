@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {User} from '../../app/models/user';
 import {MediaProvider} from '../../providers/media/media';
-import {FrontPage} from '../front/front';
 import {HttpErrorResponse} from '@angular/common/http';
 import {TabsPage} from "../tabs/tabs";
 import {RegisterPage} from '../register/register';
