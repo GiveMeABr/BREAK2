@@ -94,5 +94,13 @@ export class MediaProvider {
     return localStorage.getItem('token');
   }
 
+  checkUserName(username){
+    return this.http.get(this.apiUrl + '/users/username', {
+      params: {
+        username: username
+      }
+    });
+  }
+
 
 }
