@@ -58,7 +58,9 @@ export class MediaProvider {
     const settings = {
       headers: new HttpHeaders().set('x-access-token', token),
     };
-    return this.http.post(this.apiUrl + '/media', formData, settings);
+    let result = this.http.post(this.apiUrl + '/media', formData, settings);
+    console.log(result);
+    return result;
   }
 
   getAllMedia() {
@@ -69,11 +71,13 @@ export class MediaProvider {
     return this.http.get<Array<string>>(this.apiUrl + '/media/' + id);
   }
 
-  postTag(tag, token) {
+  postTag(tagAndId, token) {
     const settings = {
       headers: new HttpHeaders().set('x-access-token', token),
     };
-    return this.http.post(this.apiUrl + '/tags', tag, settings);
+
+    let result = this.http.post(this.apiUrl + '/tags', tagAndId, settings);
+    return result;
   }
 
   getTagByFile(id) {

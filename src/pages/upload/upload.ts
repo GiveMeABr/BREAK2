@@ -37,14 +37,12 @@ export class UploadPage {
     content: 'Uploading, please wait...',
   });
 
-  constructor(
-      public navCtrl: NavController, public navParams: NavParams,
-      private camera: Camera,
-      private loadingCtrl: LoadingController,
-      private mediaProvider: MediaProvider, private geolocation: Geolocation,
-      public sanitizer: DomSanitizer,
-
-      public editorProvider: EditorProvider, private renderer: Renderer2) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private camera: Camera,
+              private loadingCtrl: LoadingController,
+              private mediaProvider: MediaProvider, private geolocation: Geolocation,
+              public sanitizer: DomSanitizer,
+              public editorProvider: EditorProvider, private renderer: Renderer2) {
   }
 
   captureImage() {
@@ -100,34 +98,32 @@ export class UploadPage {
       formData.append('title', 'HC title');
       formData.append('description', 'HC description');
       // send FormData object to API
-      this.mediaProvider.upload(formData, localStorage.getItem('token')).
-          subscribe(response => {
-            console.log(response);
-            const fileId = response['file_id'];
-            const tagContent = {
-              name: 'latLon',
-              value: this.latLon,
-            };
-            const tagAsString = JSON.stringify(tagContent);
-            const tag = {
-              file_id: fileId,
-              tag: tagAsString,
+      this.mediaProvider.upload(formData, localStorage.getItem('token')).subscribe(response => {
+        console.log(response);
+        const fileId = response['file_id'];
+        const tagContent = {
+          name: 'tag',
+          value: 'break2',
+        };
+        // const tagAsString = JSON.stringify(tagContent);
+        const tag = {
+          file_id: fileId,
+          tag: tagContent.value,
+        };
 
-            };
-            this.mediaProvider.postTag(tag, localStorage.getItem('token')).
-                subscribe(response => {
-                  setTimeout(() => {
-                    this.loading.dismiss();
-                    this.navCtrl.setRoot(FrontPage);
-                  }, 2000);
-                }, (tagError: HttpErrorResponse) => {
-                  console.log(tagError);
-                  this.loading.dismiss();
-                });
-          }, (error: HttpErrorResponse) => {
-            console.log(error);
+        this.mediaProvider.postTag(tag, localStorage.getItem('token')).subscribe(response => {
+          setTimeout(() => {
             this.loading.dismiss();
-          });
+            this.navCtrl.setRoot(FrontPage);
+          }, 2000);
+        }, (tagError: HttpErrorResponse) => {
+          console.log(tagError);
+          this.loading.dismiss();
+        });
+      }, (error: HttpErrorResponse) => {
+        console.log(error);
+        this.loading.dismiss();
+      });
     }, 'image/jpeg', 0.5);
 
   }

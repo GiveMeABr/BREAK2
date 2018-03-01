@@ -35,22 +35,17 @@ export class FrontPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad FrontPage');
     const userToken = this.mediaProvider.userHasToken();
     if(userToken) {
-      console.log('token: ' + userToken);
       this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
-        console.log(result);
         this.mediaProvider.userInfo = result;
         this.userInfo = result;
       });
     }
 
     this.mediaProvider.getAllMedia().subscribe(data => {
-      console.log(data);
       this.mediaArray = data;
       this.grid = Array(Math.ceil(this.mediaArray.length / 2)); //MATHS!
-      console.log(this.grid);
       let rowNum = 0; //counter to iterate over the rows in the grid
 
       for (let i = 0; i < this.mediaArray.length; i += 2) { //iterate images
@@ -67,7 +62,6 @@ export class FrontPage {
 
         rowNum++; //go on to the next row
       }
-      console.log(this.grid);
     });
   }
 

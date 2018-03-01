@@ -32,7 +32,6 @@ export class LoginPage {
   login () {
     this.mediaProvider.login(this.user).
         subscribe(response => {
-          console.log(response['token']);
           localStorage.setItem('token', response['token']);
           this.navCtrl.setRoot(TabsPage);
           this.mediaProvider.logged = true;
@@ -47,7 +46,6 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
     if (localStorage.getItem('token') !== null) {
       this.mediaProvider.getUserData(localStorage.getItem('token')).subscribe(response => {
         this.navCtrl.setRoot(TabsPage);
