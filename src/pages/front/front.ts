@@ -17,14 +17,16 @@ import {User} from "../../app/interfaces/user";
 })
 export class FrontPage {
 
-  mediaArray: Array<string>;
+  mediaArray: any;
+  slicedMedia: any;
+  displayedMedia: Array<string>;
   grid: Array<Array<string>>; //array of arrays
 
   userInfo: User;
 
-  picIndex = 20;
+  picIndex = 0;
   items = [];
-  a = 40;
+  a = 10;
   rowNum = 0;
   newestMedia: Array<string>;
 
@@ -51,23 +53,35 @@ export class FrontPage {
 
     this.mediaProvider.getAllMedia().subscribe(data => {
       this.mediaArray = data;
-      this.grid = Array(Math.ceil(this.mediaArray.length / 2)); //MATHS!
+      this.mediaArray.reverse();
+      console.log("pic index " + this.picIndex,  "a " + this.a);
+      this.slicedMedia = this.mediaArray.slice(this.picIndex, this.a);
+      this.displayedMedia = this.slicedMedia;
+      console.log(this.displayedMedia);
+      //console.log(data);
+      //console.log(this.mediaArray.slice(0, 10));
+      //console.log(this.mediaArray.slice(10, 13));
+      this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
       let rowNum = 0; //counter to iterate over the rows in the grid
 
-      for (let i = 0; i < this.mediaArray.length; i += 2) { //iterate images
+      for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
 
         this.grid[rowNum] = Array(2); //declare two elements per row
 
-        if (this.mediaArray[i]) { //check file URI exists
-          this.grid[rowNum][0] = this.mediaArray[i]; //insert image
+        if (this.displayedMedia[i]) { //check file URI exists
+          this.grid[rowNum][0] = this.displayedMedia[i]; //insert image
         }
 
-        if (this.mediaArray[i + 1]) { //repeat for the second image
-          this.grid[rowNum][1] = this.mediaArray[i + 1];
+        if (this.displayedMedia[i + 1]) { //repeat for the second image
+          this.grid[rowNum][1] = this.displayedMedia[i + 1];
         }
 
         rowNum++; //go on to the next row
+
       }
+      this.picIndex = this.picIndex + 10;
+      this.a = this.picIndex + 10;
+      console.log("pic index " + this.picIndex,  "a " + this.a);
     });
   }
 
@@ -75,35 +89,31 @@ export class FrontPage {
     console.log('Begin async operation');
 
     setTimeout(() => {
-      for (this.picIndex; this.picIndex < this.a; this.picIndex++) {
-      }
-      this.mediaProvider.getMoreMedia(this.picIndex).subscribe(data => {
-        console.log(data);
-        this.mediaArray = this.mediaArray.concat(data);
-        console.log(this.mediaArray);
-        this.grid = Array(Math.ceil(this.mediaArray.length /2)); //MATHS!
+        this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.a));
+        console.log(this.displayedMedia);
+        this.grid = Array(Math.ceil(this.displayedMedia.length /2)); //MATHS!
         console.log(this.grid);
 
-        for (let i = 0; i < this.mediaArray.length; i += 2) { //iterate images
+        for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
 
           this.grid[this.rowNum] = Array(2); //declare two elements per row
 
-          if (this.mediaArray[i]) { //check file URI exists
-            this.grid[this.rowNum][0] = this.mediaArray[i]; //insert image
+          if (this.displayedMedia[i]) { //check file URI exists
+            this.grid[this.rowNum][0] = this.displayedMedia[i]; //insert image
           }
 
-          if (this.mediaArray[i + 1]) { //repeat for the second image
-            this.grid[this.rowNum][1] = this.mediaArray[i + 1];
+          if (this.displayedMedia[i + 1]) { //repeat for the second image
+            this.grid[this.rowNum][1] = this.displayedMedia[i + 1];
           }
 
           this.rowNum++; //go on to the next row
         }
         console.log(this.grid);
-
-      });
       console.log(this.picIndex);
 
-      this.a = this.a + 20;
+      this.picIndex = this.picIndex + 10;
+      this.a = this.picIndex + 10;
+      console.log("pic index " + this.picIndex,  "a " + this.a);
 
       console.log('Async operation has ended');
       infiniteScroll.complete();
