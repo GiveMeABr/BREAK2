@@ -12,6 +12,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {EditorProvider} from '../../providers/editor/editor';
 import {Media} from "../../app/interfaces/media";
 import {TabsPage} from "../tabs/tabs";
+import {App} from "ionic-angular";
 
 /**
  * Generated class for the UploadPage page.
@@ -45,7 +46,7 @@ export class UploadPage {
     content: 'Uploading, please wait...',
   });
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  constructor(public navCtrl: NavController, public navParams: NavParams,  private app: App,
               private camera: Camera,
               private loadingCtrl: LoadingController,
               private mediaProvider: MediaProvider, private geolocation: Geolocation,
@@ -168,8 +169,10 @@ export class UploadPage {
       this.mediaProvider.postTag(tag, localStorage.getItem('token')).subscribe(response => {
         setTimeout(() => {
           this.loading.dismiss();
-          this.navCtrl.setRoot(TabsPage);
-        }, 2000);
+          this.app.getRootNav().getActiveChildNav().select(0);
+          //location.reload();
+
+      }, 1000);
       }, (tagError: HttpErrorResponse) => {
         console.log(tagError);
         this.loading.dismiss();
