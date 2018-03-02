@@ -16,8 +16,9 @@
 </ion-header>
 
 
-<ion-content *ngIf="this.userInfo" class="feed" padding>
+<ion-content class="feed" padding>
 
+  <div *ngIf="userInfo">
   <ion-item class="profile-header" color="dark">
     <div class="profile-border">
       <ion-avatar class="p-page">
@@ -107,5 +108,5 @@
     <ion-icon name="planet" color="light"></ion-icon>
   </div>
 
-
+  </div>
 </ion-content>
