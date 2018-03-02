@@ -4,7 +4,6 @@ import {
 
 } from 'ionic-angular';
 import {MediaProvider} from '../../providers/media/media';
-import {FrontPage} from '../front/front';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {Geolocation} from '@ionic-native/geolocation';
