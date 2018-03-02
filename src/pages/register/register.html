@@ -23,8 +23,10 @@
             <ion-item>
               <ion-label fixed>Username</ion-label>
               <ion-input type="text" [(ngModel)]="user.username" name="username"
+                         (change)="isUserAvailable(user.username)"
                          placeholder="Your username" required></ion-input>
             </ion-item>
+            <pshut>{{ usrMsg }}</pshut>
             <ion-item>
               <ion-label fixed>Email</ion-label>
               <ion-input type="email" [(ngModel)]="user.email" name="email"

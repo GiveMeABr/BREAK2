@@ -21,6 +21,8 @@ export class MediaProvider {
   email: string;
   full_name?: string;
 
+  available: boolean;
+
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
@@ -98,12 +100,8 @@ export class MediaProvider {
     return localStorage.getItem('token');
   }
 
-  checkUserName(username){
-    return this.http.get(this.apiUrl + '/users/username', {
-      params: {
-        username: username
-      }
-    });
+  checkUserName(username: string){
+    return this.http.get(this.apiUrl + '/users/username/' + username);
   }
 
 
