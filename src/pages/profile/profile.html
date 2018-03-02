@@ -55,7 +55,7 @@
                 <p>{{media.time_added | date}}</p>
                 <p>3.5</p>
               </div>
-              <button ion-button small icon-only>
+              <button (click)="deleteMedia(media.file_id)" ion-button small icon-only>
                 <ion-icon name="trash"></ion-icon>
               </button>
             </ion-item>

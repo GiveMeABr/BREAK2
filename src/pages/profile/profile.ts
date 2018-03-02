@@ -28,6 +28,7 @@ export class ProfilePage {
   firstOrRefresh = true;
   outOfMedia = false;
   lastLoad = false;
+  userToken: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mediaProvider: MediaProvider) {
   }
@@ -43,19 +44,21 @@ export class ProfilePage {
   }
 
   openSingle(id) {
-    this.navCtrl.push(SinglePage, {
-      mediaID: id,
+      this.navCtrl.push(SinglePage, {
+        mediaID: id,
+      });
+  }
+
+  deleteMedia(id) {
+    this.mediaProvider.deleteMedia(this.userToken, id).subscribe(data => {
+      console.log(data);
     });
   }
 
-  deleteMedia(){
-
-  }
-
   ionViewWillEnter() {
-    const userToken = this.mediaProvider.userHasToken();
-    if (userToken) {
-      this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
+    this.userToken = this.mediaProvider.userHasToken();
+    if (this.userToken) {
+      this.mediaProvider.getUserData(this.userToken).subscribe((result: User) => {
         this.mediaProvider.userInfo = result;
         this.userInfo = result;
         console.log(this.userInfo);
