@@ -29,7 +29,9 @@ export class FrontPage {
   items = [];
   loadLimit = 10;
   rowNum = 0;
+  firstOrRefresh = true;
   newestMedia: Array<string>;
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public mediaProvider: MediaProvider) {
@@ -39,6 +41,7 @@ export class FrontPage {
   doRefresh(refresher) {
     console.log("REFRESH!");
     setTimeout(() => {
+      this.firstOrRefresh = true;
       this.picIndex = 0;
       this.loadLimit = 10;
       this.loadMedia();
@@ -67,10 +70,26 @@ export class FrontPage {
     this.loadMedia();
   }
 
+  mediaToGrid() {
+    console.log("loading media from index " + this.picIndex, "to " + this.loadLimit);
+    for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
+      this.grid[this.rowNum] = Array(2); //declare two elements per row
+      if (this.displayedMedia[i]) { //check file URI exists
+        this.grid[this.rowNum][0] = this.displayedMedia[i]; //insert image
+      }
+      if (this.displayedMedia[i + 1]) { //repeat for the second image
+        this.grid[this.rowNum][1] = this.displayedMedia[i + 1];
+      }
+      this.rowNum++; //go on to the next row
+    }
+    this.picIndex = this.picIndex + 10;
+    this.loadLimit = this.picIndex + 10;
+    console.log("next media will be from index " + this.picIndex, "to " + this.loadLimit);
+  }
+
   loadMedia() {
 
-    if(this.mediaArray == undefined /* First load */){
-
+    if(this.firstOrRefresh){
       this.mediaProvider.getAllMedia().subscribe(data => {
         console.log("First load");
         this.mediaArray = data;
@@ -79,50 +98,22 @@ export class FrontPage {
         this.slicedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
         this.displayedMedia = this.slicedMedia;
         this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
-        let rowNum = 0; //counter to iterate over the rows in the grid
-        console.log("loading media from index " + this.picIndex, "to " + this.loadLimit);
-
-        for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
-          this.grid[rowNum] = Array(2); //declare two elements per row
-          if (this.displayedMedia[i]) { //check file URI exists
-            this.grid[rowNum][0] = this.displayedMedia[i]; //insert image
-          }
-          if (this.displayedMedia[i + 1]) { //repeat for the second image
-            this.grid[rowNum][1] = this.displayedMedia[i + 1];
-          }
-          rowNum++; //go on to the next row
-        }
-        this.picIndex = this.picIndex + 10;
-        this.loadLimit = this.picIndex + 10;
-        console.log("next media will be from index " + this.picIndex, "to " + this.loadLimit);
+        this.rowNum = 0; //counter to iterate over the rows in the grid
+        this.mediaToGrid();
+        this.firstOrRefresh = false;
       });
 
     } else /* Infinite Scroll */ {
       console.log("loadMedia case 2");
       this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.loadLimit));
       this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
-      console.log("loading media from index " + this.picIndex, "to " + this.loadLimit);
-
-      for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
-        this.grid[this.rowNum] = Array(2); //declare two elements per row
-        if (this.displayedMedia[i]) { //check file URI exists
-          this.grid[this.rowNum][0] = this.displayedMedia[i]; //insert image
-        }
-        if (this.displayedMedia[i + 1]) { //repeat for the second image
-          this.grid[this.rowNum][1] = this.displayedMedia[i + 1];
-        }
-        this.rowNum++; //go on to the next row
-      }
-
-      this.picIndex = this.picIndex + 10;
-      this.loadLimit = this.picIndex + 10;
-      console.log("next media will be from index " + this.picIndex, "to " + this.loadLimit);
+      this.mediaToGrid();
     }
+    console.log("displayed media: " ,this.displayedMedia);
 
   }
 
   doInfinite(infiniteScroll) {
-    console.log("infinite scroll");
     setTimeout(() => {
       this.loadMedia();
       infiniteScroll.complete();
