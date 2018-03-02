@@ -16,7 +16,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content *ngIf="this.userInfo" class="feed" padding>
 
   <ion-item class="profile-header" color="dark">
     <div class="profile-border">
@@ -32,6 +32,80 @@
     </div>
 
   </ion-item>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid>
+    <ion-list>
+      <ion-row *ngFor="let row of grid">
+        <ion-col col-12 col-sm-6 *ngFor="let media of row">
+          <ion-card class="post" color="dark">
+
+            <ion-item class="post-info" color="dark">
+
+              <div class="info-container">
+                <ion-card-title>{{ media.title }}</ion-card-title>
+                <p>{{media.time_added }}</p>
+                <p>3.5</p>
+              </div>
+              <button ion-button small icon-only>
+                <ion-icon name="trash"></ion-icon>
+              </button>
+            </ion-item>
+
+
+            <img *ngIf="media.media_type == 'image'" class="card-img-top"
+                 [src]="mediaProvider.mediaUrl + (media.filename | thumbnail:'medium')" [alt]="media.title"
+                 (click)="openSingle(media.file_id)">
+            <video *ngIf="media.media_type == 'video'" class="card-img-top"
+                   [src]="mediaProvider.mediaUrl + media.filename" controls
+                   [poster]="mediaProvider.mediaUrl + (media.filename | thumbnail:'medium')"></video>
+            <audio *ngIf="media.media_type == 'audio'" class="card-img-top"
+                   [src]="mediaProvider.mediaUrl + media.filename" controls></audio>
+
+            <ion-card-content>
+              <p class="card-text">{{ media.description }}</p>
+            </ion-card-content>
+
+            <ion-row class="buttons-row">
+
+              <button ion-button icon-left clear small>
+                <ion-icon name="md-arrow-round-up"></ion-icon>
+              </button>
+              <button ion-button icon-left clear small>
+                <ion-icon name="md-arrow-round-down"></ion-icon>
+              </button>
+
+
+              <button ion-button icon-left clear small>
+                <ion-icon name="heart"></ion-icon>
+              </button>
+
+              <button ion-button icon-left clear small>
+                <ion-icon name="text"></ion-icon>
+              </button>
+            </ion-row>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-list>
+  </ion-grid>
+
+  <ion-infinite-scroll *ngIf="outOfMedia == false" (ionInfinite)="doInfinite($event)" immediate-check="true">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <div class="edge-of-universe" *ngIf="outOfMedia == true">
+    <p>You have reached the edge of the universe</p>
+    <ion-icon name="planet" color="light"></ion-icon>
+  </div>
 
 
 </ion-content>
