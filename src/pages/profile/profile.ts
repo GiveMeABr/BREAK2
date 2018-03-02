@@ -48,6 +48,10 @@ export class ProfilePage {
     });
   }
 
+  deleteMedia(){
+
+  }
+
   ionViewWillEnter() {
     const userToken = this.mediaProvider.userHasToken();
     if (userToken) {

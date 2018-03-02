@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
 import {User} from '../../app/models/user';
 import {MediaProvider} from '../../providers/media/media';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -26,32 +26,36 @@ export class LoginPage {
 
   status: string;
   splash = true;
+  splashViewed = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mediaProvider: MediaProvider) {
   }
 
-  login () {
-    this.mediaProvider.login(this.user).
-        subscribe(response => {
-          localStorage.setItem('token', response['token']);
-          this.navCtrl.setRoot(TabsPage);
-          this.mediaProvider.logged = true;
-        }, (error: HttpErrorResponse) => {
-          console.log(error.error.message);
-          this.status = error.error.message;
-        });
+  login() {
+    this.mediaProvider.login(this.user).subscribe(response => {
+      localStorage.setItem('token', response['token']);
+      this.navCtrl.setRoot(TabsPage);
+      this.mediaProvider.logged = true;
+    }, (error: HttpErrorResponse) => {
+      console.log(error.error.message);
+      this.status = error.error.message;
+    });
   }
 
-  moveToRegister(){
+  moveToRegister() {
     this.navCtrl.setRoot(RegisterPage);
   }
 
   ionViewDidLoad() {
-    setTimeout(() => this.splash = false, 8000);
+    if (!this.splashViewed) {
+      setTimeout(() => this.splash = false, 8000);
+      this.splashViewed = true;
+    }
+
 
     if (localStorage.getItem('token') !== null) {
       this.mediaProvider.getUserData(localStorage.getItem('token')).subscribe(response => {
-        setTimeout(() =>  this.navCtrl.setRoot(TabsPage), 5000);
+        setTimeout(() => this.navCtrl.setRoot(TabsPage), 5000);
         this.mediaProvider.logged = true;
       }, (error: HttpErrorResponse) => {
         console.log(error);

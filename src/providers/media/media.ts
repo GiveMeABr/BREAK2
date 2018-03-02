@@ -60,9 +60,14 @@ export class MediaProvider {
     const settings = {
       headers: new HttpHeaders().set('x-access-token', token),
     };
-    let result = this.http.post(this.apiUrl + '/media', formData, settings);
-    console.log(result);
-    return result;
+    return this.http.post(this.apiUrl + '/media', formData, settings);
+  }
+
+  deleteMedia(token, id){
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', token),
+    };
+    return this.http.delete(this.apiUrl + '/media/' + id, settings);
   }
 
   getAllMedia() {
