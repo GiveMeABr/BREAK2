@@ -17,10 +17,9 @@ page-upload {
   ion-input {
 
     background-color: dimgrey;
+    padding: 5px 25px;
     width: 100%;
-    border-top-left-radius: 5%;
-    border-top-right-radius: 5%;
-    border-bottom-left-radius: 5%;
-    border-bottom-right-radius: 5%;
+    border-radius: 5px;
+
   }
 }
