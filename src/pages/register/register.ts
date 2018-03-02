@@ -59,8 +59,14 @@ export class RegisterPage {
         this.mediaProvider.password = this.user.password;
         this.mediaProvider.email = this.user.email;
         this.mediaProvider.full_name = this.user.full_name;
-        this.mediaProvider.login(this.user);
-        this.navCtrl.setRoot(TabsPage);
+        this.mediaProvider.login(this.user).
+          subscribe(response => {
+            localStorage.setItem('token', response['token']);
+            this.navCtrl.setRoot(TabsPage);
+            this.mediaProvider.logged = true;
+          }, (error: HttpErrorResponse) => {
+            console.log(error.error.message);
+          });
       }, (error: HttpErrorResponse) => {
         console.log(error.error.message);
       });
