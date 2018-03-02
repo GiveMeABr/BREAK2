@@ -33,7 +33,7 @@ export class EditorProvider {
     this.canvas = c;
     this.context = this.canvas.getContext('2d');
     this.image = i;
-    // console.log(this.image);
+    // console.log(this.file);
   };
 
   setFile(imData): void {
@@ -55,7 +55,7 @@ export class EditorProvider {
   };
 
   resetImage() {
-    // console.log(this.image);
+    // console.log(this.file);
     this.canvas.height = this.image.height;
     this.canvas.width = this.image.width;
 

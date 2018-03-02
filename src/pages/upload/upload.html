@@ -10,9 +10,24 @@
 
 
 <ion-content padding>
-    <button ion-button (click)="captureImage()">Take photo</button>
-    <button ion-button (click)="upload()">Upload</button>
-    <canvas #myCanvas></canvas>
+  <div class="upload-container">
+    <button ion-button (click)="captureImage()">Take a photo</button>
+
+  <form id="uploadForm" color="white">
+    <br>
+    <ion-input type=file name="file" (change)="setFile($event)"></ion-input>
+    <br>
+    <ion-input [(ngModel)] = "media.title" name="title" placeholder="title"> </ion-input>
+    <br>
+    <ion-input [(ngModel)] = "media.description" name="description" placeholder="description"> </ion-input>
+    <br>
+  </form>
+
+    <button ion-button (click)="uploadFile()">Upload</button>
+    <br>
+  </div>
+
+  <canvas #myCanvas></canvas>
     <ion-list>
         <ion-item>
             <ion-label>Brightness {{ editorProvider.brightness}}</ion-label>

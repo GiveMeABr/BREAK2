@@ -1,5 +1,26 @@
 page-upload {
- canvas {
-   width: 100%
- }
+
+
+  div.upload-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+   }
+
+  canvas {
+
+    width: 50%;
+  }
+
+  ion-input {
+
+    background-color: dimgrey;
+    width: 100%;
+    border-top-left-radius: 5%;
+    border-top-right-radius: 5%;
+    border-bottom-left-radius: 5%;
+    border-bottom-right-radius: 5%;
+  }
 }
