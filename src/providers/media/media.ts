@@ -66,7 +66,7 @@ export class MediaProvider {
   }
 
   getAllMedia() {
-    return this.http.get<Array<string>>(this.apiUrl + '/media');
+    return this.http.get(this.apiUrl + '/tags/break2');
   }
 
   getMoreMedia(fromIndex: any) {

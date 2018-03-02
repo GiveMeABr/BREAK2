@@ -17,21 +17,38 @@ import {User} from "../../app/interfaces/user";
 })
 export class FrontPage {
 
-  mediaArray: Array<string>;
+  mediaArray: any;
+  slicedMedia: any;
+  displayedMedia: Array<string>;
   grid: Array<Array<string>>; //array of arrays
+
 
   userInfo: User;
 
-  picIndex = 20;
+  picIndex = 0;
   items = [];
-  a = 40;
+  loadLimit = 10;
   rowNum = 0;
+  firstOrRefresh = true;
+  outOfMedia = false;
+  lastLoad = false;
   newestMedia: Array<string>;
 
-  constructor(
-      public navCtrl: NavController, public navParams: NavParams,
-      public mediaProvider: MediaProvider) {
 
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public mediaProvider: MediaProvider) {
+
+  }
+
+  doRefresh(refresher) {
+    console.log("REFRESH!");
+    setTimeout(() => {
+      this.firstOrRefresh = true;
+      this.picIndex = 0;
+      this.loadLimit = 10;
+      this.loadMedia();
+      refresher.complete();
+    }, 2000);
   }
 
   openSingle(id) {
@@ -41,71 +58,78 @@ export class FrontPage {
   }
 
   ionViewDidLoad() {
+
+    console.log(this.mediaArray);
+
+    // Check user
     const userToken = this.mediaProvider.userHasToken();
-    if(userToken) {
+    if (userToken) {
       this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
         this.mediaProvider.userInfo = result;
         this.userInfo = result;
       });
     }
+    this.loadMedia();
+  }
 
-    this.mediaProvider.getAllMedia().subscribe(data => {
-      this.mediaArray = data;
-      this.grid = Array(Math.ceil(this.mediaArray.length / 2)); //MATHS!
-      let rowNum = 0; //counter to iterate over the rows in the grid
+  mediaToGrid() {
 
-      for (let i = 0; i < this.mediaArray.length; i += 2) { //iterate images
+    if (this.lastLoad == true) {
+      this.outOfMedia = true;
+    }
 
-        this.grid[rowNum] = Array(2); //declare two elements per row
-
-        if (this.mediaArray[i]) { //check file URI exists
-          this.grid[rowNum][0] = this.mediaArray[i]; //insert image
-        }
-
-        if (this.mediaArray[i + 1]) { //repeat for the second image
-          this.grid[rowNum][1] = this.mediaArray[i + 1];
-        }
-
-        rowNum++; //go on to the next row
+    console.log("loading media from index " + this.picIndex, "to " + this.loadLimit);
+    for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
+      this.grid[this.rowNum] = Array(2); //declare two elements per row
+      if (this.displayedMedia[i]) { //check file URI exists
+        this.grid[this.rowNum][0] = this.displayedMedia[i]; //insert image
       }
-    });
+      if (this.displayedMedia[i + 1]) { //repeat for the second image
+        this.grid[this.rowNum][1] = this.displayedMedia[i + 1];
+      }
+      this.rowNum++; //go on to the next row
+    }
+
+    this.picIndex = this.picIndex + 10;
+    this.loadLimit = this.picIndex + 10;
+
+    if (this.loadLimit > this.mediaArray.length) {
+      this.loadLimit = this.mediaArray.length;
+      this.lastLoad = true;
+    }
+
+    console.log("next media will be from index " + this.picIndex, "to " + this.loadLimit);
+  }
+
+  loadMedia() {
+
+    if (this.firstOrRefresh) {
+      this.mediaProvider.getAllMedia().subscribe(data => {
+        console.log("First load");
+        this.mediaArray = data;
+        this.mediaArray.reverse();
+        console.log(this.mediaArray);
+        this.slicedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
+        this.displayedMedia = this.slicedMedia;
+        this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
+        this.rowNum = 0; //counter to iterate over the rows in the grid
+        this.mediaToGrid();
+        this.firstOrRefresh = false;
+      });
+
+    } else /* Infinite Scroll */ {
+      console.log("loadMedia case 2");
+      this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.loadLimit));
+      this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
+      this.mediaToGrid();
+    }
+    console.log("displayed media: ", this.displayedMedia);
+
   }
 
   doInfinite(infiniteScroll) {
-    console.log('Begin async operation');
-
     setTimeout(() => {
-      for (this.picIndex; this.picIndex < this.a; this.picIndex++) {
-      }
-      this.mediaProvider.getMoreMedia(this.picIndex).subscribe(data => {
-        console.log(data);
-        this.mediaArray = this.mediaArray.concat(data);
-        console.log(this.mediaArray);
-        this.grid = Array(Math.ceil(this.mediaArray.length /2)); //MATHS!
-        console.log(this.grid);
-
-        for (let i = 0; i < this.mediaArray.length; i += 2) { //iterate images
-
-          this.grid[this.rowNum] = Array(2); //declare two elements per row
-
-          if (this.mediaArray[i]) { //check file URI exists
-            this.grid[this.rowNum][0] = this.mediaArray[i]; //insert image
-          }
-
-          if (this.mediaArray[i + 1]) { //repeat for the second image
-            this.grid[this.rowNum][1] = this.mediaArray[i + 1];
-          }
-
-          this.rowNum++; //go on to the next row
-        }
-        console.log(this.grid);
-
-      });
-      console.log(this.picIndex);
-
-      this.a = this.a + 20;
-
-      console.log('Async operation has ended');
+      this.loadMedia();
       infiniteScroll.complete();
     }, 500);
   }

@@ -25,6 +25,7 @@ export class LoginPage {
   };
 
   status: string;
+  splash = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mediaProvider: MediaProvider) {
   }
@@ -46,9 +47,11 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
+    setTimeout(() => this.splash = false, 8000);
+
     if (localStorage.getItem('token') !== null) {
       this.mediaProvider.getUserData(localStorage.getItem('token')).subscribe(response => {
-        this.navCtrl.setRoot(TabsPage);
+        setTimeout(() =>  this.navCtrl.setRoot(TabsPage), 5000);
         this.mediaProvider.logged = true;
       }, (error: HttpErrorResponse) => {
         console.log(error);
