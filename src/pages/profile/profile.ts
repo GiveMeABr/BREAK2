@@ -20,7 +20,7 @@ export class ProfilePage {
   mediaArray: any;
   displayedMedia: Array<string>;
   grid: Array<Array<string>>; //array of arrays
-  userInfo: User;
+  userInfo: User = {username: null};
   picIndex = 0;
   items = [];
   loadLimit = 10;
