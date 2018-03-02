@@ -17,7 +17,7 @@
     <br>
     <ion-input type=file name="file" (change)="setFile($event)"></ion-input>
     <br>
-    <ion-input [(ngModel)] = "media.title" name="title" placeholder="title"> </ion-input>
+    <ion-input [(ngModel)] = "media.title" name="title" placeholder="title" maxlength="20"> </ion-input>
     <br>
     <ion-input [(ngModel)] = "media.description" name="description" placeholder="description"> </ion-input>
     <br>
@@ -25,9 +25,10 @@
 
     <button ion-button (click)="uploadFile()">Upload</button>
     <br>
+    <canvas #myCanvas></canvas>
   </div>
 
-  <canvas #myCanvas></canvas>
+
     <ion-list>
         <ion-item>
             <ion-label>Brightness {{ editorProvider.brightness}}</ion-label>

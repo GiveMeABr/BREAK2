@@ -10,6 +10,7 @@ import {RegisterPage} from '../pages/register/register';
 import {LogoutPage} from '../pages/logout/logout';
 import {ProfilePage} from '../pages/profile/profile';
 import {MediaProvider} from '../providers/media/media';
+import {TabsPage} from "../pages/tabs/tabs";
 @Component({
   templateUrl: 'app.html'
 })
@@ -33,6 +34,7 @@ export class MyApp {
       {title: 'Register', component: RegisterPage },
       {title: 'Logout', component: LogoutPage },
       {title: 'Profile', component: ProfilePage },
+      {title: 'Tabs', component: TabsPage}
     ];
 
   }

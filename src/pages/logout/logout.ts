@@ -21,7 +21,7 @@ export class LogoutPage {
   }
 
   logout(){
-    localStorage.removeItem('token');
+    localStorage.clear();
     this.navCtrl.setRoot(LoginPage);
   }
 

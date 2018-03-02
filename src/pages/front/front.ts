@@ -49,7 +49,7 @@ export class FrontPage {
     });
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     const userToken = this.mediaProvider.userHasToken();
     if (userToken) {
       this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
