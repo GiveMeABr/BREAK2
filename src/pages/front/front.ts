@@ -18,13 +18,9 @@ import {User} from "../../app/interfaces/user";
 export class FrontPage {
 
   mediaArray: any;
-  slicedMedia: any;
   displayedMedia: Array<string>;
   grid: Array<Array<string>>; //array of arrays
-
-
   userInfo: User;
-
   picIndex = 0;
   items = [];
   loadLimit = 10;
@@ -32,16 +28,12 @@ export class FrontPage {
   firstOrRefresh = true;
   outOfMedia = false;
   lastLoad = false;
-  newestMedia: Array<string>;
-
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public mediaProvider: MediaProvider) {
-
   }
 
   doRefresh(refresher) {
-    console.log("REFRESH!");
     setTimeout(() => {
       this.firstOrRefresh = true;
       this.picIndex = 0;
@@ -58,10 +50,6 @@ export class FrontPage {
   }
 
   ionViewDidLoad() {
-
-    console.log(this.mediaArray);
-
-    // Check user
     const userToken = this.mediaProvider.userHasToken();
     if (userToken) {
       this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
@@ -73,12 +61,10 @@ export class FrontPage {
   }
 
   mediaToGrid() {
-
     if (this.lastLoad == true) {
       this.outOfMedia = true;
     }
 
-    console.log("loading media from index " + this.picIndex, "to " + this.loadLimit);
     for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
       this.grid[this.rowNum] = Array(2); //declare two elements per row
       if (this.displayedMedia[i]) { //check file URI exists
@@ -93,38 +79,30 @@ export class FrontPage {
     this.picIndex = this.picIndex + 10;
     this.loadLimit = this.picIndex + 10;
 
+    // Prevent crashing when the media runs out
     if (this.loadLimit > this.mediaArray.length) {
       this.loadLimit = this.mediaArray.length;
+      this.picIndex = this.mediaArray.length;
       this.lastLoad = true;
     }
-
-    console.log("next media will be from index " + this.picIndex, "to " + this.loadLimit);
   }
 
   loadMedia() {
-
     if (this.firstOrRefresh) {
       this.mediaProvider.getAllMedia().subscribe(data => {
-        console.log("First load");
         this.mediaArray = data;
         this.mediaArray.reverse();
-        console.log(this.mediaArray);
-        this.slicedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
-        this.displayedMedia = this.slicedMedia;
+        this.displayedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
         this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
         this.rowNum = 0; //counter to iterate over the rows in the grid
         this.mediaToGrid();
         this.firstOrRefresh = false;
       });
-
     } else /* Infinite Scroll */ {
-      console.log("loadMedia case 2");
       this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.loadLimit));
       this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
       this.mediaToGrid();
     }
-    console.log("displayed media: ", this.displayedMedia);
-
   }
 
   doInfinite(infiniteScroll) {

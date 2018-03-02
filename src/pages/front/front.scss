@@ -50,10 +50,27 @@ ion-content.front {
 
       button {
         font-size: 2rem;
-
       }
+
     }
 
+  }
+
+}
+
+.edge-of-universe {
+  @extend %flex-center;
+  flex-direction: column;
+  margin-bottom: 30px;
+  p {
+    margin-top: 0;
+    text-align: center;
+    color: #333;
+  }
+  ion-icon {
+    @extend %flex-center;
+    font-size: 3em;
+    color: #333;
   }
 
 }
