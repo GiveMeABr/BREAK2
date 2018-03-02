@@ -5,7 +5,7 @@ import {User} from '../../app/interfaces/user';
 import {MediaProvider} from '../../providers/media/media';
 import {HttpErrorResponse} from '@angular/common/http';
 import {TabsPage} from '../tabs/tabs';
-import {UserCheckResult} from '../../app/interfaces/userCheckResult';
+
 
 /**
  * Generated class for the RegisterPage page.
