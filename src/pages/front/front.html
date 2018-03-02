@@ -80,7 +80,9 @@
     </ion-list>
   </ion-grid>
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" immediate-check="true">
+  <ion-infinite-scroll *ngIf="outOfMedia == false" (ionInfinite)="doInfinite($event)" immediate-check="true">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
+
+  <p *ngIf="outOfMedia == true">You have reached the edge of the universe vitun homo...</p>
 </ion-content>

@@ -30,6 +30,8 @@ export class FrontPage {
   loadLimit = 10;
   rowNum = 0;
   firstOrRefresh = true;
+  outOfMedia = false;
+  lastLoad = false;
   newestMedia: Array<string>;
 
 
@@ -71,6 +73,11 @@ export class FrontPage {
   }
 
   mediaToGrid() {
+
+    if (this.lastLoad == true) {
+      this.outOfMedia = true;
+    }
+
     console.log("loading media from index " + this.picIndex, "to " + this.loadLimit);
     for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
       this.grid[this.rowNum] = Array(2); //declare two elements per row
@@ -82,14 +89,21 @@ export class FrontPage {
       }
       this.rowNum++; //go on to the next row
     }
+
     this.picIndex = this.picIndex + 10;
     this.loadLimit = this.picIndex + 10;
+
+    if (this.loadLimit > this.mediaArray.length) {
+      this.loadLimit = this.mediaArray.length;
+      this.lastLoad = true;
+    }
+
     console.log("next media will be from index " + this.picIndex, "to " + this.loadLimit);
   }
 
   loadMedia() {
 
-    if(this.firstOrRefresh){
+    if (this.firstOrRefresh) {
       this.mediaProvider.getAllMedia().subscribe(data => {
         console.log("First load");
         this.mediaArray = data;
@@ -109,7 +123,7 @@ export class FrontPage {
       this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
       this.mediaToGrid();
     }
-    console.log("displayed media: " ,this.displayedMedia);
+    console.log("displayed media: ", this.displayedMedia);
 
   }
 
