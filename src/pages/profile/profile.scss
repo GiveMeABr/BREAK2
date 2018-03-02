@@ -42,9 +42,7 @@
     }
 
     .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      @extend %flex-center;
     }
   }
 

@@ -84,5 +84,8 @@
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
-  <p *ngIf="outOfMedia == true">You have reached the edge of the universe vitun homo...</p>
+  <div class="edge-of-universe" *ngIf="outOfMedia == true">
+  <p>You have reached the edge of the universe</p>
+  <ion-icon name="planet" color="light"></ion-icon>
+  </div>
 </ion-content>
