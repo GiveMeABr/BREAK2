@@ -3,6 +3,7 @@ import {NavController, NavParams} from 'ionic-angular';
 import {MediaProvider} from '../../providers/media/media';
 import {SinglePage} from '../single/single';
 import {User} from "../../app/interfaces/user";
+import {HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 /**
  * Generated class for the FrontPage page.
@@ -42,11 +43,12 @@ export class FrontPage {
   }
 
   refresh() {
+    this.outOfMedia = false;
     this.mediaLoaded = false;
+    this.lastLoad = false;
     this.firstOrRefresh = true;
     this.picIndex = 0;
     this.loadLimit = 10;
-    console.log('refresh');
     this.loadMedia();
   }
 
@@ -54,6 +56,19 @@ export class FrontPage {
   openSingle(id) {
     this.navCtrl.push(SinglePage, {
       mediaID: id,
+    });
+  }
+
+  addFavorite(id) {
+    const file_id = {
+      file_id: id
+    };
+    console.log(file_id);
+    this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
+    .subscribe(response => {
+      console.log(response);
+    }, (error: HttpErrorResponse) => {
+      console.log(error)
     });
   }
 

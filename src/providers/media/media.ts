@@ -63,16 +63,17 @@ export class MediaProvider {
     return this.http.post(this.apiUrl + '/media', formData, settings);
   }
 
-  addFavorite(token, id) {
+  postFavorite(token, file_id) {
     const settings = {
-      headers: new HttpHeaders().set('x-access-token', token),
+      headers: new HttpHeaders().set('x-access-token', token)
+                                //.set('Content-Type', "application/x-www-form-urlencoded")
     };
-    return this.http.post(this.apiUrl + '/favourites' + id, settings)
+    return this.http.post(this.apiUrl + '/favourites', file_id, settings);
   }
 
   deleteMedia(token, id){
     const settings = {
-      headers: new HttpHeaders().set('x-access-token', token),
+      headers: new HttpHeaders().set('x-access-token', token)
     };
     return this.http.delete(this.apiUrl + '/media/' + id, settings);
   }
