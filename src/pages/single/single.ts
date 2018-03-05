@@ -24,7 +24,9 @@ export class SinglePage {
 
   description: string;
 
-  comment:string;
+  comment: Comment = {
+
+  }
 
   userid: any;
 
