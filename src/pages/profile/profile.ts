@@ -44,7 +44,9 @@ export class ProfilePage {
   }
 
   refresh() {
+    this.outOfMedia = false;
     this.mediaLoaded = false;
+    this.lastLoad = false;
     this.firstOrRefresh = true;
     this.picIndex = 0;
     this.loadLimit = 10;

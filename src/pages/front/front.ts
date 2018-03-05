@@ -42,11 +42,12 @@ export class FrontPage {
   }
 
   refresh() {
+    this.outOfMedia = false;
     this.mediaLoaded = false;
+    this.lastLoad = false;
     this.firstOrRefresh = true;
     this.picIndex = 0;
     this.loadLimit = 10;
-    console.log('refresh');
     this.loadMedia();
   }
 
