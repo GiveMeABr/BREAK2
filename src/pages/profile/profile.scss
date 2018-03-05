@@ -30,10 +30,11 @@
   ion-avatar.p-page {
     width: 90%;
     height: 90%;
-    margin: 0;
+    border-radius: 50%;
 
     img {
       width: 100%;
+      height: auto;
     }
     .half {
       width: 10%;

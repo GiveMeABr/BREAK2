@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
 import {MediaProvider} from '../../providers/media/media';
 import {SinglePage} from "../single/single";
 import {User} from "../../app/interfaces/user";
-import { AlertController } from 'ionic-angular';
+import {AlertController} from 'ionic-angular';
 import {UploadPpPage} from "../upload-pp/upload-pp";
 
 /**
@@ -34,6 +34,7 @@ export class ProfilePage {
   lastLoad = false;
   userToken: any;
   mediaLoaded = false;
+  newestPicIndex: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public mediaProvider: MediaProvider, private alertCtrl: AlertController) {
@@ -57,9 +58,9 @@ export class ProfilePage {
   }
 
   openSingle(id) {
-      this.navCtrl.push(SinglePage, {
-        mediaID: id,
-      });
+    this.navCtrl.push(SinglePage, {
+      mediaID: id,
+    });
   }
 
   changePP() {
@@ -101,14 +102,11 @@ export class ProfilePage {
     confirmAlert.present();
   }
 
-  ionViewDidEnter() {
-    console.log('DidEnter');
-    this.userToken = this.mediaProvider.userHasToken();
-    console.log(this.mediaProvider.userHasToken());
-    console.log(this.userToken);
-    if (this.userToken) {
-      console.log('if triggered');
 
+  ionViewDidEnter() {
+    this.userToken = this.mediaProvider.userHasToken();
+
+    if (this.userToken) {
       this.mediaProvider.getUserData(this.userToken).subscribe((result: User) => {
         this.mediaProvider.userInfo = result;
         this.userInfo = result;
@@ -118,18 +116,14 @@ export class ProfilePage {
         this.mediaProvider.getAllProfilePics().subscribe(data => {
           this.ppArray = data;
           this.ppArray = this.ppArray.filter(media => media.user_id == this.userInfo.user_id);
+          this.newestPicIndex = Object.keys(this.ppArray).length - 1;
 
-          console.log(this.ppArray);
-
-          if (this.ppArray.length == 1) {
-            this.profilePicUrl = this.mediaProvider.mediaUrl + this.ppArray[this.ppArray.length() - 1].filename;
-            console.log(this.profilePicUrl);
+          if (Object.keys(this.ppArray).length > 0) {
+            this.profilePicUrl = this.mediaProvider.mediaUrl + this.ppArray[this.newestPicIndex].filename;
           }
 
         });
       });
-
-
     }
   }
 
@@ -161,20 +155,12 @@ export class ProfilePage {
   }
 
   loadMedia() {
-    console.log('loadMedia');
-    console.log('firstOrRefresh: ', this.firstOrRefresh);
     if (this.firstOrRefresh) {
       this.mediaProvider.getAllMedia().subscribe(data => {
         this.mediaArray = data;
-        console.log('Data: ', data);
-        console.log('MediaArray: ', this.mediaArray);
         this.mediaArray.reverse();
-        console.log('MediaArray: ', this.mediaArray);
-        console.log('userInfo.user_id: ', this.userInfo.user_id);
         this.mediaArray = this.mediaArray.filter(media => media.user_id == this.userInfo.user_id);
-        console.log('MediaArray: ', this.mediaArray);
         this.displayedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
-        console.log('displayedMedia: ', this.displayedMedia);
         this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
         this.rowNum = 0; //counter to iterate over the rows in the grid
         this.mediaToGrid();
