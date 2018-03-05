@@ -35,6 +35,7 @@ export class ProfilePage {
   userToken: any;
   mediaLoaded = false;
   newestPicIndex: number;
+  ownPicArray: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public mediaProvider: MediaProvider, private alertCtrl: AlertController) {
@@ -115,15 +116,23 @@ export class ProfilePage {
 
         this.mediaProvider.getAllProfilePics().subscribe(data => {
           this.ppArray = data;
-          this.ppArray = this.ppArray.filter(media => media.user_id == this.userInfo.user_id);
-          this.newestPicIndex = Object.keys(this.ppArray).length - 1;
-
-          if (Object.keys(this.ppArray).length > 0) {
-            this.profilePicUrl = this.mediaProvider.mediaUrl + this.ppArray[this.newestPicIndex].filename;
-          }
-
         });
       });
+    }
+  }
+
+  getOwnProfilePic() {
+    console.log('getProfilePic');
+    return this.getProfilePic(this.userInfo.user_id);
+  }
+
+  getProfilePic(id: number) {
+    console.log('getProfilePic');
+    this.ownPicArray = this.ppArray.filter(media => media.user_id == id);
+    this.newestPicIndex = Object.keys(this.ownPicArray).length - 1;
+    if (Object.keys(this.ownPicArray).length > 0) {
+      this.profilePicUrl = this.mediaProvider.mediaUrl + this.ownPicArray[this.newestPicIndex].filename;
+      return this.profilePicUrl;
     }
   }
 
