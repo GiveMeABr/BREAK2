@@ -25,6 +25,18 @@
     <ion-card-content>
       <p *ngIf="message !== ''">{{ message }}</p>
     </ion-card-content>
+    <ion-row class="buttons-row">
+
+      <button ion-button icon-left clear small (click)="addFavorite(media.file_id)">
+        <ion-icon name="heart"></ion-icon>
+        {{amountOfLikes}} likes
+      </button>
+
+      <button ion-button icon-left clear small (click)="openSingle(media.file_id)">
+        <ion-icon name="text"></ion-icon>
+        {{amountOfComments}} Comments
+      </button>
+    </ion-row>
   </ion-card>
 
   <h1>Comments:</h1>

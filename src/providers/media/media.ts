@@ -68,7 +68,7 @@ export class MediaProvider {
     return this.http.post(this.apiUrl + '/favourites', file_id, settings);
   }
 
-  postComment(token, commentData){
+  postComment(token, commentData) {
     const settings = {
       headers: new HttpHeaders().set('x-access-token', token)
       //.set('Content-Type', "application/x-www-form-urlencoded")
@@ -76,7 +76,7 @@ export class MediaProvider {
     return this.http.post(this.apiUrl + '/comments', commentData, settings)
   }
 
-  deleteMedia(token, id){
+  deleteMedia(token, id) {
     const settings = {
       headers: new HttpHeaders().set('x-access-token', token)
     };
@@ -131,9 +131,16 @@ export class MediaProvider {
     return localStorage.getItem('token');
   }
 
-  checkUserName(username: string){
+  checkUserName(username: string) {
     return this.http.get(this.apiUrl + '/users/username/' + username);
   }
 
+  getListOfLikes(fileId: number) {
+    return this.http.get(this.apiUrl + '/favourites/file/' + fileId);
+  }
+
+  getCommentsFile(fileId: number) {
+    return this.http.get(this.apiUrl + '/comments/file/' + fileId);
+  }
 
 }

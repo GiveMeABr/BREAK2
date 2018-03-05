@@ -34,6 +34,7 @@ export class FrontPage {
   private ppArray: any;
   private newestPicIndex: number;
   private profilePicUrl: string;
+  private likesNum: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public mediaProvider: MediaProvider) {
@@ -155,6 +156,15 @@ export class FrontPage {
       infiniteScroll.complete();
     }, 500);
   }
+
+  amountOfLikes(id: number) {
+    console.log('amountOfLikes');
+    this.mediaProvider.getListOfLikes(id).subscribe(data => {
+      console.log('amount of likes at post ' , id , ' ', Object.keys(data).length);
+      this.likesNum = Object.keys(data).length;
+    });
+  }
+
 
 
 }
