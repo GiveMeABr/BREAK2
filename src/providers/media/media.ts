@@ -66,9 +66,17 @@ export class MediaProvider {
   postFavorite(token, file_id) {
     const settings = {
       headers: new HttpHeaders().set('x-access-token', token)
-                                //.set('Content-Type', "application/x-www-form-urlencoded")
+      //.set('Content-Type', "application/x-www-form-urlencoded")
     };
     return this.http.post(this.apiUrl + '/favourites', file_id, settings);
+  }
+
+  postComment(token, commentData){
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', token)
+      //.set('Content-Type', "application/x-www-form-urlencoded")
+    };
+    return this.http.post(this.apiUrl + '/comments', commentData, settings)
   }
 
   deleteMedia(token, id){

@@ -72,6 +72,20 @@ export class FrontPage {
     });
   }
 
+  addComment(id, comment) {
+    const commentData = {
+      file_id: id,
+      comment: comment
+    };
+    console.log(commentData);
+    this.mediaProvider.postComment(localStorage.getItem('token'), commentData)
+      .subscribe(response => {
+        console.log(response);
+    }, (error: HttpErrorResponse) => {
+        console.log(error);
+    })
+  }
+
   ionViewDidEnter() {
     console.log('DidEnter');
     const userToken = this.mediaProvider.userHasToken();
