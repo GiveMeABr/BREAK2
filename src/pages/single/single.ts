@@ -23,10 +23,7 @@ export class SinglePage {
   title: string;
   latLon: any;
   comment: string;
-
   description: string;
-
-  comment: string;
 
   commentData: Comment = {
     file_id: "",
@@ -34,11 +31,9 @@ export class SinglePage {
   };
 
   userid: any;
-
+  file_id: any;
   user: User;
-
   username: any;
-
   message = '';
 
   constructor(
@@ -51,6 +46,18 @@ export class SinglePage {
     this.photoViewer.show(this.url, this.title, {share: false});
   }
 
+  addComment() {
+    this.commentData.file_id = this.file_id;
+    console.log(this.commentData);
+    this.mediaProvider.postComment(localStorage.getItem('token'), this.commentData)
+      .subscribe(response => {
+        console.log(response);
+        document.forms["commentForm"].reset();
+    }, (error: HttpErrorResponse) => {
+        console.log(error);
+    });
+  }
+
   ionViewDidLoad() {
     console.log(this.navParams.get('mediaID'));
     this.mediaProvider.getSingleMedia(this.navParams.get('mediaID')).
@@ -59,6 +66,7 @@ export class SinglePage {
       this.url = this.mediaProvider.mediaUrl + response['filename'];
       this.title = response['title'];
       this.userid = response['user_id'];
+      this.file_id = response['file_id'];
       const userToken = this.mediaProvider.userHasToken();
 
       this.mediaProvider.getUserDataViaId(userToken, this.userid.toString()).subscribe((result: User) => {

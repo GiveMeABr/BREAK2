@@ -72,13 +72,10 @@ export class FrontPage {
   }
 
   getProfilePic(id: number) {
-    console.log(this.ppArray);
     this.ownPicArray = this.ppArray.filter(media => media.user_id == id);
-    console.log(this.ownPicArray);
     this.newestPicIndex = Object.keys(this.ownPicArray).length - 1;
     if (Object.keys(this.ownPicArray).length > 0) {
       this.profilePicUrl = this.mediaProvider.mediaUrl + this.ownPicArray[this.newestPicIndex].filename;
-      console.log(this.profilePicUrl);
       return this.profilePicUrl;
     }
   }

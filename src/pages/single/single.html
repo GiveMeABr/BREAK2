@@ -29,11 +29,11 @@
 
   <h1>Comments:</h1>
 
-  <form id="uploadForm">
-    <ion-input type="text" name="comment"
+  <form id="commentForm">
+    <ion-input [(ngModel)] = "commentData.comment" type="text" name="comment"
                placeholder="Write a comment"></ion-input>
   </form>
-  <button ion-button>Comment</button>
+  <button ion-button (click)="addComment()">Comment</button>
   <!--ion-card color="dark">
     <ion-card-title>Commenter user</ion-card-title>
     <ion-card-content>
