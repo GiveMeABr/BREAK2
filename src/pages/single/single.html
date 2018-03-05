@@ -17,7 +17,7 @@
 <ion-content padding>
 
 
-  <ion-card>
+  <ion-card color="dark">
     <ion-card-title>{{title}}</ion-card-title>
     <img [src]="url">
     <p class="card-text">{{description}}</p>
@@ -26,5 +26,16 @@
       <p *ngIf="message !== ''">{{ message }}</p>
     </ion-card-content>
   </ion-card>
+
+  <h1>Comments:</h1>
+  <ion-input type="text" [(ngModel)]="comment" name="comment"
+             placeholder="Write a comment"></ion-input>
+
+  <!--ion-card color="dark">
+    <ion-card-title>Commenter user</ion-card-title>
+    <ion-card-content>
+      <p class="card-text">Comment text</p>
+    </ion-card-content>
+  </ion-card-->
 
 </ion-content>
