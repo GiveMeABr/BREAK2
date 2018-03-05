@@ -50,14 +50,16 @@ export class FrontPage {
   }
 
   ionViewDidEnter() {
+    console.log('DidEnter');
     const userToken = this.mediaProvider.userHasToken();
     if (userToken) {
       this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
         this.mediaProvider.userInfo = result;
         this.userInfo = result;
+        this.loadMedia();
       });
     }
-    this.loadMedia();
+
   }
 
   mediaToGrid() {

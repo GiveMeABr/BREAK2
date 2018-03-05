@@ -23,7 +23,11 @@
     <br>
   </form>
 
-    <button ion-button (click)="uploadFile()">Upload</button>
+    <button *ngIf="!uploadClicked" ion-button (click)="uploadFile()">Upload</button>
+    <div *ngIf="uploadClicked">
+    <ion-spinner name="circles"></ion-spinner>
+      <p>Your post is uploading...</p>
+    </div>
     <br>
     <canvas #myCanvas></canvas>
   </div>

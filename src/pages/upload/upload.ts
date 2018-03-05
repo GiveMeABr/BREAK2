@@ -34,6 +34,7 @@ export class UploadPage {
   latLon: any;
   file: any;
   canvas: any;
+  uploadClicked = false;
 
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
 
@@ -145,6 +146,7 @@ export class UploadPage {
   }
 
   uploadFile(){
+    this.uploadClicked = true;
     const formData = new FormData();
 
     formData.append('file', this.file);
