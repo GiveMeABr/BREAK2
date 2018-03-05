@@ -5,19 +5,15 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <img class="logo" src="assets/imgs/Logo White.png" alt="BREAK"/>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content class="feed" padding>
-
   <ion-item class="profile-header" color="dark">
     <div (click)="changePP()" class="profile-border">
       <ion-avatar class="p-page">
@@ -25,15 +21,11 @@
         <img *ngIf="!profilePicUrl" src="assets/imgs/nobody_m.original.jpg" alt="TODO: username here"/>
       </ion-avatar>
     </div>
-
     <h1>{{userInfo?.username}}</h1>
-
     <div class="container">
-
       <button ion-button>Friends</button>
       <button ion-button color="secondary">Likes</button>
     </div>
-
   </ion-item>
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
