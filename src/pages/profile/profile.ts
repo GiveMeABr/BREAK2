@@ -4,6 +4,7 @@ import {MediaProvider} from '../../providers/media/media';
 import {SinglePage} from "../single/single";
 import {User} from "../../app/interfaces/user";
 import { AlertController } from 'ionic-angular';
+import {UploadPpPage} from "../upload-pp/upload-pp";
 
 /**
  * Generated class for the ProfilePage page.
@@ -18,7 +19,9 @@ import { AlertController } from 'ionic-angular';
 })
 export class ProfilePage {
 
+  profilePicUrl: string;
   mediaArray: any;
+  ppArray: any;
   displayedMedia: Array<string>;
   grid: Array<Array<string>>; //array of arrays
   userInfo: User = {username: null};
@@ -57,6 +60,10 @@ export class ProfilePage {
       });
   }
 
+  changePP() {
+    this.navCtrl.push(UploadPpPage);
+  }
+
   deleteMedia(id) {
 
     let alert = this.alertCtrl.create({
@@ -78,12 +85,23 @@ export class ProfilePage {
     console.log(this.userToken);
     if (this.userToken) {
       console.log('if triggered');
+
       this.mediaProvider.getUserData(this.userToken).subscribe((result: User) => {
         this.mediaProvider.userInfo = result;
         this.userInfo = result;
         console.log(this.userInfo);
         this.loadMedia();
+
+        this.mediaProvider.getAllProfilePics().subscribe(data => {
+          this.ppArray = data;
+          this.ppArray = this.ppArray.filter(media => media.user_id == this.userInfo.user_id);
+          console.log(this.ppArray[0]);
+          this.profilePicUrl = this.mediaProvider.mediaUrl + this.ppArray[0].filename;
+          console.log(this.profilePicUrl);
+        });
       });
+
+
     }
   }
 

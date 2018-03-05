@@ -21,12 +21,16 @@
   <ion-item class="profile-header" color="dark">
     <div class="profile-border">
       <ion-avatar class="p-page">
-        <img src="assets/imgs/nobody_m.original.jpg" alt="TODO: username here"/>
+        <img src="{{profilePicUrl}}" alt="TODO: username here"/>
       </ion-avatar>
     </div>
 
     <h1>{{userInfo?.username}}</h1>
+    <button ion-button (click)="changePP()" color="secondary">Change Profile Pic</button>
+    <br>
+
     <div class="container">
+
       <button ion-button>Friends</button>
       <button ion-button color="secondary">Likes</button>
     </div>

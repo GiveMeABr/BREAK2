@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <img class="logo" src="assets/imgs/Logo White.png"  alt="BREAK"/>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <div class="upload-container">
+    <button ion-button (click)="captureImage()">Take a photo</button>
+
+    <form id="uploadForm">
+      <br>
+      <ion-input type=file name="file" (change)="setFile($event)"></ion-input>
+    </form>
+
+    <button *ngIf="!uploadClicked" ion-button (click)="uploadFile()">Upload</button>
+    <div *ngIf="uploadClicked">
+      <ion-spinner name="circles"></ion-spinner>
+      <p>Your post is uploading...</p>
+    </div>
+    <br>
+    <canvas #myCanvas></canvas>
+  </div>
+
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Brightness {{ editorProvider.brightness}}</ion-label>
+      <ion-range [debounce]="500" min="-255" max="255" step="1" [(ngModel)]="editorProvider.brightness"
+                 (ionChange)="editorProvider.applyFilters()">
+        <ion-icon small range-left name="sunny" color="light"></ion-icon>
+        <ion-icon range-right name="sunny" color="light"></ion-icon>
+      </ion-range>
+    </ion-item>
+    <ion-item>
+      <ion-label>Contrast {{ editorProvider.contrast}}</ion-label>
+      <ion-range [debounce]="500" min="0" max="100" step="1" [(ngModel)]="editorProvider.contrast"
+                 (ionChange)="editorProvider.applyFilters()">
+        <ion-icon small range-left name="sunny" color="light"></ion-icon>
+        <ion-icon range-right name="sunny" color="light"></ion-icon>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+</ion-content>

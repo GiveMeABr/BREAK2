@@ -11,6 +11,7 @@ import {LogoutPage} from '../pages/logout/logout';
 import {ProfilePage} from '../pages/profile/profile';
 import {MediaProvider} from '../providers/media/media';
 import {TabsPage} from "../pages/tabs/tabs";
+import {UploadPpPage} from "../pages/upload-pp/upload-pp";
 @Component({
   templateUrl: 'app.html'
 })
@@ -34,6 +35,7 @@ export class MyApp {
       {title: 'Register', component: RegisterPage },
       {title: 'Logout', component: LogoutPage },
       {title: 'Profile', component: ProfilePage },
+      {title: 'UploadPP', component: UploadPpPage },
       {title: 'Tabs', component: TabsPage}
     ];
 

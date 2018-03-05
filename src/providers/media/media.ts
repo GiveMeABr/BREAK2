@@ -81,6 +81,10 @@ export class MediaProvider {
     return this.http.get(this.apiUrl + '/tags/break2');
   }
 
+  getAllProfilePics() {
+    return this.http.get(this.apiUrl + '/tags/break2PP');
+  }
+
   getMoreMedia(fromIndex: any) {
     return this.http.get<Array<string>>(this.apiUrl + '/media', {
       params: {
@@ -101,6 +105,15 @@ export class MediaProvider {
     };
 
     let result = this.http.post(this.apiUrl + '/tags', tagAndId, settings);
+    return result;
+  }
+
+  postUserId(id, token) {
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', token),
+    };
+
+    let result = this.http.post(this.apiUrl + '/tags', id, settings);
     return result;
   }
 
