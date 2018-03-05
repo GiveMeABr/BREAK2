@@ -30,9 +30,28 @@ export class FrontPage {
   outOfMedia = false;
   lastLoad = false;
   mediaLoaded: boolean;
+  private ownPicArray: any;
+  private ppArray: any;
+  private newestPicIndex: number;
+  private profilePicUrl: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public mediaProvider: MediaProvider) {
+  }
+
+  ionViewDidEnter() {
+    console.log('DidEnter');
+    const userToken = this.mediaProvider.userHasToken();
+    if (userToken) {
+      this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
+        this.mediaProvider.userInfo = result;
+        this.userInfo = result;
+        this.mediaProvider.getAllProfilePics().subscribe(data => {
+          this.ppArray = data;
+          this.refresh();
+        });
+      });
+    }
   }
 
   doRefresh(refresher) {
@@ -50,6 +69,18 @@ export class FrontPage {
     this.picIndex = 0;
     this.loadLimit = 10;
     this.loadMedia();
+  }
+
+  getProfilePic(id: number) {
+    console.log(this.ppArray);
+    this.ownPicArray = this.ppArray.filter(media => media.user_id == id);
+    console.log(this.ownPicArray);
+    this.newestPicIndex = Object.keys(this.ownPicArray).length - 1;
+    if (Object.keys(this.ownPicArray).length > 0) {
+      this.profilePicUrl = this.mediaProvider.mediaUrl + this.ownPicArray[this.newestPicIndex].filename;
+      console.log(this.profilePicUrl);
+      return this.profilePicUrl;
+    }
   }
 
 
@@ -73,18 +104,7 @@ export class FrontPage {
     });
   }
 
-  ionViewDidEnter() {
-    console.log('DidEnter');
-    const userToken = this.mediaProvider.userHasToken();
-    if (userToken) {
-      this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
-        this.mediaProvider.userInfo = result;
-        this.userInfo = result;
-        this.refresh();
-      });
-    }
 
-  }
 
   mediaToGrid() {
     if (this.lastLoad == true) {

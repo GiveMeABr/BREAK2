@@ -17,8 +17,7 @@
   <ion-item class="profile-header" color="dark">
     <div (click)="changePP()" class="profile-border">
       <ion-avatar class="p-page">
-        <img *ngIf="profilePicUrl" src="{{profilePicUrl}}" alt="TODO: username here"/>
-        <img *ngIf="!profilePicUrl" src="assets/imgs/nobody_m.original.jpg" alt="TODO: username here"/>
+        <img *ngIf="ppArray" [src]="getOwnProfilePic()" alt="TODO: username here"/>
       </ion-avatar>
     </div>
     <h1>{{userInfo?.username}}</h1>

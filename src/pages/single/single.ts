@@ -22,6 +22,7 @@ export class SinglePage {
   url: string;
   title: string;
   latLon: any;
+  comment: string;
 
   description: string;
 
