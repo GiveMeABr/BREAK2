@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <img class="logo" src="assets/imgs/Logo White.png"  alt="BREAK"/>
+    <img class="logo" src="assets/imgs/Logo White.png" alt="BREAK"/>
 
   </ion-navbar>
 
@@ -32,7 +32,7 @@
         {{amountOfLikes}} likes
       </button>
 
-      <button ion-button icon-left clear small (click)="openSingle(media.file_id)">
+      <button ion-button icon-left clear small>
         <ion-icon name="text"></ion-icon>
         {{amountOfComments}} Comments
       </button>
@@ -41,8 +41,29 @@
 
   <h1>Comments:</h1>
 
+  <ion-list>
+    <div *ngIf="amountOfComments">
+      <ion-card *ngFor="let comment of commentsArray" class="post" color="dark">
+        <ion-item class="post-info" color="dark">
+          <div class="profile-border">
+            <ion-avatar class="fpage">
+              <img *ngIf="ppArray" [src]="getProfilePic(comment.user_id)" alt="TODO: username here"/>
+              <img *ngIf="!ppArray" src="assets/imgs/nobody_m.original.jpg" alt="TODO: username here"/>
+            </ion-avatar>
+          </div>
+          <div class="info-container">
+            <ion-card-title *ngIf="commenter">{{getUsername(comment.user_id)}}</ion-card-title>
+            <p>{{comment.time_added | date}}</p>
+          </div>
+        </ion-item>
+        <ion-card-content>
+          <p class="card-text">{{ comment.comment }}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-list>
   <form id="commentForm">
-    <ion-input [(ngModel)] = "commentData.comment" type="text" name="comment"
+    <ion-input [(ngModel)]="commentData.comment" type="text" name="comment"
                placeholder="Write a comment"></ion-input>
   </form>
   <button ion-button (click)="addComment()">Comment</button>
