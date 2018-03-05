@@ -40,7 +40,6 @@ export class FrontPage {
   }
 
   ionViewDidEnter() {
-    console.log('DidEnter');
     const userToken = this.mediaProvider.userHasToken();
     if (userToken) {
       this.mediaProvider.getUserData(userToken).subscribe((result: User) => {

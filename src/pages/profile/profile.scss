@@ -26,14 +26,12 @@
 
 
 
-
   ion-avatar.p-page {
-    width: 90%;
-    height: 90%;
-    border-radius: 50%;
+
 
     img {
-      width: 100%;
+      min-width: 100%;
+      min-height: 100%;
       height: auto;
     }
     .half {

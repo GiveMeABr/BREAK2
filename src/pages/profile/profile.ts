@@ -111,7 +111,6 @@ export class ProfilePage {
       this.mediaProvider.getUserData(this.userToken).subscribe((result: User) => {
         this.mediaProvider.userInfo = result;
         this.userInfo = result;
-        console.log(this.userInfo);
         this.loadMedia();
 
         this.mediaProvider.getAllProfilePics().subscribe(data => {
@@ -122,12 +121,10 @@ export class ProfilePage {
   }
 
   getOwnProfilePic() {
-    console.log('getProfilePic');
     return this.getProfilePic(this.userInfo.user_id);
   }
 
   getProfilePic(id: number) {
-    console.log('getProfilePic');
     this.ownPicArray = this.ppArray.filter(media => media.user_id == id);
     this.newestPicIndex = Object.keys(this.ownPicArray).length - 1;
     if (Object.keys(this.ownPicArray).length > 0) {
