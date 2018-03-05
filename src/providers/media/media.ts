@@ -63,6 +63,13 @@ export class MediaProvider {
     return this.http.post(this.apiUrl + '/media', formData, settings);
   }
 
+  addFavorite(token, id) {
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', token),
+    };
+    return this.http.post(this.apiUrl + '/favourites' + id, settings)
+  }
+
   deleteMedia(token, id){
     const settings = {
       headers: new HttpHeaders().set('x-access-token', token),
