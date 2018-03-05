@@ -99,8 +99,6 @@ export class ProfilePage {
     });
 
     confirmAlert.present();
-
-
   }
 
   ionViewDidEnter() {
@@ -120,9 +118,14 @@ export class ProfilePage {
         this.mediaProvider.getAllProfilePics().subscribe(data => {
           this.ppArray = data;
           this.ppArray = this.ppArray.filter(media => media.user_id == this.userInfo.user_id);
-          console.log(this.ppArray[0]);
-          this.profilePicUrl = this.mediaProvider.mediaUrl + this.ppArray[0].filename;
-          console.log(this.profilePicUrl);
+
+          console.log(this.ppArray);
+
+          if (this.ppArray.length == 1) {
+            this.profilePicUrl = this.mediaProvider.mediaUrl + this.ppArray[0].filename;
+            console.log(this.profilePicUrl);
+          }
+
         });
       });
 
