@@ -28,6 +28,7 @@ export class FrontPage {
   firstOrRefresh = true;
   outOfMedia = false;
   lastLoad = false;
+  mediaLoaded: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public mediaProvider: MediaProvider) {
@@ -35,13 +36,19 @@ export class FrontPage {
 
   doRefresh(refresher) {
     setTimeout(() => {
-      this.firstOrRefresh = true;
-      this.picIndex = 0;
-      this.loadLimit = 10;
-      this.loadMedia();
-      refresher.complete();
+      this.refresh();
     }, 2000);
   }
+
+  refresh() {
+    this.mediaLoaded = false;
+    this.firstOrRefresh = true;
+    this.picIndex = 0;
+    this.loadLimit = 10;
+    console.log('refresh');
+    this.loadMedia();
+  }
+
 
   openSingle(id) {
     this.navCtrl.push(SinglePage, {
@@ -56,7 +63,7 @@ export class FrontPage {
       this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
         this.mediaProvider.userInfo = result;
         this.userInfo = result;
-        this.loadMedia();
+        this.refresh();
       });
     }
 
@@ -90,6 +97,7 @@ export class FrontPage {
   }
 
   loadMedia() {
+    console.log('firstOrRefresh: ', this.firstOrRefresh);
     if (this.firstOrRefresh) {
       this.mediaProvider.getAllMedia().subscribe(data => {
         this.mediaArray = data;
@@ -99,6 +107,7 @@ export class FrontPage {
         this.rowNum = 0; //counter to iterate over the rows in the grid
         this.mediaToGrid();
         this.firstOrRefresh = false;
+        this.mediaLoaded = true;
       });
     } else /* Infinite Scroll */ {
       this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.loadLimit));
