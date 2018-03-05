@@ -122,7 +122,7 @@ export class ProfilePage {
           console.log(this.ppArray);
 
           if (this.ppArray.length == 1) {
-            this.profilePicUrl = this.mediaProvider.mediaUrl + this.ppArray[0].filename;
+            this.profilePicUrl = this.mediaProvider.mediaUrl + this.ppArray[this.ppArray.length() - 1].filename;
             console.log(this.profilePicUrl);
           }
 
