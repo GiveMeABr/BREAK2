@@ -24,6 +24,7 @@ export class SinglePage {
 
   description: string;
 
+  comment:string;
 
   userid: any;
 
@@ -43,20 +44,30 @@ export class SinglePage {
     this.photoViewer.show(this.url, this.title, {share: false});
   }
 
+  addComment(id, comment) {
+    const commentData = {
+      file_id: id,
+      comment: comment
+    };
+    console.log(commentData);
+    this.mediaProvider.postComment(localStorage.getItem('token'), commentData)
+    .subscribe(response => {
+      console.log(response);
+      this.comment = commentData.comment;
+    }, (error: HttpErrorResponse) => {
+      console.log(error);
+    })
+  }
+
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SinglePage');
     console.log(this.navParams.get('mediaID'));
     this.mediaProvider.getSingleMedia(this.navParams.get('mediaID')).
     subscribe(response => {
       console.log(response);
       this.url = this.mediaProvider.mediaUrl + response['filename'];
       this.title = response['title'];
-
       this.userid = response['user_id'];
-
       const userToken = this.mediaProvider.userHasToken();
-
-      console.log(userToken);
 
       this.mediaProvider.getUserDataViaId(userToken, this.userid.toString()).subscribe((result: User) => {
         console.log(result);
