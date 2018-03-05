@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/theming/
 
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -15,8 +14,13 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+.flex-horizontal-aligned {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
-ion-content.feed{
+ion-content.feed {
   display: flex;
   flex-direction: column;
   background-color: $background-color;
@@ -77,24 +81,27 @@ ion-content.feed{
   background-clip: content-box, border-box;
 }
 
-  .logo {
-    width: auto;
-    height: 20px;
-  }
+.logo {
+  width: auto;
+  height: 20px;
+}
 
-  input,
-  p,
-  h1,
-  h2,
-  h3,
-  ion-label,
-  .card-title,
-  .card-text,
-  p.card-ios{
-    color: #FFF;
-  }
+input,
+p,
+h1,
+h2,
+h3,
+ion-label,
+.card-title,
+.card-text,
+p.card-ios {
+  color: #FFF;
+  width: 100%;
+  text-overflow: ellipsis;
+}
 
 .alert-head {
+  h3,
   h2 {
     color: #000;
   }

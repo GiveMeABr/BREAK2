@@ -1,4 +1,12 @@
 
+.card-header-container {
+  justify-content: space-between;
+  .delete-btn {
+    width: 50px;
+    margin: 20px;
+  }
+}
+
 .profile-header {
   display: flex;
   flex-direction: column;
@@ -15,6 +23,8 @@
     padding: 4px;
     margin: 0 0 25px 0;
   }
+
+
 
 
   ion-avatar.p-page {
@@ -37,6 +47,10 @@
   }
 
   ion-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     margin: 0;
 
     h1 {
@@ -48,10 +62,13 @@
     }
   }
 
+
+
   .item-inner,
   .input-wrapper {
-    width: 100vw;
     border: 0 !important;
     padding: 0 !important;
   }
 }
+
+
