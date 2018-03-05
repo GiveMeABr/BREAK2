@@ -11,7 +11,6 @@ import {Geolocation} from '@ionic-native/geolocation';
 import {DomSanitizer} from '@angular/platform-browser';
 
 import {EditorProvider} from '../../providers/editor/editor';
-import {Media} from "../../app/interfaces/media";
 import {TabsPage} from "../tabs/tabs";
 import {App} from "ionic-angular";
 /**
@@ -123,7 +122,7 @@ export class UploadPpPage {
         this.mediaProvider.postTag(tag, localStorage.getItem('token')).subscribe(response => {
           setTimeout(() => {
             this.loading.dismiss();
-            this.navCtrl.setRoot(TabsPage);
+            this.navCtrl.last();
           }, 2000);
         }, (tagError: HttpErrorResponse) => {
           console.log(tagError);
@@ -161,7 +160,7 @@ export class UploadPpPage {
       this.mediaProvider.postTag(tag, localStorage.getItem('token')).subscribe(response => {
         setTimeout(() => {
           this.loading.dismiss();
-          this.app.getRootNav().getActiveChildNav().select(0);
+          this.app.getRootNav().getActiveChildNav().select(2);
           //location.reload();
 
         }, 1000);
