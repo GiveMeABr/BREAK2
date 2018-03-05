@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import {MediaProvider} from '../../providers/media/media';
 import {SinglePage} from "../single/single";
 import {User} from "../../app/interfaces/user";
+import { AlertController } from 'ionic-angular';
 
 /**
  * Generated class for the ProfilePage page.
@@ -29,18 +30,25 @@ export class ProfilePage {
   outOfMedia = false;
   lastLoad = false;
   userToken: any;
+  mediaLoaded = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public mediaProvider: MediaProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public mediaProvider: MediaProvider, private alertCtrl: AlertController) {
   }
 
   doRefresh(refresher) {
     setTimeout(() => {
-      this.firstOrRefresh = true;
-      this.picIndex = 0;
-      this.loadLimit = 10;
-      this.loadMedia();
+      this.refresh();
       refresher.complete();
     }, 2000);
+  }
+
+  refresh() {
+    this.mediaLoaded = false;
+    this.firstOrRefresh = true;
+    this.picIndex = 0;
+    this.loadLimit = 10;
+    this.loadMedia();
   }
 
   openSingle(id) {
@@ -50,21 +58,33 @@ export class ProfilePage {
   }
 
   deleteMedia(id) {
+
+    let alert = this.alertCtrl.create({
+      title: 'Media deleted',
+      buttons: ['OK Cool']
+    });
+
     this.mediaProvider.deleteMedia(this.userToken, id).subscribe(data => {
       console.log(data);
+      this.refresh();
+      alert.present();
     });
   }
 
-  ionViewWillEnter() {
+  ionViewDidEnter() {
+    console.log('DidEnter');
     this.userToken = this.mediaProvider.userHasToken();
+    console.log(this.mediaProvider.userHasToken());
+    console.log(this.userToken);
     if (this.userToken) {
+      console.log('if triggered');
       this.mediaProvider.getUserData(this.userToken).subscribe((result: User) => {
         this.mediaProvider.userInfo = result;
         this.userInfo = result;
         console.log(this.userInfo);
+        this.loadMedia();
       });
     }
-    this.loadMedia();
   }
 
   mediaToGrid() {
@@ -95,21 +115,31 @@ export class ProfilePage {
   }
 
   loadMedia() {
+    console.log('loadMedia');
+    console.log('firstOrRefresh: ', this.firstOrRefresh);
     if (this.firstOrRefresh) {
       this.mediaProvider.getAllMedia().subscribe(data => {
         this.mediaArray = data;
+        console.log('Data: ', data);
+        console.log('MediaArray: ', this.mediaArray);
         this.mediaArray.reverse();
+        console.log('MediaArray: ', this.mediaArray);
+        console.log('userInfo.user_id: ', this.userInfo.user_id);
         this.mediaArray = this.mediaArray.filter(media => media.user_id == this.userInfo.user_id);
+        console.log('MediaArray: ', this.mediaArray);
         this.displayedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
+        console.log('displayedMedia: ', this.displayedMedia);
         this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
         this.rowNum = 0; //counter to iterate over the rows in the grid
         this.mediaToGrid();
         this.firstOrRefresh = false;
+        this.mediaLoaded = true;
       });
     } else /* Infinite Scroll */ {
       this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.loadLimit));
       this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
       this.mediaToGrid();
+      this.mediaLoaded = true;
     }
   }
 

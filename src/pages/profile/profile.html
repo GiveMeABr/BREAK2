@@ -42,7 +42,9 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-grid>
+  <ion-spinner *ngIf="!mediaLoaded"></ion-spinner>
+
+  <ion-grid *ngIf="mediaLoaded">
     <ion-list>
       <ion-row *ngFor="let row of grid">
         <ion-col col-12 col-sm-6 *ngFor="let media of row">
