@@ -1,4 +1,4 @@
 export interface Comment {
-  file_id: number;
+  file_id: string;
   comment: string;
 }

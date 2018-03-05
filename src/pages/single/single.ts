@@ -5,6 +5,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {MapProvider} from '../../providers/map/map';
 import {User} from "../../app/interfaces/user";
+import {Comment} from '../../app/interfaces/comment';
 
 /**
  * Generated class for the SinglePage page.
@@ -24,6 +25,10 @@ export class SinglePage {
 
   description: string;
 
+  commentData: Comment = {
+    file_id: "",
+    comment: ""
+  };
 
   userid: any;
 
@@ -43,16 +48,15 @@ export class SinglePage {
     this.photoViewer.show(this.url, this.title, {share: false});
   }
 
-  addComment(id, comment) {
+  addComment(file_id) {
     const commentData = {
-      file_id: id,
-      comment: comment
+      file_id: file_id,
+      comment: this.comment
     };
     console.log(commentData);
     this.mediaProvider.postComment(localStorage.getItem('token'), commentData)
     .subscribe(response => {
       console.log(response);
-      this.comment = commentData.comment;
     }, (error: HttpErrorResponse) => {
       console.log(error);
     })

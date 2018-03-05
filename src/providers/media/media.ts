@@ -13,16 +13,13 @@ export class MediaProvider {
   @ViewChild('myNav') nav;
 
   logged = false;
-
   userInfo: User;
-
   username: string;
   password: string;
   email: string;
   full_name?: string;
-
+  comment: string;
   available: boolean;
-
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
