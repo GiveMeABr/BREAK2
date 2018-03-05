@@ -25,6 +25,8 @@ export class SinglePage {
 
   description: string;
 
+  comment: string;
+
   commentData: Comment = {
     file_id: "",
     comment: ""
@@ -46,20 +48,6 @@ export class SinglePage {
 
   showImage() {
     this.photoViewer.show(this.url, this.title, {share: false});
-  }
-
-  addComment(file_id) {
-    const commentData = {
-      file_id: file_id,
-      comment: this.comment
-    };
-    console.log(commentData);
-    this.mediaProvider.postComment(localStorage.getItem('token'), commentData)
-    .subscribe(response => {
-      console.log(response);
-    }, (error: HttpErrorResponse) => {
-      console.log(error);
-    })
   }
 
   ionViewDidLoad() {

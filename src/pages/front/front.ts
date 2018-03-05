@@ -57,6 +57,7 @@ export class FrontPage {
     this.navCtrl.push(SinglePage, {
       mediaID: id,
     });
+    localStorage.setItem('file_id', id);
   }
 
   addFavorite(id) {
