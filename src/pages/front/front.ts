@@ -37,6 +37,7 @@ export class FrontPage {
   doRefresh(refresher) {
     setTimeout(() => {
       this.refresh();
+      refresher.complete();
     }, 2000);
   }
 
