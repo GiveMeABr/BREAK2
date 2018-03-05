@@ -38,15 +38,17 @@ export class FrontPage {
   doRefresh(refresher) {
     setTimeout(() => {
       this.refresh();
+      refresher.complete();
     }, 2000);
   }
 
   refresh() {
+    this.outOfMedia = false;
     this.mediaLoaded = false;
+    this.lastLoad = false;
     this.firstOrRefresh = true;
     this.picIndex = 0;
     this.loadLimit = 10;
-    console.log('refresh');
     this.loadMedia();
   }
 
