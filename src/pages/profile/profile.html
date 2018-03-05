@@ -21,13 +21,11 @@
   <ion-item class="profile-header" color="dark">
     <div class="profile-border">
       <ion-avatar class="p-page">
-        <img *ngIf="profilePicUrl" src="{{profilePicUrl}}" alt="TODO: username here"/>
+        <img (click)="changePP()" *ngIf="profilePicUrl" src="{{profilePicUrl}}" alt="TODO: username here"/>
       </ion-avatar>
     </div>
 
     <h1>{{userInfo?.username}}</h1>
-    <button ion-button (click)="changePP()" color="secondary">Change Profile Pic</button>
-    <br>
 
     <div class="container">
 
