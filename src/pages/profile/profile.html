@@ -10,7 +10,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <img class="logo" src="assets/imgs/Logo White.png"  alt="BREAK"/>
+    <img class="logo" src="assets/imgs/Logo White.png" alt="BREAK"/>
   </ion-navbar>
 
 </ion-header>
@@ -49,19 +49,18 @@
       <ion-row *ngFor="let row of grid">
         <ion-col col-12 col-sm-6 *ngFor="let media of row">
           <ion-card class="post" color="dark">
-
-            <ion-item class="post-info" color="dark">
-
-              <div class="info-container">
-                <ion-card-title>{{ media.title }}</ion-card-title>
-                <p>{{media.time_added | date}}</p>
-                <p>3.5</p>
-              </div>
-              <button (click)="deleteMedia(media.file_id)" ion-button small icon-only>
+            <div class="flex-horizontal-aligned card-header-container">
+              <ion-item class="post-info" color="dark">
+                <div class="info-container">
+                  <ion-card-title>{{ media.title }}</ion-card-title>
+                  <p>{{media.time_added | date}}</p>
+                  <p>3.5</p>
+                </div>
+              </ion-item>
+              <button class="delete-btn" (click)="deleteMedia(media.file_id)" ion-button small icon-only>
                 <ion-icon name="trash"></ion-icon>
               </button>
-            </ion-item>
-
+            </div>
 
             <img *ngIf="media.media_type == 'image'" class="card-img-top"
                  [src]="mediaProvider.mediaUrl + (media.filename | thumbnail:'medium')" [alt]="media.title"
