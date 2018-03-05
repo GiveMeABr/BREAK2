@@ -59,16 +59,39 @@ export class ProfilePage {
 
   deleteMedia(id) {
 
-    let alert = this.alertCtrl.create({
-      title: 'Media deleted',
-      buttons: ['OK Cool']
+    let confirmAlert = this.alertCtrl.create({
+      title: 'Delete',
+      message: 'Are you sure you want to delete the post?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.mediaProvider.deleteMedia(this.userToken, id).subscribe(data => {
+              console.log(data);
+              this.refresh();
+              postDeletedAlert.present();
+            });
+          }
+        }
+      ]
     });
 
-    this.mediaProvider.deleteMedia(this.userToken, id).subscribe(data => {
-      console.log(data);
-      this.refresh();
-      alert.present();
+    let postDeletedAlert = this.alertCtrl.create({
+      title: 'Delete',
+      subTitle: 'Post successfully deleted',
+      buttons: ['Dismiss']
     });
+
+    confirmAlert.present();
+
+
   }
 
   ionViewDidEnter() {
