@@ -84,10 +84,19 @@ export class FrontPage {
 
   getUserProfile(id: number) {
     console.log(id);
-    this.mediaProvider.getUserId(id);
-    this.navCtrl.push(ViewProfilePage);
-    //this.app.getRootNav().getActiveChildNav().select(0);
-
+    let userid: number;
+    const userToken = this.mediaProvider.userHasToken();
+    this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
+      this.mediaProvider.userInfo = result;
+      userid = result.user_id;
+      console.log(userid);
+      if (id == userid){
+        this.app.getRootNav().getActiveChildNav().select(2);
+      }else{
+        this.mediaProvider.getUserId(id);
+        this.navCtrl.push(ViewProfilePage);
+      }
+    });
   }
 
 
