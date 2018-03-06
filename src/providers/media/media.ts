@@ -15,6 +15,8 @@ import {User} from "../../app/interfaces/user";
 export class MediaProvider {
   @ViewChild('myNav') nav;
 
+  userId: number;
+
   logged = false;
   userInfo: User;
   username: string;
@@ -68,6 +70,10 @@ export class MediaProvider {
 
   checkUserName(username: string) {
     return this.http.get(this.apiUrl + '/users/username/' + username);
+  }
+
+  getUserId(id){
+    this.userId = id;
   }
 
   // 3. MEDIA --------------------------------------------------------------

@@ -1,29 +1,31 @@
-import {Component} from '@angular/core';
-import {App, NavController, NavParams} from 'ionic-angular';
-import {MediaProvider} from '../../providers/media/media';
-import {SinglePage} from '../single/single';
+import { Component } from '@angular/core';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {UploadPpPage} from "../upload-pp/upload-pp";
+import {SinglePage} from "../single/single";
+import {MediaProvider} from "../../providers/media/media";
 import {User} from "../../app/interfaces/user";
-import {HttpErrorResponse} from '@angular/common/http';
-import {ProfilePage} from "../profile/profile";
-import {ViewProfilePage} from "../view-profile/view-profile";
 
 /**
- * Generated class for the FrontPage page.
+ * Generated class for the ViewProfilePage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
 
+@IonicPage()
 @Component({
-  selector: 'page-front',
-  templateUrl: 'front.html',
+  selector: 'page-view-profile',
+  templateUrl: 'view-profile.html',
 })
-export class FrontPage {
+export class ViewProfilePage {
 
+  userId: any;
+  profilePicUrl: string;
   mediaArray: any;
+  ppArray: any;
   displayedMedia: Array<string>;
   grid: Array<Array<string>>; //array of arrays
-  userInfo: User;
+  userInfo: User = {username: null};
   picIndex = 0;
   items = [];
   loadLimit = 10;
@@ -31,26 +33,28 @@ export class FrontPage {
   firstOrRefresh = true;
   outOfMedia = false;
   lastLoad = false;
-  mediaLoaded: boolean;
-  private ownPicArray: any;
-  private ppArray: any;
-  private newestPicIndex: number;
-  private profilePicUrl: string;
-  private likesNum: number;
+  userToken: any;
+  mediaLoaded = false;
+  newestPicIndex: number;
+  ownPicArray: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private app: App,
-              public mediaProvider: MediaProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public mediaProvider: MediaProvider, private alertCtrl: AlertController) {
   }
-
   ionViewDidEnter() {
-    const userToken = this.mediaProvider.userHasToken();
-    if (userToken) {
-      this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
+    this.userToken = this.mediaProvider.userHasToken();
+    this.userId = this.mediaProvider.userId;
+    console.log(this.userId);
+
+    if (this.userToken) {
+      this.mediaProvider.getUserDataViaId(this.userToken, this.userId.toString()).subscribe((result: User) => {
         this.mediaProvider.userInfo = result;
         this.userInfo = result;
+        this.loadMedia();
+        console.log(this.userId);
+
         this.mediaProvider.getAllProfilePics().subscribe(data => {
           this.ppArray = data;
-          this.refresh();
         });
       });
     }
@@ -73,6 +77,60 @@ export class FrontPage {
     this.loadMedia();
   }
 
+  openSingle(id) {
+    this.navCtrl.push(SinglePage, {
+      mediaID: id,
+    });
+  }
+
+  changePP() {
+    this.navCtrl.push(UploadPpPage);
+  }
+
+  deleteMedia(id) {
+
+    let confirmAlert = this.alertCtrl.create({
+      title: 'Delete',
+      message: 'Are you sure you want to delete the post?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.mediaProvider.deleteMedia(this.userToken, id).subscribe(data => {
+              console.log(data);
+              this.refresh();
+              postDeletedAlert.present();
+            });
+          }
+        }
+      ]
+    });
+
+    let postDeletedAlert = this.alertCtrl.create({
+      title: 'Delete',
+      subTitle: 'Post successfully deleted',
+      buttons: ['Dismiss']
+    });
+
+    confirmAlert.present();
+  }
+
+  getUserId(id){
+
+
+  }
+
+  getOwnProfilePic() {
+    return this.getProfilePic(this.userInfo.user_id);
+  }
+
   getProfilePic(id: number) {
     this.ownPicArray = this.ppArray.filter(media => media.user_id == id);
     this.newestPicIndex = Object.keys(this.ownPicArray).length - 1;
@@ -81,37 +139,6 @@ export class FrontPage {
       return this.profilePicUrl;
     }
   }
-
-  getUserProfile(id: number) {
-    console.log(id);
-    this.mediaProvider.getUserId(id);
-    this.navCtrl.push(ViewProfilePage);
-    //this.app.getRootNav().getActiveChildNav().select(0);
-
-  }
-
-
-  openSingle(id) {
-    this.navCtrl.push(SinglePage, {
-      mediaID: id,
-    });
-    localStorage.setItem('file_id', id);
-  }
-
-  addFavorite(id) {
-    const file_id = {
-      file_id: id
-    };
-    console.log(file_id);
-    this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
-    .subscribe(response => {
-      console.log(response);
-    }, (error: HttpErrorResponse) => {
-      console.log(error)
-    });
-  }
-
-
 
   mediaToGrid() {
     if (this.lastLoad == true) {
@@ -141,11 +168,11 @@ export class FrontPage {
   }
 
   loadMedia() {
-    console.log('firstOrRefresh: ', this.firstOrRefresh);
     if (this.firstOrRefresh) {
       this.mediaProvider.getAllMedia().subscribe(data => {
         this.mediaArray = data;
         this.mediaArray.reverse();
+        this.mediaArray = this.mediaArray.filter(media => media.user_id == this.userInfo.user_id);
         this.displayedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
         this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
         this.rowNum = 0; //counter to iterate over the rows in the grid
@@ -157,6 +184,7 @@ export class FrontPage {
       this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.loadLimit));
       this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
       this.mediaToGrid();
+      this.mediaLoaded = true;
     }
   }
 
@@ -166,15 +194,5 @@ export class FrontPage {
       infiniteScroll.complete();
     }, 500);
   }
-
-  amountOfLikes(id: number) {
-    console.log('amountOfLikes');
-    this.mediaProvider.getListOfLikes(id).subscribe(data => {
-      console.log('amount of likes at post ' , id , ' ', Object.keys(data).length);
-      this.likesNum = Object.keys(data).length;
-    });
-  }
-
-
 
 }

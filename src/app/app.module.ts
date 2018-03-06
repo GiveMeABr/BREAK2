@@ -25,6 +25,7 @@ import {EditorProvider} from '../providers/editor/editor';
 import {TabsPageModule} from "../pages/tabs/tabs.module";
 import {TabsPage} from "../pages/tabs/tabs";
 import {UploadPpPage} from "../pages/upload-pp/upload-pp";
+import {ViewProfilePage} from "../pages/view-profile/view-profile";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {UploadPpPage} from "../pages/upload-pp/upload-pp";
     LogoutPage,
     ProfilePage,
     SinglePage,
-    UploadPpPage
+    UploadPpPage,
+    ViewProfilePage
   ],
   imports: [
     BrowserModule,
@@ -57,7 +59,8 @@ import {UploadPpPage} from "../pages/upload-pp/upload-pp";
     ProfilePage,
     SinglePage,
     TabsPage,
-    UploadPpPage
+    UploadPpPage,
+    ViewProfilePage
   ],
   providers: [
     StatusBar,
@@ -69,7 +72,7 @@ import {UploadPpPage} from "../pages/upload-pp/upload-pp";
     Geolocation,
     File,
     MapProvider,
-    EditorProvider,
+    EditorProvider
   ],
 })
 export class AppModule {
