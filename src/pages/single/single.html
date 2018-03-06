@@ -16,62 +16,73 @@
 
 <ion-content padding>
 
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
 
-  <ion-card color="dark">
-    <ion-card-title>{{title}}</ion-card-title>
-    <img [src]="url">
-    <p class="card-text">{{description}}</p>
-    <p class="card-text">Posted by: {{username}}</p>
-    <ion-card-content>
-      <p *ngIf="message !== ''">{{ message }}</p>
-    </ion-card-content>
-    <ion-row class="buttons-row">
+  <div>
+    <ion-card class="comment" color="dark">
+      <ion-card-title>{{title}}</ion-card-title>
+      <img [src]="url">
+      <p class="card-text">{{description}}</p>
+      <p class="card-text">Posted by: {{username}}</p>
+      <ion-card-content>
+        <p *ngIf="message !== ''">{{ message }}</p>
+      </ion-card-content>
+      <ion-row class="buttons-row">
 
-      <button ion-button icon-left clear small (click)="addFavorite(media.file_id)">
-        <ion-icon name="heart"></ion-icon>
-        {{amountOfLikes}} likes
-      </button>
+        <button ion-button icon-left clear small (click)="addFavorite(media.file_id)">
+          <ion-icon name="heart"></ion-icon>
+          {{amountOfLikes}} likes
+        </button>
 
-      <button ion-button icon-left clear small>
-        <ion-icon name="text"></ion-icon>
-        {{amountOfComments}} Comments
-      </button>
-    </ion-row>
-  </ion-card>
+        <button ion-button icon-left clear small>
+          <ion-icon name="text"></ion-icon>
+          {{amountOfComments}} Comments
+        </button>
+      </ion-row>
+    </ion-card>
 
-  <h1>Comments:</h1>
 
-  <ion-list>
-    <div *ngIf="amountOfComments">
-      <ion-card *ngFor="let comment of commentsArray" class="post" color="dark">
-        <ion-item class="post-info" color="dark">
-          <div class="profile-border">
-            <ion-avatar class="fpage">
-              <img *ngIf="ppArray" [src]="getProfilePic(comment.user_id)" alt="TODO: username here"/>
-              <img *ngIf="!ppArray" src="assets/imgs/nobody_m.original.jpg" alt="TODO: username here"/>
-            </ion-avatar>
-          </div>
-          <div class="info-container">
-            <ion-card-title *ngIf="commenter">{{getUsername(comment.user_id)}}</ion-card-title>
-            <p>{{comment.time_added | date}}</p>
-          </div>
+    <h3>Comments:</h3>
+
+    <ion-list>
+      <div *ngIf="mediaLoaded">
+        <ion-card *ngFor="let comment of commentsArray" class="comment" color="dark">
+          <ion-item class="post-info" color="dark">
+            <div class="profile-border">
+              <ion-avatar class="fpage">
+                <img *ngIf="ppArray" [src]="getProfilePic(comment.user_id)" alt="TODO: username here"/>
+                <img *ngIf="!ppArray" src="assets/imgs/nobody_m.original.jpg" alt="TODO: username here"/>
+              </ion-avatar>
+            </div>
+            <div class="info-container">
+              <p>{{comment.time_added | date}}</p>
+            </div>
+          </ion-item>
+          <ion-card-content>
+            <p class="card-text">{{ comment.comment }}</p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-list>
+
+
+    <div class="form" color="dark">
+      <form id="commentForm">
+        <ion-item>
+          <ion-label color="primary" floating>Write a comment</ion-label>
+          <ion-input [(ngModel)]="commentData.comment" type="text" name="comment"></ion-input>
         </ion-item>
-        <ion-card-content>
-          <p class="card-text">{{ comment.comment }}</p>
-        </ion-card-content>
-      </ion-card>
+      </form>
+      <button ion-button full (click)="addComment()"><ion-icon name="text"></ion-icon></button>
     </div>
-  </ion-list>
-  <form id="commentForm">
-    <ion-input [(ngModel)]="commentData.comment" type="text" name="comment"
-               placeholder="Write a comment"></ion-input>
-  </form>
-  <button ion-button (click)="addComment()">Comment</button>
-  <!--ion-card color="dark">
-    <ion-card-title>Commenter user</ion-card-title>
-    <ion-card-content>
-      <p class="card-text">Comment text</p>
-    </ion-card-content>
-  </ion-card-->
+
+  </div>
 
 </ion-content>

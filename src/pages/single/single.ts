@@ -42,7 +42,9 @@ export class SinglePage {
   private ppArray: any;
   private newestPicIndex: number;
   private profilePicUrl: string;
-  private commenter: Object = {};
+  private commenter: any;
+  commentLoaded: boolean = false;
+  private mediaLoaded: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public mediaProvider: MediaProvider, public mapProvider: MapProvider,
@@ -50,6 +52,17 @@ export class SinglePage {
   }
 
   ionViewDidLoad() {
+    this.refresh();
+  }
+
+  doRefresh(refresher) {
+    setTimeout(() => {
+      this.refresh();
+      refresher.complete();
+    }, 2000);
+  }
+
+  refresh() {
     console.log(this.navParams.get('mediaID'));
     this.mediaProvider.getSingleMedia(this.navParams.get('mediaID')).subscribe(response => {
       console.log(response);
@@ -66,11 +79,10 @@ export class SinglePage {
         this.mediaProvider.getAllProfilePics().subscribe(data => {
           console.log(data);
           this.ppArray = data;
-          this.getLikes(this.file_id);
+          this.getComments(this.file_id);
+
         });
-
       });
-
     });
   }
 
@@ -85,18 +97,11 @@ export class SinglePage {
       .subscribe(response => {
         console.log(response);
         document.forms["commentForm"].reset();
+        this.refresh();
+
       }, (error: HttpErrorResponse) => {
         console.log(error);
       });
-  }
-
-  getLikes(id: number) {
-    this.mediaProvider.getListOfLikes(id).subscribe(data => {
-      console.log(data);
-      this.likesSet = data;
-      this.amountOfLikes = Object.keys(data).length;
-      this.getComments(this.file_id);
-    });
   }
 
   getComments(id: number) {
@@ -104,6 +109,17 @@ export class SinglePage {
       console.log(data);
       this.commentsArray = data;
       this.amountOfComments = Object.keys(data).length;
+      console.log('amountOfComments: ', this.amountOfComments);
+      this.getLikes(this.file_id);
+    });
+  }
+
+  getLikes(id: number) {
+    this.mediaProvider.getListOfLikes(id).subscribe(data => {
+      console.log(data);
+      this.likesSet = data;
+      this.amountOfLikes = Object.keys(data).length;
+      this.mediaLoaded = true;
     });
   }
 
@@ -119,11 +135,8 @@ export class SinglePage {
   getUsername(id: number) {
     this.mediaProvider.getUserDataViaId(localStorage.getItem('token'), id).subscribe(data => {
       this.commenter = data;
-      console.log(this.commenter);
-      console.log(this.commenter[0]);
-      console.log(this.commenter[0].username);
-
-      return this.commenter[0].username;
+      console.log(this.commenter.username);
+      return this.commenter.username;
     })
   }
 
