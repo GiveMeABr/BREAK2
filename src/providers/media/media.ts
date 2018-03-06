@@ -3,10 +3,13 @@ import {Injectable, ViewChild} from '@angular/core';
 import {User} from "../../app/interfaces/user";
 
 /*
-  Generated class for the MediaProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
+  0. TOKEN
+  1. LOGIN
+  2. USER
+  3. MEDIA
+  4. COMMENT
+  5. FAVOURITE
+  6. TAG
 */
 @Injectable()
 export class MediaProvider {
@@ -26,6 +29,12 @@ export class MediaProvider {
   constructor(private http: HttpClient) {
   }
 
+  // 0. TOKEN --------------------------------------------------------------
+  userHasToken() {
+    return localStorage.getItem('token');
+  }
+
+  // 1. LOGIN --------------------------------------------------------------
   login(user) {
     const settings = {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
@@ -37,7 +46,7 @@ export class MediaProvider {
   register(user) {
     return this.http.post(this.apiUrl + '/users', user);
   }
-
+  // 2. USER --------------------------------------------------------------
   getUserData(token) {
     const settings = {
       headers: new HttpHeaders().set('x-access-token', token),
@@ -53,27 +62,16 @@ export class MediaProvider {
     return this.http.get(this.apiUrl + '/users/' + userId, settings);
   }
 
+  checkUserName(username: string) {
+    return this.http.get(this.apiUrl + '/users/username/' + username);
+  }
+
+  // 3. MEDIA --------------------------------------------------------------
   upload(formData, token) {
     const settings = {
       headers: new HttpHeaders().set('x-access-token', token),
     };
     return this.http.post(this.apiUrl + '/media', formData, settings);
-  }
-
-  postFavorite(token, file_id) {
-    const settings = {
-      headers: new HttpHeaders().set('x-access-token', token)
-      //.set('Content-Type', "application/x-www-form-urlencoded")
-    };
-    return this.http.post(this.apiUrl + '/favourites', file_id, settings);
-  }
-
-  postComment(token, commentData) {
-    const settings = {
-      headers: new HttpHeaders().set('x-access-token', token)
-      //.set('Content-Type', "application/x-www-form-urlencoded")
-    };
-    return this.http.post(this.apiUrl + '/comments', commentData, settings)
   }
 
   deleteMedia(token, id) {
@@ -83,14 +81,6 @@ export class MediaProvider {
     return this.http.delete(this.apiUrl + '/media/' + id, settings);
   }
 
-  getAllMedia() {
-    return this.http.get(this.apiUrl + '/tags/break2');
-  }
-
-  getAllProfilePics() {
-    return this.http.get(this.apiUrl + '/tags/break2PP');
-  }
-
   getMoreMedia(fromIndex: any) {
     return this.http.get<Array<string>>(this.apiUrl + '/media', {
       params: {
@@ -98,11 +88,43 @@ export class MediaProvider {
         limit: '20'
       }
     });
-
   }
 
   getSingleMedia(id) {
     return this.http.get<Array<string>>(this.apiUrl + '/media/' + id);
+  }
+
+  // 4. COMMENT --------------------------------------------------------------
+  postComment(token, commentData) {
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', token)
+      //.set('Content-Type', "application/x-www-form-urlencoded")
+    };
+    return this.http.post(this.apiUrl + '/comments', commentData, settings)
+  }
+
+  getCommentsFile(fileId: number) {
+    return this.http.get(this.apiUrl + '/comments/file/' + fileId);
+  }
+  // 5. FAVOURITE --------------------------------------------------------------
+  postFavorite(token, file_id) {
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', token)
+      //.set('Content-Type', "application/x-www-form-urlencoded")
+    };
+    return this.http.post(this.apiUrl + '/favourites', file_id, settings);
+  }
+
+  getListOfLikes(fileId: number) {
+    return this.http.get(this.apiUrl + '/favourites/file/' + fileId);
+  }
+  // 6. TAG --------------------------------------------------------------
+  getAllMedia() {
+    return this.http.get(this.apiUrl + '/tags/break2');
+  }
+
+  getAllProfilePics() {
+    return this.http.get(this.apiUrl + '/tags/break2PP');
   }
 
   postTag(tagAndId, token) {
@@ -125,22 +147,6 @@ export class MediaProvider {
 
   getTagByFile(id) {
     return this.http.get<Array<object>>(this.apiUrl + '/tags/file/' + id);
-  }
-
-  userHasToken() {
-    return localStorage.getItem('token');
-  }
-
-  checkUserName(username: string) {
-    return this.http.get(this.apiUrl + '/users/username/' + username);
-  }
-
-  getListOfLikes(fileId: number) {
-    return this.http.get(this.apiUrl + '/favourites/file/' + fileId);
-  }
-
-  getCommentsFile(fileId: number) {
-    return this.http.get(this.apiUrl + '/comments/file/' + fileId);
   }
 
 }
