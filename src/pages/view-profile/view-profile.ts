@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {UploadPpPage} from "../upload-pp/upload-pp";
 import {SinglePage} from "../single/single";
 import {MediaProvider} from "../../providers/media/media";
 import {User} from "../../app/interfaces/user";
@@ -81,50 +80,6 @@ export class ViewProfilePage {
     this.navCtrl.push(SinglePage, {
       mediaID: id,
     });
-  }
-
-  changePP() {
-    this.navCtrl.push(UploadPpPage);
-  }
-
-  deleteMedia(id) {
-
-    let confirmAlert = this.alertCtrl.create({
-      title: 'Delete',
-      message: 'Are you sure you want to delete the post?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Delete',
-          handler: () => {
-            this.mediaProvider.deleteMedia(this.userToken, id).subscribe(data => {
-              console.log(data);
-              this.refresh();
-              postDeletedAlert.present();
-            });
-          }
-        }
-      ]
-    });
-
-    let postDeletedAlert = this.alertCtrl.create({
-      title: 'Delete',
-      subTitle: 'Post successfully deleted',
-      buttons: ['Dismiss']
-    });
-
-    confirmAlert.present();
-  }
-
-  getUserId(id){
-
-
   }
 
   getOwnProfilePic() {
