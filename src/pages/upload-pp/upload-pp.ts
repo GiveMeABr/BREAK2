@@ -11,7 +11,6 @@ import {Geolocation} from '@ionic-native/geolocation';
 import {DomSanitizer} from '@angular/platform-browser';
 
 import {EditorProvider} from '../../providers/editor/editor';
-import {TabsPage} from "../tabs/tabs";
 import {App} from "ionic-angular";
 /**
  * Generated class for the UploadPpPage page.

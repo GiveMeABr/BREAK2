@@ -25,6 +25,7 @@ import {EditorProvider} from '../providers/editor/editor';
 import {TabsPageModule} from "../pages/tabs/tabs.module";
 import {TabsPage} from "../pages/tabs/tabs";
 import {UploadPpPage} from "../pages/upload-pp/upload-pp";
+import {UploadPpPageModule} from "../pages/upload-pp/upload-pp.module";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import {UploadPpPage} from "../pages/upload-pp/upload-pp";
     LogoutPage,
     ProfilePage,
     SinglePage,
-    UploadPpPage
+
   ],
   imports: [
     BrowserModule,
@@ -45,6 +46,7 @@ import {UploadPpPage} from "../pages/upload-pp/upload-pp";
     PipesModule,
     HttpClientModule,
     TabsPageModule,
+    UploadPpPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
