@@ -32,7 +32,7 @@ export class FrontPage {
   lastLoad = false;
   mediaLoaded: boolean;
   private ownPicArray: any;
-  private ppArray: any;
+  ppArray: any;
   private newestPicIndex: number;
   private profilePicUrl: string;
   private likesNum: number;
