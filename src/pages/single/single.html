@@ -27,6 +27,12 @@
 
   <div>
     <ion-card class="comment" color="dark">
+      <div class="profile-border">
+        <ion-avatar *ngIf="userid" class="fpage">
+          <img *ngIf="ppArray" [src]="getProfilePic(userid)" alt="TODO: username here"/>
+          <img *ngIf="!ppArray" src="assets/imgs/nobody_m.original.jpg" alt="TODO: username here"/>
+        </ion-avatar>
+      </div>
       <ion-card-title>{{title}}</ion-card-title>
       <img [src]="url">
       <p class="card-text">{{description}}</p>

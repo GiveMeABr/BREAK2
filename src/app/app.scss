@@ -40,7 +40,7 @@ ion-content.feed {
       width: 100%;
       display: flex;
       flex-direction: row;
-      justify-content: left;
+      justify-content: right;
       align-items: center;
 
       button {
@@ -85,6 +85,13 @@ ion-content.feed {
   border-radius: 50%;
   background-image: linear-gradient(#222222, #222222), radial-gradient(circle at top left, #7f00ff, #e100ff);
   background-clip: content-box, border-box;
+  ion-avatar {
+    img {
+      min-width: 100%;
+      min-height: 100%;
+      height: auto;
+    }
+  }
 }
 
 .logo {

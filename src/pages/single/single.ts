@@ -43,7 +43,6 @@ export class SinglePage {
   private newestPicIndex: number;
   private profilePicUrl: string;
   private commenter: any;
-  commentLoaded: boolean = false;
   private mediaLoaded: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -63,9 +62,7 @@ export class SinglePage {
   }
 
   refresh() {
-    console.log(this.navParams.get('mediaID'));
     this.mediaProvider.getSingleMedia(this.navParams.get('mediaID')).subscribe(response => {
-      console.log(response);
       this.url = this.mediaProvider.mediaUrl + response['filename'];
       this.title = response['title'];
       this.userid = response['user_id'];
@@ -74,10 +71,9 @@ export class SinglePage {
       const userToken = this.mediaProvider.userHasToken();
 
       this.mediaProvider.getUserDataViaId(userToken, this.userid.toString()).subscribe((result: User) => {
-        console.log(result);
         this.username = result['username'];
+        this.userid= result['user_id'];
         this.mediaProvider.getAllProfilePics().subscribe(data => {
-          console.log(data);
           this.ppArray = data;
           this.getComments(this.file_id);
 
@@ -92,10 +88,8 @@ export class SinglePage {
 
   addComment() {
     this.commentData.file_id = this.file_id;
-    console.log(this.commentData);
     this.mediaProvider.postComment(localStorage.getItem('token'), this.commentData)
       .subscribe(response => {
-        console.log(response);
         document.forms["commentForm"].reset();
         this.refresh();
 
@@ -106,17 +100,14 @@ export class SinglePage {
 
   getComments(id: number) {
     this.mediaProvider.getCommentsFile(id).subscribe(data => {
-      console.log(data);
       this.commentsArray = data;
       this.amountOfComments = Object.keys(data).length;
-      console.log('amountOfComments: ', this.amountOfComments);
       this.getLikes(this.file_id);
     });
   }
 
   getLikes(id: number) {
     this.mediaProvider.getListOfLikes(id).subscribe(data => {
-      console.log(data);
       this.likesSet = data;
       this.amountOfLikes = Object.keys(data).length;
       this.mediaLoaded = true;
@@ -135,7 +126,6 @@ export class SinglePage {
   getUsername(id: number) {
     this.mediaProvider.getUserDataViaId(localStorage.getItem('token'), id).subscribe(data => {
       this.commenter = data;
-      console.log(this.commenter.username);
       return this.commenter.username;
     })
   }
