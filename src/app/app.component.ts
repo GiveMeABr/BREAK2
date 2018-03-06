@@ -12,6 +12,7 @@ import {ProfilePage} from '../pages/profile/profile';
 import {MediaProvider} from '../providers/media/media';
 import {TabsPage} from "../pages/tabs/tabs";
 import {UploadPpPage} from "../pages/upload-pp/upload-pp";
+import {ViewProfilePage} from "../pages/view-profile/view-profile";
 @Component({
   templateUrl: 'app.html'
 })
@@ -36,6 +37,7 @@ export class MyApp {
       {title: 'Logout', component: LogoutPage },
       {title: 'Profile', component: ProfilePage },
       {title: 'UploadPP', component: UploadPpPage },
+      {title: 'viewProfile', component: ViewProfilePage},
       {title: 'Tabs', component: TabsPage}
     ];
 

@@ -31,8 +31,8 @@
 
             <div class="profile-border">
             <ion-avatar class="fpage">
-              <img *ngIf="ppArray" [src]="getProfilePic(media.user_id)" alt="TODO: username here"/>
-              <img *ngIf="!ppArray" src="assets/imgs/nobody_m.original.jpg" alt="TODO: username here"/>
+              <img *ngIf="ppArray" [src]="getProfilePic(media.user_id)" alt="TODO: username here" (click)="getUserProfile(media.user_id)"/>
+              <img *ngIf="!ppArray" src="assets/imgs/nobody_m.original.jpg" alt="TODO: username here" (click)="getUserProfile(media.file_id)"/>
             </ion-avatar>
             </div>
 
