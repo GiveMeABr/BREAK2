@@ -116,6 +116,20 @@ export class SinglePage {
       });
   }
 
+  addFavorite(id) {
+    const file_id = {
+      file_id: id
+    };
+    console.log(file_id);
+    this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
+      .subscribe(response => {
+        console.log(response);
+        this.refresh();
+      }, (error: HttpErrorResponse) => {
+        console.log(error)
+      });
+  }
+
   getComments(id: number) {
     this.mediaProvider.getCommentsFile(id).subscribe(data => {
       this.commentsArray = data;
