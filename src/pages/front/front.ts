@@ -4,7 +4,6 @@ import {MediaProvider} from '../../providers/media/media';
 import {SinglePage} from '../single/single';
 import {User} from "../../app/interfaces/user";
 import {HttpErrorResponse} from '@angular/common/http';
-import {ProfilePage} from "../profile/profile";
 import {ViewProfilePage} from "../view-profile/view-profile";
 
 /**

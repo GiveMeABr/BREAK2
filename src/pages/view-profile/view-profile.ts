@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {SinglePage} from "../single/single";
 import {MediaProvider} from "../../providers/media/media";
 import {User} from "../../app/interfaces/user";
@@ -38,7 +38,7 @@ export class ViewProfilePage {
   ownPicArray: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public mediaProvider: MediaProvider, private alertCtrl: AlertController) {
+              public mediaProvider: MediaProvider) {
   }
   ionViewDidEnter() {
     this.userToken = this.mediaProvider.userHasToken();
