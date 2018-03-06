@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {App, NavController, NavParams} from 'ionic-angular';
 import {MediaProvider} from '../../providers/media/media';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {MapProvider} from '../../providers/map/map';
 import {User} from "../../app/interfaces/user";
 import {Comment} from '../../app/interfaces/comment';
+import {ViewProfilePage} from "../view-profile/view-profile";
 
 /**
  * Generated class for the SinglePage page.
@@ -47,7 +48,7 @@ export class SinglePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public mediaProvider: MediaProvider, public mapProvider: MapProvider,
-              private photoViewer: PhotoViewer) {
+              private photoViewer: PhotoViewer, private app: App,) {
   }
 
   ionViewDidLoad() {
@@ -84,6 +85,23 @@ export class SinglePage {
 
   showImage() {
     this.photoViewer.show(this.url, this.title, {share: false});
+  }
+
+  getUserProfile(id: number) {
+    console.log(id);
+    let userid: number;
+    const userToken = this.mediaProvider.userHasToken();
+    this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
+      this.mediaProvider.userInfo = result;
+      userid = result.user_id;
+      console.log(userid);
+      if (id == userid){
+        this.app.getRootNav().getActiveChildNav().select(2);
+      }else{
+        this.mediaProvider.getUserId(id);
+        this.navCtrl.push(ViewProfilePage);
+      }
+    });
   }
 
   addComment() {
