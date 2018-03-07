@@ -129,6 +129,14 @@ export class MediaProvider {
     return this.http.post(this.apiUrl + '/favourites', file_id, settings);
   }
 
+  deleteFavorite(token, file_id) {
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', token)
+      //.set('Content-Type', "application/x-www-form-urlencoded")
+    };
+    return this.http.delete(this.apiUrl + '/favourites/file/' + file_id, settings);
+  }
+
   getListOfLikes(fileId: number) {
     return this.http.get(this.apiUrl + '/favourites/file/' + fileId);
   }

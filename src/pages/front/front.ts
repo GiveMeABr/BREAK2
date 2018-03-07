@@ -21,9 +21,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 export class FrontPage {
 
   mediaArray: any;
+  likeArray: any;
+  userLikes: any;
   displayedMedia: Array<string>;
   grid: Array<Array<string>>; //array of arrays
   userInfo: User;
+  userid: number;
   picIndex = 0;
   items = [];
   loadLimit = 10;
@@ -53,6 +56,10 @@ export class FrontPage {
           this.ppArray = data;
           this.refresh();
         });
+      });
+      this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
+        this.mediaProvider.userInfo = result;
+        this.userid = result.user_id;
       });
     }
   }
@@ -85,13 +92,11 @@ export class FrontPage {
 
   getUserProfile(id: number) {
     console.log(id);
-    let userid: number;
     const userToken = this.mediaProvider.userHasToken();
     this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
       this.mediaProvider.userInfo = result;
-      userid = result.user_id;
-      console.log(userid);
-      if (id == userid){
+      this.userid = result.user_id;
+      if (id == this.userid){
         this.app.getRootNav().getActiveChildNav().select(2);
       }else{
         this.mediaProvider.getUserId(id);
@@ -108,18 +113,37 @@ export class FrontPage {
     localStorage.setItem('file_id', id);
   }
 
-  addFavorite(id) {
+  clickFavorite(fileId: number) {
     const file_id = {
-      file_id: id
+      file_id: fileId
     };
     console.log(file_id);
-    this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
-    .subscribe(response => {
-      console.log(response);
-    }, (error: HttpErrorResponse) => {
-      console.log(error)
+
+    this.mediaProvider.getListOfLikes(fileId).subscribe(data => {
+      this.likeArray = data;
+      console.log(this.likeArray);
+      this.userLikes = this.likeArray.filter(like => like.user_id == this.userid);
+      console.log(this.userLikes);
+
+      if (this.userLikes.length > 0) {
+        this.mediaProvider.deleteFavorite(localStorage.getItem('token'), fileId)
+        .subscribe(response => {
+          console.log(response);
+        }, (error: HttpErrorResponse) => {
+          console.log(error)
+        });
+      } else {
+        this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
+        .subscribe(response => {
+          console.log(response);
+        }, (error: HttpErrorResponse) => {
+          console.log(error)
+        });
+      }
     });
   }
+
+
 
 
 
