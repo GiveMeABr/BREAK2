@@ -35,16 +35,16 @@ export class SinglePage {
   user: User;
   username: any;
   message = '';
-  private amountOfLikes: number;
+  amountOfLikes: number;
   private likesSet: Object;
-  private commentsArray: Object;
-  private amountOfComments: number;
+  commentsArray: Object;
+  amountOfComments: number;
   private ownPicArray: any;
-  private ppArray: any;
+  ppArray: any;
   private newestPicIndex: number;
   private profilePicUrl: string;
   private commenter: any;
-  private mediaLoaded: boolean;
+  mediaLoaded: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public mediaProvider: MediaProvider, public mapProvider: MapProvider,

@@ -5,6 +5,7 @@ import {SinglePage} from '../single/single';
 import {User} from "../../app/interfaces/user";
 import {HttpErrorResponse} from '@angular/common/http';
 import {ViewProfilePage} from "../view-profile/view-profile";
+import { StatusBar } from '@ionic-native/status-bar';
 
 /**
  * Generated class for the FrontPage page.
@@ -38,10 +39,11 @@ export class FrontPage {
   private likesNum: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private app: App,
-              public mediaProvider: MediaProvider) {
+              public mediaProvider: MediaProvider, private statusBar: StatusBar) {
   }
 
   ionViewDidEnter() {
+    this.statusBar.styleLightContent();
     const userToken = this.mediaProvider.userHasToken();
     if (userToken) {
       this.mediaProvider.getUserData(userToken).subscribe((result: User) => {

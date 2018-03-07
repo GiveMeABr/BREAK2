@@ -5,6 +5,7 @@ import {MediaProvider} from '../../providers/media/media';
 import {HttpErrorResponse} from '@angular/common/http';
 import {TabsPage} from "../tabs/tabs";
 import {RegisterPage} from '../register/register';
+import { StatusBar } from '@ionic-native/status-bar';
 
 /**
  * Generated class for the LoginPage page.
@@ -28,7 +29,8 @@ export class LoginPage {
   splash = true;
   splashViewed = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public mediaProvider: MediaProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+              public mediaProvider: MediaProvider, private statusBar: StatusBar) {
   }
 
   login() {
@@ -47,6 +49,7 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
+    this.statusBar.styleLightContent();
     if (!this.splashViewed) {
       setTimeout(() => this.splash = false, 8000);
       this.splashViewed = true;
