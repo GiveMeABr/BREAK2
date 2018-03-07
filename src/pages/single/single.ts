@@ -45,6 +45,7 @@ export class SinglePage {
   private profilePicUrl: string;
   private commenter: any;
   mediaLoaded: boolean;
+  commentBtnDisabled: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public mediaProvider: MediaProvider, public mapProvider: MapProvider,
@@ -105,12 +106,14 @@ export class SinglePage {
   }
 
   addComment() {
+    this.commentBtnDisabled = true;
     this.commentData.file_id = this.file_id;
     this.mediaProvider.postComment(localStorage.getItem('token'), this.commentData)
       .subscribe(response => {
-        document.forms["commentForm"].reset();
+        this.commentBtnDisabled = false;
         this.refresh();
-
+        document.forms["commentForm"].reset();
+        
       }, (error: HttpErrorResponse) => {
         console.log(error);
       });

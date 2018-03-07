@@ -85,10 +85,12 @@
           <ion-input [(ngModel)]="commentData.comment" type="text" name="comment"></ion-input>
         </ion-item>
       </form>
-      <button ion-button full (click)="addComment()">
-        <ion-icon name="text"></ion-icon>
+      <button *ngIf="!commentBtnDisabled && commentData.comment" class="comment-btn" ion-button full (click)="addComment()">
+        <ion-icon *ngIf="!commentBtnDisabled && commentData.comment" name="text"></ion-icon>
       </button>
+      <ion-spinner *ngIf="commentBtnDisabled" name="circles"></ion-spinner>
     </div>
+    
 
   </div>
 

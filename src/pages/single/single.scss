@@ -1,43 +1,45 @@
 page-single {
-  #map_canvas {
-    height: 200px;
-  }
-
-  h3 {
-    margin-left: 15px;
-    color: #333333;
-    font-size: 1.5rem;
-
-  }
-  .comment {
-    border-radius: 5px;
-    padding: 20px;
-  }
-
-  ion-label {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-.form {
-  border-radius: 5px;
-  padding: 20px;
-  margin: 15px;
-  background-color: #222;
-  ion-item {
-    background-color: #222;
-    padding: 0;
-  }
-  form{
-    margin-bottom: 10px;
-    input{
-      width: 100%;
-      margin: -15px 0 10px 0;
-      border-radius: 15px;
+    #map_canvas {
+        height: 200px;
     }
-    button {
-      margin: 100px;
+    h3 {
+        margin-left: 15px;
+        color: #333333;
+        font-size: 1.5rem;
     }
+    .comment {
+        border-radius: 5px;
+        padding: 20px;
+    }
+    ion-label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .form {
+        border-radius: 5px;
+        padding: 20px;
+        margin: 15px;
+        background-color: #222;
+        ion-item {
+            background-color: #222;
+            padding: 0;
+        }
+        form {
+            margin-bottom: 10px;
+            input {
+                width: 100%;
+                margin: -15px 0 10px 0;
+                border-radius: 15px;
+            }
+            button {
+                margin: 100px;
+            
+        }
+    }
+
   }
-}
+  ion-spinner {
+    width: 100%;
+  }
 }
