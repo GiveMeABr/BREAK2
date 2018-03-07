@@ -48,7 +48,7 @@ import {ViewProfilePageModule} from "../pages/view-profile/view-profile.module";
     HttpClientModule,
     TabsPageModule,
     UploadPpPageModule,
-    ViewProfilePageModule
+    ViewProfilePageModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -1,10 +1,10 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
-import {User} from '../../app/models/user';
-import {MediaProvider} from '../../providers/media/media';
-import {HttpErrorResponse} from '@angular/common/http';
-import {TabsPage} from "../tabs/tabs";
-import {RegisterPage} from '../register/register';
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { User } from '../../app/models/user';
+import { MediaProvider } from '../../providers/media/media';
+import { HttpErrorResponse } from '@angular/common/http';
+import { TabsPage } from "../tabs/tabs";
+import { RegisterPage } from '../register/register';
 import { StatusBar } from '@ionic-native/status-bar';
 
 /**
@@ -29,8 +29,8 @@ export class LoginPage {
   splash = true;
   splashViewed = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
-              public mediaProvider: MediaProvider, private statusBar: StatusBar) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    public mediaProvider: MediaProvider, private statusBar: StatusBar) {
   }
 
   login() {
