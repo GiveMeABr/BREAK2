@@ -160,6 +160,7 @@ export class UploadPpPage {
         setTimeout(() => {
           this.loading.dismiss();
           this.app.getRootNav().getActiveChildNav().select(2);
+          this.uploadClicked = false;
           //location.reload();
 
         }, 1000);
