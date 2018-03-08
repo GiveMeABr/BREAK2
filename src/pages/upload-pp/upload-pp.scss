@@ -1,3 +1,25 @@
 page-upload-pp {
 
+  div.upload-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+   }
+
+  canvas {
+
+    width: 50%;
+  }
+
+  ion-input {
+
+    background-color: dimgrey;
+    padding: 5px 25px;
+    width: 100%;
+    border-radius: 5px;
+
+  }
+
 }
