@@ -36,9 +36,31 @@ export class ProfilePage {
   mediaLoaded = false;
   newestPicIndex: number;
   ownPicArray: any;
+  mediaCount: number;
+  likedPosts: any;
+  likesCount: number;
+  postsStatus: string = 'active';
+  likesStatus: string = 'inactive';
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public mediaProvider: MediaProvider, private alertCtrl: AlertController) {
+  }
+
+  ionViewDidEnter() {
+    this.userToken = this.mediaProvider.userHasToken();
+
+    if (this.userToken) {
+      this.getOwnLikes();
+      this.mediaProvider.getUserData(this.userToken).subscribe((result: User) => {
+        this.mediaProvider.userInfo = result;
+        this.userInfo = result;
+        this.loadMedia();
+
+        this.mediaProvider.getAllProfilePics().subscribe(data => {
+          this.ppArray = data;
+        });
+      });
+    }
   }
 
   doRefresh(refresher) {
@@ -66,6 +88,20 @@ export class ProfilePage {
 
   changePP() {
     this.navCtrl.push(UploadPpPage);
+  }
+
+  postsActive() {
+    if (this.postsStatus == 'inactive') {
+      this.postsStatus = 'active';
+      this.likesStatus = 'inactive';
+    }
+  }
+
+  likesActive(){
+    if(this.likesStatus == 'inactive') {
+      this.likesStatus = 'active';
+      this.postsStatus = 'inactive';
+    }
   }
 
   deleteMedia(id) {
@@ -104,20 +140,10 @@ export class ProfilePage {
   }
 
 
-  ionViewDidEnter() {
-    this.userToken = this.mediaProvider.userHasToken();
+  
 
-    if (this.userToken) {
-      this.mediaProvider.getUserData(this.userToken).subscribe((result: User) => {
-        this.mediaProvider.userInfo = result;
-        this.userInfo = result;
-        this.loadMedia();
+  makeActive() {
 
-        this.mediaProvider.getAllProfilePics().subscribe(data => {
-          this.ppArray = data;
-        });
-      });
-    }
   }
 
   getOwnProfilePic() {
@@ -131,6 +157,13 @@ export class ProfilePage {
       this.profilePicUrl = this.mediaProvider.mediaUrl + this.ownPicArray[this.newestPicIndex].filename;
       return this.profilePicUrl;
     }
+  }
+
+  getOwnLikes() {
+    this.mediaProvider.getYourLikes(this.userToken).subscribe(data => {
+      this.likedPosts = data;
+      this.likesCount = Object.keys(this.likedPosts).length;
+    });
   }
 
   mediaToGrid() {
@@ -166,6 +199,8 @@ export class ProfilePage {
         this.mediaArray = data;
         this.mediaArray.reverse();
         this.mediaArray = this.mediaArray.filter(media => media.user_id == this.userInfo.user_id);
+        this.mediaCount = Object.keys(this.mediaArray).length;
+        console.log(this.mediaCount);
         this.displayedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
         this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
         this.rowNum = 0; //counter to iterate over the rows in the grid

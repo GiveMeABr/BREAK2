@@ -105,6 +105,10 @@ export class MediaProvider {
     return this.http.get<Array<string>>(this.apiUrl + '/media/' + id);
   }
 
+  filesOfUser(id) {
+    return this.http.get<Array<string>>(this.apiUrl + '/media/user/' + id);
+  }
+
   // 4. COMMENT --------------------------------------------------------------
 
   postComment(token, commentData) {
@@ -139,6 +143,14 @@ export class MediaProvider {
 
   getListOfLikes(fileId: number) {
     return this.http.get(this.apiUrl + '/favourites/file/' + fileId);
+  }
+
+  getYourLikes(token) {
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', token)
+      //.set('Content-Type', "application/x-www-form-urlencoded")
+    };
+    return this.http.get(this.apiUrl + '/favourites', settings);
   }
 
   // 6. TAG --------------------------------------------------------------
