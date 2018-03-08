@@ -1,10 +1,10 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
-import {MediaProvider} from '../../providers/media/media';
-import {SinglePage} from "../single/single";
-import {User} from "../../app/interfaces/user";
-import {AlertController} from 'ionic-angular';
-import {UploadPpPage} from "../upload-pp/upload-pp";
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { MediaProvider } from '../../providers/media/media';
+import { SinglePage } from "../single/single";
+import { User } from "../../app/interfaces/user";
+import { AlertController } from 'ionic-angular';
+import { UploadPpPage } from "../upload-pp/upload-pp";
 
 /**
  * Generated class for the ProfilePage page.
@@ -21,10 +21,11 @@ export class ProfilePage {
 
   profilePicUrl: string;
   mediaArray: any;
+  allMediaArray: any; // For finding likes.
   ppArray: any;
   displayedMedia: Array<string>;
   grid: Array<Array<string>>; //array of arrays
-  userInfo: User = {username: null};
+  userInfo: User = { username: null };
   picIndex = 0;
   items = [];
   loadLimit = 10;
@@ -37,13 +38,15 @@ export class ProfilePage {
   newestPicIndex: number;
   ownPicArray: any;
   mediaCount: number;
-  likedPosts: any;
+  likedPosts: Array<Object> = [];
+  userLikes: any;
   likesCount: number;
   postsStatus: string = 'active';
   likesStatus: string = 'inactive';
 
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public mediaProvider: MediaProvider, private alertCtrl: AlertController) {
+    public mediaProvider: MediaProvider, private alertCtrl: AlertController) {
   }
 
   ionViewDidEnter() {
@@ -97,8 +100,8 @@ export class ProfilePage {
     }
   }
 
-  likesActive(){
-    if(this.likesStatus == 'inactive') {
+  likesActive() {
+    if (this.likesStatus == 'inactive') {
       this.likesStatus = 'active';
       this.postsStatus = 'inactive';
     }
@@ -140,7 +143,7 @@ export class ProfilePage {
   }
 
 
-  
+
 
   makeActive() {
 
@@ -161,8 +164,22 @@ export class ProfilePage {
 
   getOwnLikes() {
     this.mediaProvider.getYourLikes(this.userToken).subscribe(data => {
-      this.likedPosts = data;
-      this.likesCount = Object.keys(this.likedPosts).length;
+      this.userLikes = data;
+      console.log('userLikes: ', this.userLikes);
+      this.mediaProvider.getAllMedia().subscribe(data => {
+        this.mediaArray = data;
+        this.mediaArray.reverse();
+
+        for (let like of this.userLikes) {
+          let subject = this.mediaArray.find(media => like.file_id == media.file_id);
+          console.log(subject);
+          if (subject != undefined) {
+            this.likesCount = this.likedPosts.push(subject);
+            console.log('likedPosts: ', this.likedPosts);
+          }
+        }
+
+      });
     });
   }
 
@@ -215,6 +232,32 @@ export class ProfilePage {
       this.mediaLoaded = true;
     }
   }
+
+  loadLikes() {
+    this.mediaProvider.getAllMedia().subscribe(data => {
+      this.mediaArray = data;
+      this.mediaArray.reverse();
+      console.log('userLikes: ', this.userLikes);
+
+      for (let like of this.userLikes) {
+        console.log(this.mediaArray.find(media => like.file_id == media.file_id));
+        this.likedPosts = this.mediaArray.concat(this.mediaArray.find(media => like.file_id == media.file_id));
+      }
+
+      console.log('likedPosts: ', this.likedPosts);
+
+      this.displayedMedia = this.likedPosts.slice(this.picIndex, this.loadLimit);
+      console.log('displayedMedia: ', this.displayedMedia);
+
+      this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
+      this.rowNum = 0; //counter to iterate over the rows in the grid
+      this.mediaToGrid();
+      this.firstOrRefresh = false;
+      this.mediaLoaded = true;
+    });
+
+  }
+
 
   doInfinite(infiniteScroll) {
     setTimeout(() => {
