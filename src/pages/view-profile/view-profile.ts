@@ -100,6 +100,9 @@ export class ViewProfilePage {
       this.outOfMedia = true;
     }
 
+    let remainder = this.mediaArray.length % 10;
+
+
     for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
       this.grid[this.rowNum] = Array(2); //declare two elements per row
       if (this.displayedMedia[i]) { //check file URI exists
@@ -115,9 +118,9 @@ export class ViewProfilePage {
     this.loadLimit = this.picIndex + 10;
 
     // Prevent crashing when the media runs out
-    if (this.loadLimit > this.mediaArray.length) {
+    if (this.loadLimit >= this.mediaArray.length) {
       this.loadLimit = this.mediaArray.length;
-      this.picIndex = this.mediaArray.length;
+      this.picIndex = this.mediaArray.length - remainder;
       this.lastLoad = true;
     }
   }

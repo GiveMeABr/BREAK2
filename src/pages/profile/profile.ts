@@ -38,7 +38,7 @@ export class ProfilePage {
   newestPicIndex: number;
   ownPicArray: any;
   mediaCount: number;
-  likedPosts: Array<Object> = [];
+  likedPosts: Array<string> = [];
   userLikes: any;
   likesCount: number;
   postsStatus: string = 'active';
@@ -50,17 +50,20 @@ export class ProfilePage {
   }
 
   ionViewDidEnter() {
+    this.postsStatus = 'active';
+    this.likesStatus = 'inactive';
+    this.likedPosts = [];
+
     this.userToken = this.mediaProvider.userHasToken();
 
     if (this.userToken) {
-      this.getOwnLikes();
-      this.mediaProvider.getUserData(this.userToken).subscribe((result: User) => {
-        this.mediaProvider.userInfo = result;
-        this.userInfo = result;
-        this.loadMedia();
-
-        this.mediaProvider.getAllProfilePics().subscribe(data => {
-          this.ppArray = data;
+      this.mediaProvider.getAllProfilePics().subscribe(data => {
+        this.ppArray = data;
+        this.getOwnLikes();
+        this.mediaProvider.getUserData(this.userToken).subscribe((result: User) => {
+          this.mediaProvider.userInfo = result;
+          this.userInfo = result;
+          this.loadMedia();
         });
       });
     }
@@ -80,7 +83,17 @@ export class ProfilePage {
     this.firstOrRefresh = true;
     this.picIndex = 0;
     this.loadLimit = 10;
-    this.loadMedia();
+    this.likedPosts = [];
+
+
+    if (this.postsStatus === 'active') {
+      this.loadMedia();
+    } else {
+      this.likesCount = 0;
+      this.loadLikes();
+    }
+
+
   }
 
   openSingle(id) {
@@ -97,6 +110,7 @@ export class ProfilePage {
     if (this.postsStatus == 'inactive') {
       this.postsStatus = 'active';
       this.likesStatus = 'inactive';
+      this.refresh();
     }
   }
 
@@ -104,6 +118,8 @@ export class ProfilePage {
     if (this.likesStatus == 'inactive') {
       this.likesStatus = 'active';
       this.postsStatus = 'inactive';
+      this.firstOrRefresh = true;
+      this.refresh();
     }
   }
 
@@ -143,12 +159,6 @@ export class ProfilePage {
   }
 
 
-
-
-  makeActive() {
-
-  }
-
   getOwnProfilePic() {
     return this.getProfilePic(this.userInfo.user_id);
   }
@@ -165,17 +175,14 @@ export class ProfilePage {
   getOwnLikes() {
     this.mediaProvider.getYourLikes(this.userToken).subscribe(data => {
       this.userLikes = data;
-      console.log('userLikes: ', this.userLikes);
       this.mediaProvider.getAllMedia().subscribe(data => {
         this.mediaArray = data;
         this.mediaArray.reverse();
 
         for (let like of this.userLikes) {
           let subject = this.mediaArray.find(media => like.file_id == media.file_id);
-          console.log(subject);
           if (subject != undefined) {
             this.likesCount = this.likedPosts.push(subject);
-            console.log('likedPosts: ', this.likedPosts);
           }
         }
 
@@ -184,30 +191,60 @@ export class ProfilePage {
   }
 
   mediaToGrid() {
-    if (this.lastLoad == true) {
-      this.outOfMedia = true;
-    }
 
-    for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
-      this.grid[this.rowNum] = Array(2); //declare two elements per row
-      if (this.displayedMedia[i]) { //check file URI exists
-        this.grid[this.rowNum][0] = this.displayedMedia[i]; //insert image
+    console.log('start picIndex : ', this.picIndex);
+    console.log('start loadLimit : ', this.loadLimit);
+
+
+
+    if (!this.outOfMedia) {
+      let displayArray;
+
+      if (this.postsStatus === 'active') {
+        displayArray = this.mediaArray;
+      } else {
+        displayArray = this.likedPosts;
       }
-      if (this.displayedMedia[i + 1]) { //repeat for the second image
-        this.grid[this.rowNum][1] = this.displayedMedia[i + 1];
+
+      console.log('displayArray length: ' ,displayArray.length);
+
+      let remainder = displayArray.length % 10;
+      console.log('Remainder: ' ,remainder);
+
+      for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
+        this.grid[this.rowNum] = Array(2); //declare two elements per row
+        if (this.displayedMedia[i]) { //check file URI exists
+          this.grid[this.rowNum][0] = this.displayedMedia[i]; //insert image
+        }
+        if (this.displayedMedia[i + 1]) { //repeat for the second image
+          this.grid[this.rowNum][1] = this.displayedMedia[i + 1];
+        }
+        this.rowNum++; //go on to the next row
       }
-      this.rowNum++; //go on to the next row
+
+      if (this.lastLoad == true) {
+        this.outOfMedia = true;
+      }
+
+      if (!this.lastLoad) {
+        this.picIndex = this.picIndex + 10;
+        this.loadLimit = this.picIndex + 10;
+
+      }
+
+      // Prevent crashing when the media runs out
+      if (this.loadLimit >= displayArray.length) {
+        
+        this.loadLimit = displayArray.length;
+        console.log('next loadLimit : ', this.loadLimit);
+        this.picIndex = this.loadLimit - remainder;
+        console.log(' next picIndex : ', this.picIndex);
+        this.lastLoad = true;
+      }
     }
 
-    this.picIndex = this.picIndex + 10;
-    this.loadLimit = this.picIndex + 10;
 
-    // Prevent crashing when the media runs out
-    if (this.loadLimit > this.mediaArray.length) {
-      this.loadLimit = this.mediaArray.length;
-      this.picIndex = this.mediaArray.length;
-      this.lastLoad = true;
-    }
+
   }
 
   loadMedia() {
@@ -216,16 +253,19 @@ export class ProfilePage {
         this.mediaArray = data;
         this.mediaArray.reverse();
         this.mediaArray = this.mediaArray.filter(media => media.user_id == this.userInfo.user_id);
+        console.log(this.mediaArray);
         this.mediaCount = Object.keys(this.mediaArray).length;
-        console.log(this.mediaCount);
         this.displayedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
         this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
         this.rowNum = 0; //counter to iterate over the rows in the grid
         this.mediaToGrid();
         this.firstOrRefresh = false;
         this.mediaLoaded = true;
+
+
       });
     } else /* Infinite Scroll */ {
+      this.mediaArray = this.mediaArray.filter(media => media.user_id == this.userInfo.user_id);
       this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.loadLimit));
       this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
       this.mediaToGrid();
@@ -234,36 +274,53 @@ export class ProfilePage {
   }
 
   loadLikes() {
-    this.mediaProvider.getAllMedia().subscribe(data => {
-      this.mediaArray = data;
-      this.mediaArray.reverse();
-      console.log('userLikes: ', this.userLikes);
 
-      for (let like of this.userLikes) {
-        console.log(this.mediaArray.find(media => like.file_id == media.file_id));
-        this.likedPosts = this.mediaArray.concat(this.mediaArray.find(media => like.file_id == media.file_id));
-      }
+    if (this.firstOrRefresh) {
+      this.mediaProvider.getAllMedia().subscribe(data => {
+        this.mediaArray = data;
+        this.mediaArray.reverse();
 
-      console.log('likedPosts: ', this.likedPosts);
+        for (let like of this.userLikes) {
+          let subject = this.mediaArray.find(media => like.file_id == media.file_id);
+          if (subject != undefined) {
+            this.likesCount = this.likedPosts.push(subject);
+          }
+        }
 
-      this.displayedMedia = this.likedPosts.slice(this.picIndex, this.loadLimit);
-      console.log('displayedMedia: ', this.displayedMedia);
+        console.log(this.likedPosts);
+        this.displayedMedia = this.likedPosts.slice(this.picIndex, this.loadLimit);
 
+        this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
+        this.rowNum = 0; //counter to iterate over the rows in the grid
+        this.mediaToGrid();
+        this.firstOrRefresh = false;
+        this.mediaLoaded = true;
+
+      });
+    } else /* Infinite Scroll */ {
+      this.displayedMedia = this.displayedMedia.concat(this.likedPosts.slice(this.picIndex, this.loadLimit));
       this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
-      this.rowNum = 0; //counter to iterate over the rows in the grid
       this.mediaToGrid();
-      this.firstOrRefresh = false;
       this.mediaLoaded = true;
-    });
+    }
+
 
   }
 
 
   doInfinite(infiniteScroll) {
-    setTimeout(() => {
-      this.loadMedia();
-      infiniteScroll.complete();
-    }, 500);
+    if (this.postsStatus === 'active') {
+      setTimeout(() => {
+        this.loadMedia();
+        infiniteScroll.complete();
+      }, 500);
+    } else if (this.likesStatus === 'active') {
+      setTimeout(() => {
+        this.loadLikes();
+        infiniteScroll.complete();
+      }, 500);
+    }
   }
+
 
 }
