@@ -30,7 +30,10 @@ export class SinglePage {
     comment: ""
   };
 
+  likeArray: any;
+  userLikes: any;
   userid: any;
+  current_userid: any;
   file_id: any;
   user: User;
   username: any;
@@ -54,6 +57,14 @@ export class SinglePage {
 
   ionViewDidLoad() {
     this.refresh();
+    const userToken = this.mediaProvider.userHasToken();
+    if (userToken) {
+      this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
+        this.mediaProvider.userInfo = result;
+        this.current_userid = result.user_id;
+        console.log(this.current_userid);
+      });
+    }
   }
 
   doRefresh(refresher) {
@@ -113,7 +124,7 @@ export class SinglePage {
         this.commentBtnDisabled = false;
         this.refresh();
         document.forms["commentForm"].reset();
-        
+
       }, (error: HttpErrorResponse) => {
         console.log(error);
       });
@@ -123,6 +134,7 @@ export class SinglePage {
     const file_id = {
       file_id: id
     };
+
     console.log(file_id);
     this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
       .subscribe(response => {
@@ -131,6 +143,38 @@ export class SinglePage {
       }, (error: HttpErrorResponse) => {
         console.log(error)
       });
+  }
+
+  clickFavorite(fileId: number) {
+    const file_id = {
+      file_id: fileId
+    };
+    console.log(file_id);
+
+    this.mediaProvider.getListOfLikes(fileId).subscribe(data => {
+      this.likeArray = data;
+      console.log(this.likeArray);
+      this.userLikes = this.likeArray.filter(like => like.user_id == this.current_userid);
+      console.log(this.userLikes);
+
+      if (this.userLikes.length > 0) {
+        this.mediaProvider.deleteFavorite(localStorage.getItem('token'), fileId)
+        .subscribe(response => {
+          console.log(response);
+          this.refresh();
+        }, (error: HttpErrorResponse) => {
+          console.log(error)
+        });
+      } else {
+        this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
+        .subscribe(response => {
+          console.log(response);
+          this.refresh();
+        }, (error: HttpErrorResponse) => {
+          console.log(error)
+        });
+      }
+    });
   }
 
   getComments(id: number) {
