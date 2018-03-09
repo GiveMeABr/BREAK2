@@ -1,6 +1,6 @@
 import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
 import {
-  LoadingController, NavController, NavParams,
+  LoadingController, NavController, NavParams, ToastController,
 
 } from 'ionic-angular';
 import {MediaProvider} from '../../providers/media/media';
@@ -52,7 +52,8 @@ export class UploadPage {
               private loadingCtrl: LoadingController,
               private mediaProvider: MediaProvider, private geolocation: Geolocation,
               public sanitizer: DomSanitizer,
-              public editorProvider: EditorProvider, private renderer: Renderer2) {
+              public editorProvider: EditorProvider, private renderer: Renderer2,
+              private toastCtrl: ToastController) {
   }
 
   setFile(evt) {
@@ -101,8 +102,6 @@ export class UploadPage {
       console.error(err);
     });
   }
-
-
 
   upload() {
     this.loading.present();
@@ -179,10 +178,28 @@ export class UploadPage {
       }, (tagError: HttpErrorResponse) => {
         console.log(tagError);
         this.loading.dismiss();
+        this.uploadClicked = false;
+
+        let errorToast = this.toastCtrl.create({
+          message: tagError.error.message.toString(),
+          duration: 3000,
+          position: 'middle'
+        });
+        errorToast.present();
+
       });
     }, (error: HttpErrorResponse) => {
       console.log(error);
       this.loading.dismiss();
+      this.uploadClicked = false;
+
+      let errorToast = this.toastCtrl.create({
+        message: error.error.message.toString(),
+        duration: 3000,
+        position: 'middle'
+      });
+      errorToast.present();
+
     });
   }
 

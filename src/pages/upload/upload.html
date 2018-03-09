@@ -21,10 +21,11 @@
     <br>
     <ion-input [(ngModel)] = "media.description" name="description" placeholder="description"> </ion-input>
     <br>
+    <p>Max filesize: 50 mb</p>
   </form>
 
     <button *ngIf="!uploadClicked" ion-button (click)="uploadFile()">Upload</button>
-    <div *ngIf="uploadClicked">
+    <div class="spin" *ngIf="uploadClicked">
     <ion-spinner name="circles"></ion-spinner>
       <p>Your post is uploading...</p>
     </div>

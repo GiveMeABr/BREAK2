@@ -13,6 +13,10 @@ page-upload-pp {
     width: 50%;
   }
 
+  div.spin{
+    text-align: center;
+  }
+
   ion-input {
 
     background-color: dimgrey;
@@ -20,6 +24,10 @@ page-upload-pp {
     width: 100%;
     border-radius: 5px;
 
+  }
+
+  p {
+    text-align: center;
   }
 
 }
