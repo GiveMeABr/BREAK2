@@ -39,7 +39,7 @@
       </ion-card-content>
       <ion-row class="buttons-row">
 
-        <button ion-button icon-left clear small (click)="addFavorite(file_id)">
+        <button ion-button icon-left clear small (click)="clickFavorite(file_id)">
           <ion-icon name="heart"></ion-icon>
           {{amountOfLikes}} likes
         </button>
@@ -90,7 +90,7 @@
       </button>
       <ion-spinner *ngIf="commentBtnDisabled" name="circles"></ion-spinner>
     </div>
-    
+
 
   </div>
 
