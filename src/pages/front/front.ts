@@ -6,6 +6,7 @@ import {User} from "../../app/interfaces/user";
 import {HttpErrorResponse} from '@angular/common/http';
 import {ViewProfilePage} from "../view-profile/view-profile";
 import { StatusBar } from '@ionic-native/status-bar';
+import { ToastController } from 'ionic-angular';
 
 /**
  * Generated class for the FrontPage page.
@@ -41,8 +42,10 @@ export class FrontPage {
   private profilePicUrl: string;
   private likesNum: number;
 
+  
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private app: App,
-              public mediaProvider: MediaProvider, private statusBar: StatusBar) {
+              public mediaProvider: MediaProvider, private statusBar: StatusBar, private toastCtrl: ToastController) {
   }
 
   ionViewDidEnter() {
@@ -119,6 +122,18 @@ export class FrontPage {
     };
     console.log(file_id);
 
+    let likeToast = this.toastCtrl.create({
+      message: 'Liked',
+      duration: 3000,
+      position: 'top'
+    });
+
+    let dislikeToast = this.toastCtrl.create({
+      message: 'Disliked',
+      duration: 3000,
+      position: 'top'
+    });
+
     this.mediaProvider.getListOfLikes(fileId).subscribe(data => {
       this.likeArray = data;
       console.log(this.likeArray);
@@ -128,6 +143,7 @@ export class FrontPage {
       if (this.userLikes.length > 0) {
         this.mediaProvider.deleteFavorite(localStorage.getItem('token'), fileId)
         .subscribe(response => {
+          dislikeToast.present();
           console.log(response);
         }, (error: HttpErrorResponse) => {
           console.log(error)
@@ -135,6 +151,7 @@ export class FrontPage {
       } else {
         this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
         .subscribe(response => {
+          likeToast.present();
           console.log(response);
         }, (error: HttpErrorResponse) => {
           console.log(error)
