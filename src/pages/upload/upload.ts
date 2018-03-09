@@ -13,7 +13,6 @@ import {EditorProvider} from '../../providers/editor/editor';
 import {Media} from "../../app/interfaces/media";
 import {TabsPage} from "../tabs/tabs";
 import {App} from "ionic-angular";
-import {FileUploadOptions} from "@ionic-native/file-transfer";
 
 /**
  * Generated class for the UploadPage page.
