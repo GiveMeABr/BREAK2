@@ -27,6 +27,7 @@ import {TabsPage} from "../pages/tabs/tabs";
 import {UploadPpPage} from "../pages/upload-pp/upload-pp";
 import {UploadPpPageModule} from "../pages/upload-pp/upload-pp.module";
 import {ViewProfilePageModule} from "../pages/view-profile/view-profile.module";
+import {FileTransfer, FileUploadOptions} from "@ionic-native/file-transfer";
 
 @NgModule({
   declarations: [
