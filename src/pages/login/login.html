@@ -1,50 +1,39 @@
 <div id="custom-overlay" [style.display]="splash ? 'flex': 'none'">
   <div class="flb">
     <div class="Aligner-item Aligner-item--top"></div>
-    <img class="logo-splash" src="assets/imgs/logo white.svg" alt="BREAK"/>
+    <img class="logo-splash" src="assets/imgs/logo white.svg" alt="BREAK" />
     <div class="Aligner-item Aligner-item--bottom"></div>
   </div>
 </div>
 
-<ion-header>
-  <ion-navbar>
-    <img class="logo" src="assets/imgs/Logo White.png"  alt="BREAK"/>
-  </ion-navbar>
-</ion-header>
-
-
 <ion-content padding>
+  <div class="container">
+    <div class="logo-container">
+      <img class="logo" src="assets/imgs/logo white.svg" alt="BREAK" />
+    </div>
+    
+    <div class="form-background">
+        <img class="logo" src="assets/imgs/Logo White.png" alt="BREAK" />
+      <form (submit)="login()">
+        <ion-list>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col col-12 col-sm-6 offset-sm-3>
+          <ion-item>
+              <ion-label color="light" floating>Username</ion-label>
+            <ion-input type="text" [(ngModel)]="user.username" name="username" ></ion-input>
+          </ion-item>
 
-        <form (submit)="login()">
-          <ion-list>
+          <ion-item>
+              <ion-label color="light" floating>Password</ion-label>
+            <ion-input type="password" [(ngModel)]="user.password" name="password" t></ion-input>
+          </ion-item>
 
-            <ion-item>
-              <ion-label fixed>Username</ion-label>
-              <ion-input type="text" [(ngModel)]="user.username" name="username"
-                         placeholder="username"></ion-input>
-            </ion-item>
-
-            <ion-item>
-              <ion-label fixed>Password</ion-label>
-              <ion-input type="password" [(ngModel)]="user.password" name="password"
-                         placeholder="password"></ion-input>
-            </ion-item>
-
-          </ion-list>
+        </ion-list>
 
 
-          <div padding>
-            <button type="submit" ion-button color="primary" block>Sign In</button>
-          </div>
+          <button type="submit" ion-button color="secondary" ion-button round outline>Sign In</button>
 
-        </form>
-        <a (click)="moveToRegister()">Create an account here</a>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
+      </form>
+      <a (click)="moveToRegister()">Create an account here</a>
+    </div>
+  </div>
 </ion-content>

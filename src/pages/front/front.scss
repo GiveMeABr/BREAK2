@@ -1,63 +1,65 @@
-
-video {
-  width: 100%;
-}
-
-audio {
-  display: block;
-}
-
-ion-refresher-content {
-  background: #7F00FF; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #E100FF, #7F00FF); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #E100FF, #7F00FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-
-.scroll-content {
-  border: 0 !important;
-  box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.profile-border {
-  width: 50px;
-  height: 50px;
-  padding: 3px;
-}
-
-ion-item.post-info {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 10px;
+page-front{
+  video {
+    width: 100%;
   }
-
-.info-container {
-  margin-left: 15px;
-  ion-card-title{
-    font-size: 1.7rem;
+  
+  audio {
+    display: block;
   }
-  p {
-    font-size: 1.1rem;
+  
+  ion-refresher-content {
+    background: #7F00FF; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #E100FF, #7F00FF); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #E100FF, #7F00FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   }
-
-}
-
-.edge-of-universe {
-  @extend %flex-center;
-  flex-direction: column;
-  margin-bottom: 30px;
-  p {
-    margin-top: 0;
-    text-align: center;
-    color: #333;
+  
+  .scroll-content {
+    border: 0 !important;
+    box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
-  ion-icon {
+  
+  .profile-border {
+    width: 50px;
+    height: 50px;
+    padding: 3px;
+  }
+  
+  ion-item.post-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    }
+  
+  .info-container {
+    margin-left: 15px;
+    ion-card-title{
+      font-size: 1.7rem;
+    }
+    p {
+      font-size: 1.1rem;
+    }
+  
+  }
+  
+  .edge-of-universe {
     @extend %flex-center;
-    font-size: 3em;
-    color: #333;
+    flex-direction: column;
+    margin-bottom: 30px;
+    p {
+      margin-top: 0;
+      text-align: center;
+      color: #333;
+    }
+    ion-icon {
+      @extend %flex-center;
+      font-size: 3em;
+      color: #333;
+    }
+  
   }
-
+  
+  
 }
-

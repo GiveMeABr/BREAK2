@@ -1,57 +1,115 @@
+$background: #222;
+$input-color: #888;
 page-login {
-    #custom-overlay {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 100000;
-        width: 100%;
-        background-color: #000;
+  .item {
+    border: 0 !important;
+  }
+  .item-inner {
+    border-bottom: 0.55px solid #c8c7cc !important;
+  }
+  .scroll-content {
+    padding: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  #custom-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100000;
+    width: 100%;
+    background-color: #000;
+  }
+  .flb {
+    background: #7f00ff;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #e100ff, #7f00ff);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #e100ff, #7f00ff);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    height: 100%;
+    width: 100%;
+    animation: pulse 1s linear forwards;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  ion-content {
+    background-image: url(/assets/imgs/login.png);
+    background-size: cover;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100vw;
+    height: 100vh;
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 30vh;
+      img {
+        width: 60vw;
+        height: auto;
+      }
     }
-    .flb {
-        background: #7F00FF;
-        /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #E100FF, #7F00FF);
-        /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #E100FF, #7F00FF);
-        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        height: 100%;
-        width: 100%;
-        animation: pulse 1s linear forwards;
+    .form-background {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+      height: 70vh;
+      background-color: $background;
+      .logo {
+        margin-bottom: 20px;
+      } 
+      form {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-    }
-    ion-content {
-        width: 100vw;
-        height: 100vh;
-        background-image: url(/assets/imgs/login.png);
-        background-size: cover
-    }
-    .Aligner-item {
-        max-width: 50%;
-    }
-    .Aligner-item--top {
-        align-self: flex-start;
-    }
-    .Aligner-item--bottom {
-        align-self: flex-end;
-    }
-    #custom-overlay img {
-        display: block;
-        margin: 0 auto;
-        width: 50%;
-        height: auto;
-        animation: animation 3100ms linear infinite both;
-        animation-delay: 1s;
-    }
-    @keyframes pulse {
-        0% {
-            opacity: 0;
+        margin-bottom: 20px;
+      }
+      ion-item {
+        background-color: $background;
+        ion-label,
+        input {
+          width: 100%;
+          color: $input-color;
         }
-        100% {
-            opacity: 1;
-        }
+      }
     }
+  }
+  .Aligner-item {
+    max-width: 50%;
+  }
+  .Aligner-item--top {
+    align-self: flex-start;
+  }
+  .Aligner-item--bottom {
+    align-self: flex-end;
+  }
+  #custom-overlay img {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    height: auto;
+    animation: animation 3100ms linear infinite both;
+    animation-delay: 1s;
+  }
+  @keyframes pulse {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 }
