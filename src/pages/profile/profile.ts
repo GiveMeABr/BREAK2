@@ -194,6 +194,7 @@ export class ProfilePage {
   mediaToGrid() {
     if (!this.outOfMedia) {
       let displayArray;
+      
 
       // Load likes or posts
       if (this.postsStatus === 'active') {
@@ -202,19 +203,27 @@ export class ProfilePage {
         displayArray = this.likedPosts;
       }
 
+      console.log('displayArray: ', displayArray);
+
       // If the user has less than 10 likes or posts
       if (this.firstOrRefresh && this.loadLimit >= displayArray.length) {
+        console.log('this.firstOrRefresh && this.loadLimit >= displayArray.length: ', this.firstOrRefresh && this.loadLimit >= displayArray.length);
         this.lastLoad = true;
+        console.log('this.lastLoad: ', this.lastLoad);
         this.firstOrRefresh = false;
+        console.log('this.firstOrRefresh: ', this.firstOrRefresh);
       }
 
       let remainder = displayArray.length % 10;
+      console.log('remainder: ', remainder);
 
       if (this.loadLimit >= displayArray.length) {
-        displayArray.length;
+        console.log('this.loadLimit >= displayArray.length: ', this.loadLimit >= displayArray.length);
+        this.loadLimit = displayArray.length;
       }
 
       if (displayArray.length % 2 && this.lastLoad) {
+        console.log('displayArray.length % 2 && this.lastLoad: ', displayArray.length % 2 && this.lastLoad);
         for (let i = 0; i < this.displayedMedia.length; i += 1) { //iterate images
           this.grid[this.rowNum] = Array(1); //declare two elements per row
           if (this.displayedMedia[i]) { //check file URI exists
@@ -223,6 +232,7 @@ export class ProfilePage {
           this.rowNum++; //go on to the next row
         }
       } else {
+        console.log('displayArray.length % 2 && this.lastLoad: ', displayArray.length % 2 && this.lastLoad);
         for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
           this.grid[this.rowNum] = Array(2); //declare two elements per row
           if (this.displayedMedia[i]) { //check file URI exists
@@ -236,23 +246,34 @@ export class ProfilePage {
       }
 
       if (this.lastLoad == true) {
+        console.log('this.lastLoad == true: ', this.lastLoad == true);
         this.outOfMedia = true;
+        console.log('this.outOfMedia: ', this.outOfMedia);
       }
 
       if (this.firstOrRefresh && this.loadLimit == displayArray.length) {
+        console.log('this.firstOrRefresh && this.loadLimit == displayArray.length: ', this.firstOrRefresh && this.loadLimit == displayArray.length);
         this.outOfMedia = true;
+        console.log('this.outOfMedia: ', this.outOfMedia);
       }
 
       if (!this.lastLoad) {
         this.picIndex = this.picIndex + 10;
+        console.log('this.picIndex: ', this.picIndex);
         this.loadLimit = this.picIndex + 10;
+        console.log('this.loadLimit: ', this.loadLimit);
       }
 
       // Prevent crashing when the media runs out
       if (this.loadLimit >= displayArray.length) {
+        console.log('this.loadLimit >= displayArray.length: ', this.loadLimit >= displayArray.length);
         this.loadLimit = displayArray.length;
+        console.log('displayArray.length: ', displayArray.length);
+        console.log('this.loadLimit: ', this.loadLimit);
         this.picIndex = this.loadLimit - remainder;
+        console.log('this.picIndex: ', this.picIndex);
         this.lastLoad = true;
+        console.log('this.lastLoad: ', this.lastLoad);
       }
     }
 
@@ -284,29 +305,37 @@ export class ProfilePage {
   loadLikes() {
 
     if (this.firstOrRefresh) {
+      console.log('this.firstOrRefresh: ', this.firstOrRefresh);
       this.mediaProvider.getAllMedia().subscribe(data => {
         this.mediaArray = data;
 
         for (let like of this.userLikes) {
           let subject = this.mediaArray.find(media => like.file_id == media.file_id);
+          console.log('subject: ', subject);
           if (subject != undefined) {
             this.likesCount = this.likedPosts.push(subject);
+            console.log('likesCount: ', this.likesCount);
           }
         }
 
         this.likedPosts.reverse();
+        console.log('likedPosts: ', this.likedPosts);
         this.displayedMedia = this.likedPosts.slice(this.picIndex, this.loadLimit);
         this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
         this.rowNum = 0; //counter to iterate over the rows in the grid
+        console.log('this.displayedMedia: ', this.displayedMedia);
         this.mediaToGrid();
         this.mediaLoaded = true;
+        this.firstOrRefresh = false;
       });
     } else /* Infinite Scroll */ {
+      console.log('this.firstOrRefresh: ', this.firstOrRefresh);
       this.displayedMedia = this.displayedMedia.concat(this.likedPosts.slice(this.picIndex, this.loadLimit));
       this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
+      console.log('this.displayedMedia: ', this.displayedMedia);
       this.mediaToGrid();
       this.mediaLoaded = true;
-      this.firstOrRefresh = false;
+      
     }
 
   }
