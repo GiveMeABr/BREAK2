@@ -21,10 +21,10 @@
       </ion-avatar>
     </div>
     <h1>{{userInfo?.username}}</h1>
-    <div class="container">
-      <button ion-button>Friends</button>
-      <button ion-button color="secondary">Likes</button>
-    </div>
+      <div id="posts">
+        <ion-icon name="images"></ion-icon>
+        <p>{{mediaCount}}</p>
+      </div>
   </ion-item>
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
