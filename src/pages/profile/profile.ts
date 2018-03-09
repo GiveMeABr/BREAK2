@@ -236,7 +236,6 @@ export class ProfilePage {
       if (!this.lastLoad) {
         this.picIndex = this.picIndex + 10;
         this.loadLimit = this.picIndex + 10;
-
       }
 
       // Prevent crashing when the media runs out
@@ -246,8 +245,6 @@ export class ProfilePage {
         this.lastLoad = true;
       }
     }
-
-
 
   }
 
@@ -265,8 +262,6 @@ export class ProfilePage {
         this.mediaToGrid();
         this.firstOrRefresh = false;
         this.mediaLoaded = true;
-
-
       });
     } else /* Infinite Scroll */ {
       this.mediaArray = this.mediaArray.filter(media => media.user_id == this.userInfo.user_id);
@@ -291,16 +286,12 @@ export class ProfilePage {
         }
 
         this.likedPosts.reverse();
-
-        console.log(this.likedPosts);
         this.displayedMedia = this.likedPosts.slice(this.picIndex, this.loadLimit);
-
         this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
         this.rowNum = 0; //counter to iterate over the rows in the grid
         this.mediaToGrid();
         this.firstOrRefresh = false;
         this.mediaLoaded = true;
-
       });
     } else /* Infinite Scroll */ {
       this.displayedMedia = this.displayedMedia.concat(this.likedPosts.slice(this.picIndex, this.loadLimit));
@@ -308,7 +299,6 @@ export class ProfilePage {
       this.mediaToGrid();
       this.mediaLoaded = true;
     }
-
 
   }
 
