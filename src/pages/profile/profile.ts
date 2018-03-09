@@ -46,7 +46,6 @@ export class ProfilePage {
   likesStatus: string = 'inactive';
   likesActiveBoolean: boolean = false;
 
-
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public mediaProvider: MediaProvider, private alertCtrl: AlertController) {
   }
@@ -55,7 +54,6 @@ export class ProfilePage {
     this.postsStatus = 'active';
     this.likesStatus = 'inactive';
     this.likedPosts = [];
-
     this.userToken = this.mediaProvider.userHasToken();
 
     if (this.userToken) {
@@ -69,6 +67,7 @@ export class ProfilePage {
         });
       });
     }
+
   }
 
   doRefresh(refresher) {
@@ -87,14 +86,11 @@ export class ProfilePage {
     this.loadLimit = 10;
     this.likedPosts = [];
 
-
     if (this.postsStatus === 'active') {
       this.loadMedia();
     } else {
-      this.likesCount = 0;
       this.loadLikes();
     }
-
 
   }
 
@@ -146,7 +142,6 @@ export class ProfilePage {
           text: 'Delete',
           handler: () => {
             this.mediaProvider.deleteMedia(this.userToken, id).subscribe(data => {
-              console.log(data);
               this.refresh();
               postDeletedAlert.present();
             });
@@ -200,13 +195,24 @@ export class ProfilePage {
     if (!this.outOfMedia) {
       let displayArray;
 
+      // Load likes or posts
       if (this.postsStatus === 'active') {
         displayArray = this.mediaArray;
       } else {
         displayArray = this.likedPosts;
       }
 
+      // If the user has less than 10 likes or posts
+      if (this.firstOrRefresh && this.loadLimit >= displayArray.length) {
+        this.lastLoad = true;
+        this.firstOrRefresh = false;
+      }
+
       let remainder = displayArray.length % 10;
+
+      if (this.loadLimit >= displayArray.length) {
+        displayArray.length;
+      }
 
       if (displayArray.length % 2 && this.lastLoad) {
         for (let i = 0; i < this.displayedMedia.length; i += 1) { //iterate images
@@ -233,6 +239,10 @@ export class ProfilePage {
         this.outOfMedia = true;
       }
 
+      if (this.firstOrRefresh && this.loadLimit == displayArray.length) {
+        this.outOfMedia = true;
+      }
+
       if (!this.lastLoad) {
         this.picIndex = this.picIndex + 10;
         this.loadLimit = this.picIndex + 10;
@@ -254,7 +264,6 @@ export class ProfilePage {
         this.mediaArray = data;
         this.mediaArray.reverse();
         this.mediaArray = this.mediaArray.filter(media => media.user_id == this.userInfo.user_id);
-        console.log(this.mediaArray);
         this.mediaCount = Object.keys(this.mediaArray).length;
         this.displayedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
         this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
@@ -290,7 +299,6 @@ export class ProfilePage {
         this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
         this.rowNum = 0; //counter to iterate over the rows in the grid
         this.mediaToGrid();
-        this.firstOrRefresh = false;
         this.mediaLoaded = true;
       });
     } else /* Infinite Scroll */ {
@@ -298,10 +306,10 @@ export class ProfilePage {
       this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
       this.mediaToGrid();
       this.mediaLoaded = true;
+      this.firstOrRefresh = false;
     }
 
   }
-
 
   doInfinite(infiniteScroll) {
     if (this.postsStatus === 'active') {
@@ -316,6 +324,5 @@ export class ProfilePage {
       }, 500);
     }
   }
-
 
 }
