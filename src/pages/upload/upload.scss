@@ -9,6 +9,14 @@ page-upload {
     width: 100%;
    }
 
+  p {
+    text-align: center;
+  }
+
+  div.spin{
+    text-align: center;
+  }
+
   canvas {
 
     width: 50%;
@@ -22,4 +30,5 @@ page-upload {
     border-radius: 5px;
 
   }
+
 }
