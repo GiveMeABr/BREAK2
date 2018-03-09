@@ -1,59 +1,57 @@
-page-login {}
-
-#custom-overlay {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100000;
-    width: 100%;
-    background-color: #000;
-}
-
-.flb {
-    background: #7F00FF;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #E100FF, #7F00FF);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #E100FF, #7F00FF);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    height: 100%;
-    width: 100%;
-    animation: pulse 1s linear forwards;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.Aligner-item {
-    max-width: 50%;
-}
-
-.Aligner-item--top {
-    align-self: flex-start;
-}
-
-.Aligner-item--bottom {
-    align-self: flex-end;
-}
-
-#custom-overlay img {
-    display: block;
-    margin: 0 auto;
-    width: 50%;
-    height: auto;
-    animation: animation 3100ms linear infinite both;
-    animation-delay: 1s;
-}
-
-@keyframes pulse {
-    0% {
-        opacity: 0;
+page-login {
+    #custom-overlay {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 100000;
+        width: 100%;
+        background-color: #000;
     }
-    100% {
-        opacity: 1;
-      
+    .flb {
+        background: #7F00FF;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #E100FF, #7F00FF);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #E100FF, #7F00FF);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        height: 100%;
+        width: 100%;
+        animation: pulse 1s linear forwards;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    ion-content {
+        width: 100vw;
+        height: 100vh;
+        background-image: url(/assets/imgs/login.png);
+        background-size: cover
+    }
+    .Aligner-item {
+        max-width: 50%;
+    }
+    .Aligner-item--top {
+        align-self: flex-start;
+    }
+    .Aligner-item--bottom {
+        align-self: flex-end;
+    }
+    #custom-overlay img {
+        display: block;
+        margin: 0 auto;
+        width: 50%;
+        height: auto;
+        animation: animation 3100ms linear infinite both;
+        animation-delay: 1s;
+    }
+    @keyframes pulse {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
     }
 }
