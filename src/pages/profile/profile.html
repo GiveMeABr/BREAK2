@@ -53,7 +53,7 @@
                   <p>3.5</p>
                 </div>
               </ion-item>
-              <button class="delete-btn" (click)="deleteMedia(media.file_id)" ion-button small icon-only>
+              <button *ngIf="postActiveBoolean == true" class="delete-btn" (click)="deleteMedia(media.file_id)" ion-button small icon-only>
                 <ion-icon name="trash"></ion-icon>
               </button>
             </div>
