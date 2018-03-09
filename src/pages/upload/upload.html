@@ -15,7 +15,7 @@
 
   <form id="uploadForm">
     <br>
-    <ion-input type=file name="file" (change)="setFile($event)"></ion-input>
+    <ion-input type=file name="file" accept="image/*,video/*,audio/*" (change)="setFile($event)"></ion-input>
     <br>
     <ion-input [(ngModel)] = "media.title" name="title" placeholder="title" maxlength="20"> </ion-input>
     <br>
