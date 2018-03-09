@@ -36,7 +36,6 @@ export class UploadPage {
   file: any;
   canvas: any;
   uploadClicked = false;
-  options: FileUploadOptions;
 
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
 
@@ -108,7 +107,6 @@ export class UploadPage {
 
   upload() {
     this.loading.present();
-    this.options.chunkedMode = false;
     // convert canvas to blob and upload
     this.canvas.toBlob(blob => {
       // create FormData-object
@@ -150,8 +148,6 @@ export class UploadPage {
 
   uploadFile(){
     this.uploadClicked = true;
-
-    this.options.chunkedMode = false;
     const formData = new FormData();
 
     formData.append('file', this.file);
