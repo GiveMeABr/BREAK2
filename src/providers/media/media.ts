@@ -27,6 +27,7 @@ export class MediaProvider {
   available: boolean;
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
+  splashLoaded: boolean = false;
 
   constructor(private http: HttpClient) {
   }

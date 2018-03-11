@@ -1,4 +1,4 @@
-<div id="custom-overlay" [style.display]="splash ? 'flex': 'none'">
+<div *ngIf="!noSplash" id="custom-overlay" [style.display]="splash ? 'flex': 'none'">
   <div class="flb">
     <div class="Aligner-item Aligner-item--top"></div>
     <img class="logo-splash" src="assets/imgs/logo white.svg" alt="BREAK" />

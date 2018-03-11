@@ -20,6 +20,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 })
 export class LoginPage {
 
+  
   user: User = {
     password: '',
     username: ''
@@ -27,7 +28,7 @@ export class LoginPage {
 
   status: string;
   splash = true;
-  splashViewed = false;
+  noSplash: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public mediaProvider: MediaProvider, private statusBar: StatusBar) {
@@ -45,14 +46,18 @@ export class LoginPage {
   }
 
   moveToRegister() {
-    this.navCtrl.setRoot(RegisterPage);
+    this.navCtrl.push(RegisterPage);
   }
 
   ionViewDidLoad() {
+    console.log('this.mediaProvider.splashLoaded: ', this.mediaProvider.splashLoaded);
     this.statusBar.styleLightContent();
-    if (!this.splashViewed) {
+    if (!this.mediaProvider.splashLoaded) {
       setTimeout(() => this.splash = false, 8000);
-      this.splashViewed = true;
+      this.mediaProvider.splashLoaded = true;
+      console.log('this.mediaProvider.splashLoaded: ', this.mediaProvider.splashLoaded);
+    } else {
+      this.noSplash = true;
     }
 
 
