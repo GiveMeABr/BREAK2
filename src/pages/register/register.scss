@@ -50,12 +50,19 @@ page-register {
         justify-content: center;
         margin-bottom: 20px;
       }
-      ion-item {
+      .item {
         background-color: $background;
+        padding: 0;
+        border-top: 0;
         ion-label,
         input {
           width: 100%;
           color: $input-color;
+        }
+        ion-label {
+          ion-icon{
+            margin-right: 12px;
+          } 
         }
       }
     }
