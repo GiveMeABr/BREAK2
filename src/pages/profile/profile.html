@@ -17,7 +17,7 @@
   <ion-item class="profile-header" color="dark">
     <div (click)="changePP()" class="profile-border">
       <ion-avatar class="p-page">
-        <img *ngIf="ppArray" [src]="getOwnProfilePic()" alt="TODO: username here" />
+        <img *ngIf="ppArray" [src]="getOwnProfilePic()" alt="{{userInfo?.username | uppercase}}" />
       </ion-avatar>
     </div>
     <h1>{{userInfo?.username | uppercase}}</h1>

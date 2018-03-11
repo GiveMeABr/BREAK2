@@ -40,7 +40,7 @@ export class ProfilePage {
   mediaCount: number;
   likedPosts: Array<string> = [];
   userLikes: any;
-  likesCount: number;
+  likesCount: number = 0;
   postsStatus: string = 'active';
   postActiveBoolean: boolean = true;
   likesStatus: string = 'inactive';
