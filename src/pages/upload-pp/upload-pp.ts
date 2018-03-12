@@ -6,8 +6,6 @@ import {
 } from 'ionic-angular';
 import {MediaProvider} from '../../providers/media/media';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Camera, CameraOptions} from '@ionic-native/camera';
-import {Geolocation} from '@ionic-native/geolocation';
 import {DomSanitizer} from '@angular/platform-browser';
 
 import {EditorProvider} from '../../providers/editor/editor';
@@ -42,9 +40,8 @@ export class UploadPpPage {
   });
 
   constructor(public navCtrl: NavController, public navParams: NavParams,  private app: App,
-              private camera: Camera,
               private loadingCtrl: LoadingController,
-              private mediaProvider: MediaProvider, private geolocation: Geolocation,
+              private mediaProvider: MediaProvider,
               public sanitizer: DomSanitizer,
               public editorProvider: EditorProvider, private renderer: Renderer2,
               private toastCtrl: ToastController) {
@@ -55,47 +52,6 @@ export class UploadPpPage {
     this.file = evt.target.files[0];
   }
 
-  captureImage() {
-    const options: CameraOptions = {
-      quality: 50,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation: true,
-    };
-    this.camera.getPicture(options).then((imageData) => {
-      console.log(imageData);
-      /*if (this.platform.is('ios')) {
-        this.url = imageData.replace(/^file:\/\//, '');
-      } else {
-        this.url = imageData;
-      }*/
-      // show selected file:
-
-      // console.log(this.file);
-      this.editorProvider.setElements(this.canvas, this.file);
-      this.imageData = imageData;
-      this.editorProvider.setFile(this.imageData);
-
-      // get location
-      this.geolocation.getCurrentPosition().then((resp) => {
-        // resp.coords.latitude
-        // resp.coords.longitude
-        console.log('get location');
-        console.log(resp);
-        this.latLon = {
-          lat: resp.coords.latitude,
-          lng: resp.coords.longitude,
-        };
-      }).catch((error) => {
-        console.log('Error getting location', error);
-      });
-
-    }, (err) => {
-      // Handle error
-      console.error(err);
-    });
-  }
 
   upload() {
     this.loading.present();
