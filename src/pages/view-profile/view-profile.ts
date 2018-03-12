@@ -1,5 +1,6 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {SinglePage} from "../single/single";
 import {MediaProvider} from "../../providers/media/media";
 import {User} from "../../app/interfaces/user";
@@ -21,9 +22,12 @@ export class ViewProfilePage {
   hasPpic: boolean;
   pPic: string;
   userId: any;
+  current_userId: any;
   profilePicUrl: string;
   mediaArray: any;
   ppArray: any;
+  likeArray: any;
+  userLikes:  any;
   displayedMedia: Array<string>;
   grid: Array<Array<string>>; //array of arrays
   userInfo: User = {username: null};
@@ -41,7 +45,7 @@ export class ViewProfilePage {
   mediaCount: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public mediaProvider: MediaProvider) {
+              public mediaProvider: MediaProvider, private toastCtrl: ToastController) {
   }
   ionViewDidEnter() {
     this.userToken = this.mediaProvider.userHasToken();
@@ -59,6 +63,11 @@ export class ViewProfilePage {
           this.ppArray = data;
           this.getOwnProfilePic();
         });
+      });
+      this.mediaProvider.getUserData(this.userToken).subscribe((result: User) => {
+        this.mediaProvider.userInfo = result;
+        this.current_userId = result.user_id;
+        console.log(this.current_userId);
       });
     }
   }
@@ -83,6 +92,50 @@ export class ViewProfilePage {
   openSingle(id) {
     this.navCtrl.push(SinglePage, {
       mediaID: id,
+    });
+  }
+
+  clickFavorite(fileId: number) {
+    const file_id = {
+      file_id: fileId
+    };
+    console.log(file_id);
+
+    let likeToast = this.toastCtrl.create({
+      message: 'Liked',
+      duration: 3000,
+      position: 'top'
+    });
+
+    let dislikeToast = this.toastCtrl.create({
+      message: 'Disliked',
+      duration: 3000,
+      position: 'top'
+    });
+
+    this.mediaProvider.getListOfLikes(fileId).subscribe(data => {
+      this.likeArray = data;
+      console.log(this.likeArray);
+      this.userLikes = this.likeArray.filter(like => like.user_id == this.current_userId);
+      console.log(this.userLikes);
+
+      if (this.userLikes.length > 0) {
+        this.mediaProvider.deleteFavorite(localStorage.getItem('token'), fileId)
+        .subscribe(response => {
+          dislikeToast.present();
+          console.log(response);
+        }, (error: HttpErrorResponse) => {
+          console.log(error)
+        });
+      } else {
+        this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
+        .subscribe(response => {
+          likeToast.present();
+          console.log(response);
+        }, (error: HttpErrorResponse) => {
+          console.log(error)
+        });
+      }
     });
   }
 
