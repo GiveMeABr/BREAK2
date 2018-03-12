@@ -57,6 +57,7 @@ export class ViewProfilePage {
 
         this.mediaProvider.getAllProfilePics().subscribe(data => {
           this.ppArray = data;
+          this.getOwnProfilePic();
         });
       });
     }
@@ -87,9 +88,9 @@ export class ViewProfilePage {
 
   getOwnProfilePic() {
     this.pPic = this.getProfilePic(this.userInfo.user_id);
+    console.log('this.pPic: ', this.pPic);
     if(this.pPic != undefined) {
     this.hasPpic = true;
-    return this.pPic;
   } else {
     this.hasPpic = false;
   }
