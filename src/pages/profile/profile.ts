@@ -19,6 +19,8 @@ import { UploadPpPage } from "../upload-pp/upload-pp";
 })
 export class ProfilePage {
 
+  hasPpic: boolean;
+  pPic: any;
   profilePicUrl: string;
   mediaArray: any;
   allMediaArray: any; // For finding likes.
@@ -161,8 +163,14 @@ export class ProfilePage {
 
 
   getOwnProfilePic() {
-    return this.getProfilePic(this.userInfo.user_id);
+    this.pPic = this.getProfilePic(this.userInfo.user_id);
+    if(this.pPic != undefined) {
+    this.hasPpic = true;
+    return this.pPic;
+  } else {
+    this.hasPpic = false;
   }
+}
 
   getProfilePic(id: number) {
     this.ownPicArray = this.ppArray.filter(media => media.user_id == id);

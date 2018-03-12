@@ -17,8 +17,8 @@
   <ion-item class="profile-header" color="dark">
     <div class="profile-border">
       <ion-avatar class="p-page">
-        <img *ngIf="ppArray" [src]="getOwnProfilePic()" alt="TODO: username here"/>
-      </ion-avatar>
+        <img *ngIf="hasPpic" [src]="getOwnProfilePic()" alt="{{userInfo?.username | uppercase}}" />
+        <img *ngIf="!hasPpic" src="assets/imgs/nobody_m.original.jpg" alt="{{userInfo?.username | uppercase}}" />      </ion-avatar>
     </div>
     <h1>{{userInfo?.username}}</h1>
       <div id="posts">

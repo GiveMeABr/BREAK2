@@ -18,6 +18,8 @@ import {User} from "../../app/interfaces/user";
 })
 export class ViewProfilePage {
 
+  hasPpic: boolean;
+  pPic: string;
   userId: any;
   profilePicUrl: string;
   mediaArray: any;
@@ -84,7 +86,13 @@ export class ViewProfilePage {
   }
 
   getOwnProfilePic() {
-    return this.getProfilePic(this.userInfo.user_id);
+    this.pPic = this.getProfilePic(this.userInfo.user_id);
+    if(this.pPic != undefined) {
+    this.hasPpic = true;
+    return this.pPic;
+  } else {
+    this.hasPpic = false;
+  }
   }
 
   getProfilePic(id: number) {
