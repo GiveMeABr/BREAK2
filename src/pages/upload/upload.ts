@@ -169,6 +169,7 @@ export class UploadPage {
 
       this.mediaProvider.postTag(tag, localStorage.getItem('token')).subscribe(response => {
         setTimeout(() => {
+          document.forms["uploadForm"].reset();
           this.loading.dismiss();
           this.app.getRootNav().getActiveChildNav().select(0);
           this.uploadClicked = false;
