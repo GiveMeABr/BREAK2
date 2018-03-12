@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {NavController, NavParams, ToastController} from 'ionic-angular';
 import {LoginPage} from '../login/login';
 import {User} from '../../app/interfaces/user';
 import {MediaProvider} from '../../providers/media/media';
@@ -27,8 +27,9 @@ export class RegisterPage {
   };
 
   usrMsg: string;
+  availableStatus: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public mediaProvider: MediaProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public mediaProvider: MediaProvider, private toastCtrl: ToastController) {
   }
 
   moveToLogin(){
@@ -42,9 +43,11 @@ export class RegisterPage {
       console.log('Username available: ' + available);
 
       if (!available == true) {
-        this.usrMsg = 'Username is not available!'
+        this.usrMsg = 'Username is not available!';
+        this.availableStatus = "unavailable";
       } else {
-        this.usrMsg = 'Username is available!'
+        this.usrMsg = 'Username is available!';
+        this.availableStatus = "available";
       }
     });
   }
@@ -68,6 +71,12 @@ export class RegisterPage {
             console.log(error.error.message);
           });
       }, (error: HttpErrorResponse) => {
+      let errorToast = this.toastCtrl.create({
+        message: error.error.message.toString(),
+        duration: 3000,
+        position: 'middle'
+      });
+      errorToast.present();
         console.log(error.error.message);
       });
   }

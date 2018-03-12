@@ -20,7 +20,7 @@
             <ion-input type="text" [(ngModel)]="user.username" name="username" maxlength="20" (change)="isUserAvailable(user.username)"
               required></ion-input>
           </ion-item>
-          <p>{{ usrMsg }}</p>
+          <p  [class]="availableStatus" >{{ usrMsg }}</p>
           <ion-item>
             <ion-label floating>
               <ion-icon name="mail"></ion-icon> Email</ion-label>

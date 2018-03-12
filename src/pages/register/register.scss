@@ -3,6 +3,13 @@ $input-color: #888;
 
 page-register {
 
+  .available{
+    color: #32db64;
+  }
+  .unavailable{
+    color: #f53d3d;
+  }
+
   .scroll-content {
     padding: 0 !important;
     display: flex;
@@ -42,7 +49,7 @@ page-register {
       background-color: $background;
       .logo {
         margin-bottom: 20px;
-      } 
+      }
       form {
         display: flex;
         flex-direction: column;
@@ -62,7 +69,7 @@ page-register {
         ion-label {
           ion-icon{
             margin-right: 12px;
-          } 
+          }
         }
       }
     }
