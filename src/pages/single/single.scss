@@ -1,11 +1,14 @@
 page-single {
 
   .pPic-and-username {
-
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
+    margin-bottom: 20px;
+    padding: 20px 20px 20px 0;
+    border-color: #666;
+    border-width: 2px;
 
     .profile-border {
       width: 50px;
@@ -15,14 +18,20 @@ page-single {
       padding: 3px;
     }
 
-    h1 {
+    h3 {
+      font-size: 1.6rem;
       font-weight: bold;
+      color: #666;
       padding-left: 20px; 
       margin-right: -40px;
     }
 
     
+  }
 
+  ion-card-title {
+    font-weight: bold;
+    font-size: 2rem;
   }
 
   
