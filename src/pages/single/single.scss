@@ -1,5 +1,18 @@
 page-single {
 
+  .profile-border {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    padding: 3px;
+  }
+
+  .info-container {
+    padding-left: 30px;
+  }
+
+
   .pPic-and-username {
     display: flex;
     flex-direction: row;
@@ -10,14 +23,7 @@ page-single {
     border-color: #666;
     border-width: 2px;
 
-    .profile-border {
-      width: 50px;
-      height: 50px;
-      min-width: 50px;
-      min-height: 50px;
-      padding: 3px;
-    }
-
+    
     h3 {
       font-size: 1.6rem;
       font-weight: bold;

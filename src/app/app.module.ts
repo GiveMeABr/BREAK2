@@ -39,6 +39,7 @@ import {ViewProfilePageModule} from "../pages/view-profile/view-profile.module";
     ProfilePage,
     SinglePage,
 
+
   ],
   imports: [
     BrowserModule,
