@@ -18,21 +18,17 @@
     <div class="profile-border">
       <ion-avatar class="p-page">
         <img *ngIf="hasPpic" src="{{pPic}}" alt="{{userInfo?.username | uppercase}}" />
-        <img *ngIf="!hasPpic" src="assets/imgs/nobody_m.original.jpg" alt="{{userInfo?.username | uppercase}}" />      </ion-avatar>
+        <img *ngIf="!hasPpic" src="assets/imgs/nobody_m.original.jpg" alt="{{userInfo?.username | uppercase}}" /> </ion-avatar>
     </div>
     <h1>{{userInfo?.username}}</h1>
-      <div id="posts">
-        <ion-icon name="images"></ion-icon>
-        <p>{{mediaCount}}</p>
-      </div>
+    <div id="posts">
+      <ion-icon name="images"></ion-icon>
+      <p>{{mediaCount}}</p>
+    </div>
   </ion-item>
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      pullingIcon="arrow-dropdown"
-      pullingText="Pull to refresh"
-      refreshingSpinner="circles"
-      refreshingText="Refreshing...">
+    <ion-refresher-content refreshingSpinner="circles">
     </ion-refresher-content>
   </ion-refresher>
 
@@ -53,14 +49,11 @@
               </ion-item>
             </div>
 
-            <img *ngIf="media.media_type == 'image'" class="card-img-top"
-                 [src]="mediaProvider.mediaUrl + (media.filename | thumbnail:'medium')" [alt]="media.title"
-                 (click)="openSingle(media.file_id)">
-            <video *ngIf="media.media_type == 'video'" class="card-img-top"
-                   [src]="mediaProvider.mediaUrl + media.filename" controls
-                   [poster]="mediaProvider.mediaUrl + (media.filename | thumbnail:'medium')"></video>
-            <audio *ngIf="media.media_type == 'audio'" class="card-img-top"
-                   [src]="mediaProvider.mediaUrl + media.filename" controls></audio>
+            <img *ngIf="media.media_type == 'image'" class="card-img-top" [src]="mediaProvider.mediaUrl + (media.filename | thumbnail:'medium')"
+              [alt]="media.title" (click)="openSingle(media.file_id)">
+            <video *ngIf="media.media_type == 'video'" class="card-img-top" [src]="mediaProvider.mediaUrl + media.filename" controls
+              [poster]="mediaProvider.mediaUrl + (media.filename | thumbnail:'medium')"></video>
+            <audio *ngIf="media.media_type == 'audio'" class="card-img-top" [src]="mediaProvider.mediaUrl + media.filename" controls></audio>
 
             <ion-card-content>
               <p class="card-text">{{ media.description }}</p>

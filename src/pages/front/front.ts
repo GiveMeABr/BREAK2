@@ -119,7 +119,6 @@ export class FrontPage {
     const file_id = {
       file_id: fileId
     };
-    console.log(file_id);
 
     let likeToast = this.toastCtrl.create({
       message: 'Liked',
@@ -164,9 +163,7 @@ export class FrontPage {
   mediaToGrid() {
     if (!this.outOfMedia) {
     if (this.lastLoad == true) {
-      console.log('this.lastLoad: ', this.lastLoad);
       this.outOfMedia = true;
-      console.log('this.outOfMedia: ', this.outOfMedia);
     }
 
      // If the user has less than 10 likes or posts
@@ -181,7 +178,6 @@ export class FrontPage {
       this.loadLimit = this.mediaArray.length;
     }
 
-    console.log('this.lastLoad: ', this.lastLoad);
 
 
     if (this.mediaArray.length % 2 && this.lastLoad) {
@@ -231,18 +227,13 @@ export class FrontPage {
     if (this.firstOrRefresh) {
       this.mediaProvider.getAllMedia().subscribe(data => {
         this.mediaArray = data;
-        console.log('this.mediaArray: ', this.mediaArray);
         this.mediaArray.reverse();
-        console.log('this.mediaArray: ', this.mediaArray);
         this.displayedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
-        console.log('this.displayedMedia: ', this.displayedMedia);
         this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
         this.rowNum = 0; //counter to iterate over the rows in the grid
         this.mediaToGrid();
         this.firstOrRefresh = false;
-        console.log('this.firstOrRefresh: ', this.firstOrRefresh);
         this.mediaLoaded = true;
-        console.log('this.mediaLoaded: ', this.mediaLoaded);
       });
     } else /* Infinite Scroll */ {
       this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.loadLimit));
