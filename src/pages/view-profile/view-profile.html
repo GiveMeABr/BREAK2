@@ -68,12 +68,14 @@
 
             <ion-row class="buttons-row">
 
-              <button ion-button icon-left clear small>
+              <button ion-button icon-left clear small (click)="clickFavorite(media.file_id)">
                 <ion-icon name="heart"></ion-icon>
+                Like
               </button>
 
-              <button ion-button icon-left clear small>
+              <button ion-button icon-left clear small (click)="openSingle(media.file_id)">
                 <ion-icon name="text"></ion-icon>
+                Comments
               </button>
             </ion-row>
           </ion-card>
