@@ -24,6 +24,7 @@ export class SinglePage {
   title: string;
   comment: string;
   description: string;
+  mediaType: any;
 
   commentData: Comment = {
     file_id: "",
@@ -78,6 +79,7 @@ export class SinglePage {
     this.mediaProvider.getSingleMedia(this.navParams.get('mediaID')).subscribe(response => {
       this.url = this.mediaProvider.mediaUrl + response['filename'];
       this.title = response['title'];
+      this.mediaType = response['media_type'];
       this.userid = response['user_id'];
       this.file_id = response['file_id'];
       this.description = response['description'];

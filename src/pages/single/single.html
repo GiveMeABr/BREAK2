@@ -33,7 +33,12 @@
         <h3>{{username | uppercase}}</h3>
       </div>
       <ion-card-title>{{title}}</ion-card-title>
-      <img [src]="url">
+      <img *ngIf="mediaType == 'image'" class="card-img-top"
+           [src]="url" [alt]="title">
+      <video *ngIf="mediaType == 'video'" class="card-img-top"
+             [src]="url" controls></video>
+      <audio *ngIf="mediaType == 'audio'" class="card-img-top"
+             [src]="url" controls></audio>
       <p class="card-text">{{description}}</p>
       <ion-card-content>
         <p *ngIf="message !== ''">{{ message }}</p>
