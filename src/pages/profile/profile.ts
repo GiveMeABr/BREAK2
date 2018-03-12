@@ -113,7 +113,6 @@ export class ProfilePage {
     const file_id = {
       file_id: fileId
     };
-    console.log(file_id);
 
     let likeToast = this.toastCtrl.create({
       message: 'Liked',
@@ -129,9 +128,7 @@ export class ProfilePage {
 
     this.mediaProvider.getListOfLikes(fileId).subscribe(data => {
       this.likeArray = data;
-      console.log(this.likeArray);
       this.userLikes = this.likeArray.filter(like => like.user_id == this.userid);
-      console.log(this.userLikes);
 
       if (this.userLikes.length > 0) {
         this.mediaProvider.deleteFavorite(localStorage.getItem('token'), fileId)
@@ -215,7 +212,6 @@ export class ProfilePage {
 
   getOwnProfilePic() {
     this.pPic = this.getProfilePic(this.userInfo.user_id);
-    console.log('this.pPic: ', this.pPic);
     if(this.pPic != undefined) {
     this.hasPpic = true;
   } else {

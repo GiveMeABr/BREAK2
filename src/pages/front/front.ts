@@ -94,7 +94,6 @@ export class FrontPage {
   }
 
   getUserProfile(id: number) {
-    console.log(id);
     const userToken = this.mediaProvider.userHasToken();
     this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
       this.mediaProvider.userInfo = result;
@@ -136,9 +135,7 @@ export class FrontPage {
 
     this.mediaProvider.getListOfLikes(fileId).subscribe(data => {
       this.likeArray = data;
-      console.log(this.likeArray);
       this.userLikes = this.likeArray.filter(like => like.user_id == this.userid);
-      console.log(this.userLikes);
 
       if (this.userLikes.length > 0) {
         this.mediaProvider.deleteFavorite(localStorage.getItem('token'), fileId)
@@ -165,44 +162,87 @@ export class FrontPage {
 
 
   mediaToGrid() {
+    if (!this.outOfMedia) {
     if (this.lastLoad == true) {
+      console.log('this.lastLoad: ', this.lastLoad);
       this.outOfMedia = true;
+      console.log('this.outOfMedia: ', this.outOfMedia);
     }
 
-    for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
-      this.grid[this.rowNum] = Array(2); //declare two elements per row
-      if (this.displayedMedia[i]) { //check file URI exists
-        this.grid[this.rowNum][0] = this.displayedMedia[i]; //insert image
-      }
-      if (this.displayedMedia[i + 1]) { //repeat for the second image
-        this.grid[this.rowNum][1] = this.displayedMedia[i + 1];
-      }
-      this.rowNum++; //go on to the next row
-    }
-
-    this.picIndex = this.picIndex + 10;
-    this.loadLimit = this.picIndex + 10;
-
-    // Prevent crashing when the media runs out
-    if (this.loadLimit > this.mediaArray.length) {
-      this.loadLimit = this.mediaArray.length;
-      this.picIndex = this.mediaArray.length;
+     // If the user has less than 10 likes or posts
+     if (this.firstOrRefresh && this.loadLimit >= this.mediaArray.length) {
       this.lastLoad = true;
+      this.firstOrRefresh = false;
+    }
+
+    let remainder = this.mediaArray.length % 10;
+
+    if (this.loadLimit >= this.mediaArray.length) {
+      this.loadLimit = this.mediaArray.length;
+    }
+
+    console.log('this.lastLoad: ', this.lastLoad);
+
+
+    if (this.mediaArray.length % 2 && this.lastLoad) {
+        for (let i = 0; i < this.displayedMedia.length; i += 1) { //iterate images
+          this.grid[this.rowNum] = Array(1); //declare two elements per row
+          if (this.displayedMedia[i]) { //check file URI exists
+            this.grid[this.rowNum][0] = this.displayedMedia[i]; //insert image
+          }
+          this.rowNum++; //go on to the next row
+        }
+      } else {
+        for (let i = 0; i < this.displayedMedia.length; i += 2) { //iterate images
+          this.grid[this.rowNum] = Array(2); //declare two elements per row
+          if (this.displayedMedia[i]) { //check file URI exists
+            this.grid[this.rowNum][0] = this.displayedMedia[i]; //insert image
+          }
+          if (this.displayedMedia[i + 1]) { //repeat for the second image
+            this.grid[this.rowNum][1] = this.displayedMedia[i + 1];
+          }
+          this.rowNum++; //go on to the next row
+        }
+      }
+
+      if (this.lastLoad == true) {
+        this.outOfMedia = true;
+      }
+
+      if (this.firstOrRefresh && this.loadLimit == this.mediaArray.length) {
+        this.outOfMedia = true;
+      }
+
+      if (!this.lastLoad) {
+        this.picIndex = this.picIndex + 10;
+        this.loadLimit = this.picIndex + 10;
+      }
+
+      // Prevent crashing when the media runs out
+      if (this.loadLimit >= this.mediaArray.length) {
+        this.loadLimit = this.mediaArray.length;
+        this.picIndex = this.loadLimit - remainder;
+        this.lastLoad = true;
+      }
     }
   }
 
   loadMedia() {
-    console.log('firstOrRefresh: ', this.firstOrRefresh);
     if (this.firstOrRefresh) {
       this.mediaProvider.getAllMedia().subscribe(data => {
         this.mediaArray = data;
+        console.log('this.mediaArray: ', this.mediaArray);
         this.mediaArray.reverse();
+        console.log('this.mediaArray: ', this.mediaArray);
         this.displayedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
+        console.log('this.displayedMedia: ', this.displayedMedia);
         this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
         this.rowNum = 0; //counter to iterate over the rows in the grid
         this.mediaToGrid();
         this.firstOrRefresh = false;
+        console.log('this.firstOrRefresh: ', this.firstOrRefresh);
         this.mediaLoaded = true;
+        console.log('this.mediaLoaded: ', this.mediaLoaded);
       });
     } else /* Infinite Scroll */ {
       this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.loadLimit));
@@ -219,9 +259,7 @@ export class FrontPage {
   }
 
   amountOfLikes(id: number) {
-    console.log('amountOfLikes');
     this.mediaProvider.getListOfLikes(id).subscribe(data => {
-      console.log('amount of likes at post ' , id , ' ', Object.keys(data).length);
       this.likesNum = Object.keys(data).length;
     });
   }
