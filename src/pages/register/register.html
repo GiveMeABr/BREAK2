@@ -17,7 +17,7 @@
           <ion-item>
             <ion-label floating>
               <ion-icon name="person"></ion-icon> Username</ion-label>
-            <ion-input type="text" [(ngModel)]="user.username" name="username" (change)="isUserAvailable(user.username)"
+            <ion-input type="text" [(ngModel)]="user.username" name="username" maxlength="20" (change)="isUserAvailable(user.username)"
               required></ion-input>
           </ion-item>
           <p>{{ usrMsg }}</p>
