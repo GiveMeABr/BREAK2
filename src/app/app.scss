@@ -20,6 +20,29 @@
   align-items: center;
 }
 
+ion-refresher-content {
+  background: #7F00FF; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #E100FF, #7F00FF); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #E100FF, #7F00FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.edge-of-universe {
+  @extend %flex-center;
+  flex-direction: column;
+  margin-bottom: 30px;
+  p {
+    margin-top: 0;
+    text-align: center;
+    color: #333;
+  }
+  ion-icon {
+    @extend %flex-center;
+    font-size: 3em;
+    color: #333;
+  }
+
+}
+
 ion-content.feed {
   display: flex;
   flex-direction: column;
