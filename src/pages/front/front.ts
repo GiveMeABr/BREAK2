@@ -44,7 +44,6 @@ export class FrontPage {
   private ownPicArray: any;
   private newestPicIndex: number;
   private profilePicUrl: string;
-  private likesNum: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private app: App,
               public mediaProvider: MediaProvider, private statusBar: StatusBar, private toastCtrl: ToastController) {
