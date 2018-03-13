@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {App, NavController, NavParams} from 'ionic-angular';
 import {MediaProvider} from '../../providers/media/media';
 import {HttpErrorResponse} from '@angular/common/http';
-import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {MapProvider} from '../../providers/map/map';
 import {User} from "../../app/interfaces/user";
 import {Comment} from '../../app/interfaces/comment';
