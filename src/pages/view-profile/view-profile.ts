@@ -6,10 +6,13 @@ import {MediaProvider} from "../../providers/media/media";
 import {User} from "../../app/interfaces/user";
 
 /**
- * Generated class for the ViewProfilePage page.
+ * class ProfilePage:
+ * Authors: Mikael Ahlström, Eero Karvonen, Antti Nyman
  *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * 1. Refreshers
+ * 2. Media info
+ * 3. Getting and displaying media
+ *
  */
 
 @IonicPage()
@@ -44,20 +47,17 @@ export class ViewProfilePage {
   ownPicArray: any;
   mediaCount: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              public mediaProvider: MediaProvider, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public mediaProvider: MediaProvider, private toastCtrl: ToastController) {
   }
   ionViewDidEnter() {
     this.userToken = this.mediaProvider.userHasToken();
     this.userId = this.mediaProvider.userId;
-    console.log(this.userId);
 
     if (this.userToken) {
       this.mediaProvider.getUserDataViaId(this.userToken, this.userId.toString()).subscribe((result: User) => {
         this.mediaProvider.userInfo = result;
         this.userInfo = result;
         this.loadMedia();
-        console.log(this.userId);
 
         this.mediaProvider.getAllProfilePics().subscribe(data => {
           this.ppArray = data;
@@ -67,10 +67,11 @@ export class ViewProfilePage {
       this.mediaProvider.getUserData(this.userToken).subscribe((result: User) => {
         this.mediaProvider.userInfo = result;
         this.current_userId = result.user_id;
-        console.log(this.current_userId);
       });
     }
   }
+
+  // --- 1. Refreshers / Authors: Mikael Ahlström, Eero Karvonen -------------------------------------------------------------------------------
 
   doRefresh(refresher) {
     setTimeout(() => {
@@ -89,6 +90,15 @@ export class ViewProfilePage {
     this.loadMedia();
   }
 
+  doInfinite(infiniteScroll) {
+    setTimeout(() => {
+      this.loadMedia();
+      infiniteScroll.complete();
+    }, 500);
+  }
+
+  // --- 2. Media info / Authors: Eero Karvonen, Antti Nyman ---------------------------------------------------------------------
+
   openSingle(id) {
     this.navCtrl.push(SinglePage, {
       mediaID: id,
@@ -99,7 +109,6 @@ export class ViewProfilePage {
     const file_id = {
       file_id: fileId
     };
-    console.log(file_id);
 
     let likeToast = this.toastCtrl.create({
       message: 'Liked',
@@ -115,33 +124,29 @@ export class ViewProfilePage {
 
     this.mediaProvider.getListOfLikes(fileId).subscribe(data => {
       this.likeArray = data;
-      console.log(this.likeArray);
       this.userLikes = this.likeArray.filter(like => like.user_id == this.current_userId);
-      console.log(this.userLikes);
 
       if (this.userLikes.length > 0) {
         this.mediaProvider.deleteFavorite(localStorage.getItem('token'), fileId)
         .subscribe(response => {
           dislikeToast.present();
-          console.log(response);
         }, (error: HttpErrorResponse) => {
-          console.log(error)
         });
       } else {
         this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
         .subscribe(response => {
           likeToast.present();
-          console.log(response);
         }, (error: HttpErrorResponse) => {
-          console.log(error)
         });
       }
     });
   }
 
+  // --- 3. Getting and displaying media / Authors: Mikael Ahlström, Eero Karvonen -------------------------------------------------
+
+
   getOwnProfilePic() {
     this.pPic = this.getProfilePic(this.userInfo.user_id);
-    console.log('this.pPic: ', this.pPic);
     if(this.pPic != undefined) {
     this.hasPpic = true;
   } else {
@@ -238,12 +243,4 @@ export class ViewProfilePage {
       this.mediaLoaded = true;
     }
   }
-
-  doInfinite(infiniteScroll) {
-    setTimeout(() => {
-      this.loadMedia();
-      infiniteScroll.complete();
-    }, 500);
-  }
-
 }

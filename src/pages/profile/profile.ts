@@ -10,13 +10,13 @@ import { UploadPpPage } from "../upload-pp/upload-pp";
 /**
  * class ProfilePage:
  * Authors: Mikael Ahlström, Eero Karvonen, Antti Nyman
- * 
+ *
  * 1. Refreshers
  * 2. Media info
  * 3. Posts
  * 4. Delete posts
  * 5. Getting and displaying media
- * 
+ *
  */
 
 @Component({
@@ -30,7 +30,6 @@ export class ProfilePage {
   pPic: any;
   profilePicUrl: string;
   mediaArray: any;
-  allMediaArray: any; // For finding likes.
   ppArray: any;
   displayedMedia: Array<string>;
   grid: Array<Array<string>>; //array of arrays
@@ -56,10 +55,8 @@ export class ProfilePage {
   likesStatus: string = 'inactive';
   likesActiveBoolean: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    public mediaProvider: MediaProvider, private alertCtrl: AlertController, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public mediaProvider: MediaProvider, private alertCtrl: AlertController, private toastCtrl: ToastController) {
   }
-
   ionViewDidEnter() {
     this.postsStatus = 'active';
     this.likesStatus = 'inactive';
@@ -107,7 +104,20 @@ export class ProfilePage {
     } else {
       this.loadLikes();
     }
+  }
 
+  doInfinite(infiniteScroll) {
+    if (this.postsStatus === 'active') {
+      setTimeout(() => {
+        this.loadMedia();
+        infiniteScroll.complete();
+      }, 500);
+    } else if (this.likesStatus === 'active') {
+      setTimeout(() => {
+        this.loadLikes();
+        infiniteScroll.complete();
+      }, 500);
+    }
   }
 
    // --- 2. Media info / Authors: Eero Karvonen, Antti Nyman ---------------------------------------------------------------------
@@ -259,7 +269,7 @@ export class ProfilePage {
   mediaToGrid() {
     if (!this.outOfMedia) {
       let displayArray;
-      
+
 
       // Load likes or posts
       if (this.postsStatus === 'active') {
@@ -373,23 +383,6 @@ export class ProfilePage {
       this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
       this.mediaToGrid();
       this.mediaLoaded = true;
-      
-    }
-
-  }
-
-  doInfinite(infiniteScroll) {
-    if (this.postsStatus === 'active') {
-      setTimeout(() => {
-        this.loadMedia();
-        infiniteScroll.complete();
-      }, 500);
-    } else if (this.likesStatus === 'active') {
-      setTimeout(() => {
-        this.loadLikes();
-        infiniteScroll.complete();
-      }, 500);
     }
   }
-
 }
