@@ -8,10 +8,15 @@ import { AlertController } from 'ionic-angular';
 import { UploadPpPage } from "../upload-pp/upload-pp";
 
 /**
- * Generated class for the ProfilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * class ProfilePage:
+ * Authors: Mikael Ahlström, Eero Karvonen, Antti Nyman
+ * 
+ * 1. Refreshers
+ * 2. Media info
+ * 3. Posts
+ * 4. Delete posts
+ * 5. Getting and displaying media
+ * 
  */
 
 @Component({
@@ -79,6 +84,8 @@ export class ProfilePage {
     }
   }
 
+    // --- 1. Refreshers / Authors: Mikael Ahlström, Eero Karvonen -------------------------------------------------------------------------------
+
   doRefresh(refresher) {
     setTimeout(() => {
       this.refresh();
@@ -102,6 +109,8 @@ export class ProfilePage {
     }
 
   }
+
+   // --- 2. Media info / Authors: Eero Karvonen, Antti Nyman ---------------------------------------------------------------------
 
   openSingle(id) {
     this.navCtrl.push(SinglePage, {
@@ -134,17 +143,13 @@ export class ProfilePage {
         this.mediaProvider.deleteFavorite(localStorage.getItem('token'), fileId)
         .subscribe(response => {
           dislikeToast.present();
-          console.log(response);
         }, (error: HttpErrorResponse) => {
-          console.log(error)
         });
       } else {
         this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
         .subscribe(response => {
           likeToast.present();
-          console.log(response);
         }, (error: HttpErrorResponse) => {
-          console.log(error)
         });
       }
     });
@@ -153,6 +158,8 @@ export class ProfilePage {
   changePP() {
     this.navCtrl.push(UploadPpPage);
   }
+
+     // --- 3. Posts / Likes tabs / Authors: Mikael Ahlström ---------------------------------------------------------------------
 
   postsActive() {
     if (this.postsStatus == 'inactive') {
@@ -175,6 +182,8 @@ export class ProfilePage {
     }
   }
 
+     // --- 4. Delete own posts / Authors: Mikael Ahlström ---------------------------------------------------------------------
+
   deleteMedia(id) {
 
     let confirmAlert = this.alertCtrl.create({
@@ -185,7 +194,6 @@ export class ProfilePage {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
           }
         },
         {
@@ -218,6 +226,8 @@ export class ProfilePage {
     this.hasPpic = false;
   }
 }
+
+  // --- 5. Getting and displaying media / Authors: Mikael Ahlström, Eero Karvonen -------------------------------------------------
 
   getProfilePic(id: number) {
     this.ownPicArray = this.ppArray.filter(media => media.user_id == id);

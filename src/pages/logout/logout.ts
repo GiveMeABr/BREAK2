@@ -4,10 +4,12 @@ import {LoginPage} from '../login/login';
 import {TabsPage} from '../tabs/tabs';
 
 /**
- * Generated class for the LogoutPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * class LogoutPage:
+ * Authors: Antti Nyman
+ * 
+ * 1. Back to home navigation
+ * 2. Logout functionality
+ * 
  */
 
 @Component({
@@ -16,9 +18,12 @@ import {TabsPage} from '../tabs/tabs';
 })
 export class LogoutPage {
 
+        // --- 1. Back to home navigation / Authors: Antti Nyman -------------------------------------------------------------------------------
+
   moveToFront(){
     this.navCtrl.setRoot(TabsPage);
   }
+      // --- 2. Logout functionality / Authors: Antti Nyman -------------------------------------------------------------------------------
 
   logout(){
     localStorage.clear();
@@ -29,7 +34,6 @@ export class LogoutPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LogoutPage');
   }
 
 }

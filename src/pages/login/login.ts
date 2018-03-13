@@ -8,10 +8,12 @@ import { RegisterPage } from '../register/register';
 import { StatusBar } from '@ionic-native/status-bar';
 
 /**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * class LoginPage:
+ * Authors: Mikael Ahlström, Antti Nyman
+ * 
+ * 1. Login feature
+ * 2. Login to Register navigation
+ * 
  */
 
 @Component({
@@ -34,41 +36,39 @@ export class LoginPage {
     public mediaProvider: MediaProvider, private statusBar: StatusBar) {
   }
 
+    // --- 1. Login feature / Authors: Mikael Ahlström, Antti Nyman -------------------------------------------------------------------------------
+
   login() {
     this.mediaProvider.login(this.user).subscribe(response => {
       localStorage.setItem('token', response['token']);
       this.navCtrl.setRoot(TabsPage);
       this.mediaProvider.logged = true;
     }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
       this.status = error.error.message;
     });
   }
+
+      // --- 2. Login to Register navigation / Authors: Antti Nyman -------------------------------------------------------------------------------
 
   moveToRegister() {
     this.navCtrl.push(RegisterPage);
   }
 
   ionViewDidLoad() {
-    console.log('this.mediaProvider.splashLoaded: ', this.mediaProvider.splashLoaded);
     this.statusBar.styleLightContent();
     if (!this.mediaProvider.splashLoaded) {
       setTimeout(() => this.splash = false, 8000);
       this.mediaProvider.splashLoaded = true;
-      console.log('this.mediaProvider.splashLoaded: ', this.mediaProvider.splashLoaded);
     } else {
       this.noSplash = true;
     }
-
 
     if (localStorage.getItem('token') !== null) {
       this.mediaProvider.getUserData(localStorage.getItem('token')).subscribe(response => {
         setTimeout(() => this.navCtrl.setRoot(TabsPage), 5000);
         this.mediaProvider.logged = true;
       }, (error: HttpErrorResponse) => {
-        console.log(error);
       });
     }
   }
-
 }
