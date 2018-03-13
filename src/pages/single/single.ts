@@ -9,10 +9,15 @@ import {Comment} from '../../app/interfaces/comment';
 import {ViewProfilePage} from "../view-profile/view-profile";
 
 /**
- * Generated class for the SinglePage page.
+ * class SinglePage:
+ * Authors: Mikael Ahlström, Eero Karvonen, Antti Nyman
  *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * 1. Refreshers
+ * 2. User profile getter
+ * 3. Comments
+ * 4. Getting and displaying media
+ * 5. Add favorite
+ * 6. Getters (Comments, likes profile pics)
  */
 
 @Component({
@@ -47,13 +52,11 @@ export class SinglePage {
   ppArray: any;
   private newestPicIndex: number;
   private profilePicUrl: string;
-  private commenter: any;
   mediaLoaded: boolean;
   commentBtnDisabled: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public mediaProvider: MediaProvider, public mapProvider: MapProvider,
-              private photoViewer: PhotoViewer, private app: App,) {
+              public mediaProvider: MediaProvider, public mapProvider: MapProvider, private app: App,) {
   }
 
   ionViewDidLoad() {
@@ -63,10 +66,11 @@ export class SinglePage {
       this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
         this.mediaProvider.userInfo = result;
         this.current_userid = result.user_id;
-        console.log(this.current_userid);
       });
     }
   }
+
+  // --- 1. Refreshers / Authors: Mikael Ahlström, Eero Karvonen -------------------------------------------------------------------------------
 
   doRefresh(refresher) {
     setTimeout(() => {
@@ -97,9 +101,7 @@ export class SinglePage {
     });
   }
 
-  showImage() {
-    this.photoViewer.show(this.url, this.title, {share: false});
-  }
+  // --- 2. User profile getter / Authors: Eero Karvonen -------------------------------------------------------------------------------
 
   getUserProfile(id: number) {
     console.log(id);
@@ -108,7 +110,6 @@ export class SinglePage {
     this.mediaProvider.getUserData(userToken).subscribe((result: User) => {
       this.mediaProvider.userInfo = result;
       userid = result.user_id;
-      console.log(userid);
       if (id == userid){
         this.app.getRootNav().getActiveChildNav().select(2);
       }else{
@@ -117,6 +118,8 @@ export class SinglePage {
       }
     });
   }
+
+  // --- 3. Comments / Authors: Mikael Ahlström, Antti Nyman -------------------------------------------------------------------------------
 
   addComment() {
     this.commentBtnDisabled = true;
@@ -128,56 +131,37 @@ export class SinglePage {
         document.forms["commentForm"].reset();
 
       }, (error: HttpErrorResponse) => {
-        console.log(error);
       });
   }
 
-  addFavorite(id) {
-    const file_id = {
-      file_id: id
-    };
-
-    console.log(file_id);
-    this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
-      .subscribe(response => {
-        console.log(response);
-        this.refresh();
-      }, (error: HttpErrorResponse) => {
-        console.log(error)
-      });
-  }
+  // --- 4. Add favorite / Authors: Antti Nyman -------------------------------------------------------------------------------
 
   clickFavorite(fileId: number) {
     const file_id = {
       file_id: fileId
     };
-    console.log(file_id);
 
     this.mediaProvider.getListOfLikes(fileId).subscribe(data => {
       this.likeArray = data;
-      console.log(this.likeArray);
       this.userLikes = this.likeArray.filter(like => like.user_id == this.current_userid);
-      console.log(this.userLikes);
 
       if (this.userLikes.length > 0) {
         this.mediaProvider.deleteFavorite(localStorage.getItem('token'), fileId)
         .subscribe(response => {
-          console.log(response);
           this.refresh();
         }, (error: HttpErrorResponse) => {
-          console.log(error)
         });
       } else {
         this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
         .subscribe(response => {
-          console.log(response);
           this.refresh();
         }, (error: HttpErrorResponse) => {
-          console.log(error)
         });
       }
     });
   }
+
+  // --- 5. Getters (Comments, likes profile pics) / Authors: Mikael Ahlström, Eero Karvonen, Antti Nyman -------------------------------------------------------------------------------
 
   getComments(id: number) {
     this.mediaProvider.getCommentsFile(id).subscribe(data => {
@@ -203,14 +187,4 @@ export class SinglePage {
       return this.profilePicUrl;
     }
   }
-
-  getUsername(id: number) {
-    this.mediaProvider.getUserDataViaId(localStorage.getItem('token'), id).subscribe(data => {
-      this.commenter = data;
-      return this.commenter.username;
-    })
-  }
-
-
-
 }
