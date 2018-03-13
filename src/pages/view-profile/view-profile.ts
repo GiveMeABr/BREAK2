@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
+import {IonicPage, NavController, ToastController} from 'ionic-angular';
 import {SinglePage} from "../single/single";
 import {MediaProvider} from "../../providers/media/media";
 import {User} from "../../app/interfaces/user";
