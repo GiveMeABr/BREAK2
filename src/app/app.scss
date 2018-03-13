@@ -20,6 +20,10 @@
   align-items: center;
 }
 
+video {
+  max-width: 100%;
+}
+
 ion-refresher-content {
   background: #7F00FF; /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #E100FF, #7F00FF); /* Chrome 10-25, Safari 5.1-6 */

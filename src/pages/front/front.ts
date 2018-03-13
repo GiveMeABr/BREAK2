@@ -9,10 +9,14 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { ToastController } from 'ionic-angular';
 
 /**
- * Generated class for the FrontPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * class FrontPage:
+ * Authors: Mikael Ahlström, Eero Karvonen, Antti Nyman
+ * 
+ * 1. Refreshers
+ * 2. Profile pictures
+ * 3. Media info
+ * 4. Getting and displaying media
+ * 
  */
 
 @Component({
@@ -24,12 +28,13 @@ export class FrontPage {
   mediaArray: any;
   likeArray: any;
   userLikes: any;
+  ppArray: any;
+  items = [];
   displayedMedia: Array<string>;
   grid: Array<Array<string>>; //array of arrays
   userInfo: User;
   userid: number;
   picIndex = 0;
-  items = [];
   loadLimit = 10;
   rowNum = 0;
   firstOrRefresh = true;
@@ -37,12 +42,9 @@ export class FrontPage {
   lastLoad = false;
   mediaLoaded: boolean;
   private ownPicArray: any;
-  ppArray: any;
   private newestPicIndex: number;
   private profilePicUrl: string;
   private likesNum: number;
-
-  
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private app: App,
               public mediaProvider: MediaProvider, private statusBar: StatusBar, private toastCtrl: ToastController) {
@@ -67,12 +69,7 @@ export class FrontPage {
     }
   }
 
-  doRefresh(refresher) {
-    setTimeout(() => {
-      this.refresh();
-      refresher.complete();
-    }, 2000);
-  }
+  // --- 1. Refreshers / Authors: Mikael Ahlström, Eero Karvonen -------------------------------------------------------------------------------
 
   refresh() {
     this.outOfMedia = false;
@@ -83,6 +80,22 @@ export class FrontPage {
     this.loadLimit = 10;
     this.loadMedia();
   }
+  
+  doRefresh(refresher) {
+    setTimeout(() => {
+      this.refresh();
+      refresher.complete();
+    }, 2000);
+  }
+
+  doInfinite(infiniteScroll) {
+    setTimeout(() => {
+      this.loadMedia();
+      infiniteScroll.complete();
+    }, 500);
+  }
+
+  // --- 2. Profile pictures / Authors: Mikael Ahlström, Eero Karvonen ------------------------------------------------------------
 
   getProfilePic(id: number) {
     this.ownPicArray = this.ppArray.filter(media => media.user_id == id);
@@ -107,6 +120,7 @@ export class FrontPage {
     });
   }
 
+   // --- 3. Media info / Authors: Eero Karvonen, Antti Nyman ---------------------------------------------------------------------
 
   openSingle(id) {
     this.navCtrl.push(SinglePage, {
@@ -140,25 +154,39 @@ export class FrontPage {
         this.mediaProvider.deleteFavorite(localStorage.getItem('token'), fileId)
         .subscribe(response => {
           dislikeToast.present();
-          console.log(response);
         }, (error: HttpErrorResponse) => {
-          console.log(error)
         });
       } else {
         this.mediaProvider.postFavorite(localStorage.getItem('token'), file_id)
         .subscribe(response => {
           likeToast.present();
-          console.log(response);
         }, (error: HttpErrorResponse) => {
-          console.log(error)
         });
       }
     });
   }
 
+  // --- 4. Getting and displaying media / Authors: Mikael Ahlström, Eero Karvonen -------------------------------------------------
 
 
-
+  loadMedia() {
+    if (this.firstOrRefresh) {
+      this.mediaProvider.getAllMedia().subscribe(data => {
+        this.mediaArray = data;
+        this.mediaArray.reverse();
+        this.displayedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
+        this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
+        this.rowNum = 0; //counter to iterate over the rows in the grid
+        this.mediaToGrid();
+        this.firstOrRefresh = false;
+        this.mediaLoaded = true;
+      });
+    } else /* Infinite Scroll */ {
+      this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.loadLimit));
+      this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
+      this.mediaToGrid();
+    }
+  }
 
   mediaToGrid() {
     if (!this.outOfMedia) {
@@ -177,8 +205,6 @@ export class FrontPage {
     if (this.loadLimit >= this.mediaArray.length) {
       this.loadLimit = this.mediaArray.length;
     }
-
-
 
     if (this.mediaArray.length % 2 && this.lastLoad) {
         for (let i = 0; i < this.displayedMedia.length; i += 1) { //iterate images
@@ -223,38 +249,6 @@ export class FrontPage {
     }
   }
 
-  loadMedia() {
-    if (this.firstOrRefresh) {
-      this.mediaProvider.getAllMedia().subscribe(data => {
-        this.mediaArray = data;
-        this.mediaArray.reverse();
-        this.displayedMedia = this.mediaArray.slice(this.picIndex, this.loadLimit);
-        this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
-        this.rowNum = 0; //counter to iterate over the rows in the grid
-        this.mediaToGrid();
-        this.firstOrRefresh = false;
-        this.mediaLoaded = true;
-      });
-    } else /* Infinite Scroll */ {
-      this.displayedMedia = this.displayedMedia.concat(this.mediaArray.slice(this.picIndex, this.loadLimit));
-      this.grid = Array(Math.ceil(this.displayedMedia.length / 2)); //MATHS!
-      this.mediaToGrid();
-    }
-  }
-
-  doInfinite(infiniteScroll) {
-    setTimeout(() => {
-      this.loadMedia();
-      infiniteScroll.complete();
-    }, 500);
-  }
-
-  amountOfLikes(id: number) {
-    this.mediaProvider.getListOfLikes(id).subscribe(data => {
-      this.likesNum = Object.keys(data).length;
-    });
-  }
-
-
+  
 
 }

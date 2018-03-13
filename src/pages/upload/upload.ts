@@ -63,60 +63,6 @@ export class UploadPage {
     this.file = evt.target.files[0];
   }
 
-  upload() {
-    this.loading.present();
-    // convert canvas to blob and upload
-    this.canvas.toBlob(
-      blob => {
-        // create FormData-object
-        const formData = new FormData();
-        formData.append("file", this.imageData);
-        // add title and description to FormData object
-        formData.append("title", this.media.title);
-        formData.append("description", this.media.description);
-        // send FormData object to API
-        this.mediaProvider
-          .upload(formData, localStorage.getItem("token"))
-          .subscribe(
-            response => {
-              console.log(response);
-              const fileId = response["file_id"];
-              const tagContent = {
-                name: "tag",
-                value: "break2"
-              };
-              // const tagAsString = JSON.stringify(tagContent);
-              const tag = {
-                file_id: fileId,
-                tag: tagContent.value
-              };
-
-              this.mediaProvider
-                .postTag(tag, localStorage.getItem("token"))
-                .subscribe(
-                  response => {
-                    setTimeout(() => {
-                      this.loading.dismiss();
-                      this.navCtrl.setRoot(TabsPage);
-                    }, 2000);
-                  },
-                  (tagError: HttpErrorResponse) => {
-                    console.log(tagError);
-                    this.loading.dismiss();
-                  }
-                );
-            },
-            (error: HttpErrorResponse) => {
-              console.log(error);
-              this.loading.dismiss();
-            }
-          );
-      },
-      "file/jpeg",
-      0.5
-    );
-  }
-
   uploadFile() {
     this.uploadClicked = true;
     const formData = new FormData();
